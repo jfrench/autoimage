@@ -1,12 +1,12 @@
 Package: autoimage
 Type: Package
-Title: Enhanced Image Plots
-Version: 0.1
-Date: 2016-06-01
+Title: Display Multiple Images with Scaled Colors
+Version: 0.2.1
+Date: 2016-07-25
 Author: Joshua French
 Maintainer: Joshua French <joshua.french@ucdenver.edu>
-Description: Functions for producing enhanced image plots with a legend, scale,
-    projected coordinates, or multiple images with a common scale.
+Description: Functions for displaying (multiple) images with scaled colors, possibly with projected coordinates and for an irregular grid.
+Bugs: https://github.com/jpfrench81/autoimage/issues
 Imports: fields, mapproj
 Suggests: maps, abind
 License: GPL (>=2)

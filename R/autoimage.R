@@ -1,6 +1,6 @@
-#' Create an image plot with a legend scale.
+#' Display image with scaled colors
 #'
-#' \code{autoimage} creates an image plot while also automatically plotting a legend that indicates the correspondence between the colors and the values of the \code{z} variable.  \code{autoimage} is intended to be backwards compatible with the \code{image} function, but no promises are made.  Additionally, one can plot multiple images in one graphic using this function, both with and without a common scale for the images.  Perhaps more importantly, the \code{\link[fields]{poly.image}} function from the \code{fields} package is used to provide image plots of data on an irregular grid (e.g., data measured at longitude/latitude coordinates).
+#' \code{autoimage} plots an image while also automatically plotting a legend that indicates the correspondence between the colors and the values of the \code{z} variable.  \code{autoimage} is intended to be backwards compatible with the \code{image} function, but no promises are made.  Additionally, one can plot multiple images in one graphic using this function, both with and without a common scale for the images.  Perhaps more importantly, the \code{\link[fields]{poly.image}} function from the \code{fields} package is used to display images for data on an irregular grid (e.g., data measured at longitude/latitude coordinates).
 #'
 #' When \code{project = TRUE}, the \code{\link[mapproj]{mapproject}} function is used to project the \code{x} and \code{y} coordinates.  In that case, the projected \code{x} and \code{y} coordinates of the plotted image are unlikely to be similar to the original values.  It is recommended that the user sets \code{axes = FALSE} since the x and y axis scales will not be interpretable.  However, the axes will still be useful for scaling purposes using \code{xlim} and \code{ylim}.  If reference axes are still desired, set \code{map.grid = TRUE}, in which case the \code{\link[mapproj]{map.grid}} function is used to draw correct longitude and latitude grid lines.
 #'
@@ -27,13 +27,15 @@
 #' @param grid.args A list with arguments matching the non \code{lim} arguments of the \code{\link[mapproj]{map.grid}} function.  This is used to customize the plotted grid when \code{map.grid = TRUE}.
 #' @param map.poly A list with named elements \code{x} and \code{y} that are used to plot relevent polygons on each image using the \code{\link[graphics]{lines}} function.
 #' @param poly.args A list with arguments matching those provided to the \code{\link[graphics]{lines}} function used to plot \code{map.poly}.  This would be used to customize the lines, e.g., with different thickness, type, or color.
+#' @param map.points A list with named elements \code{x} and \code{y} that are used to plot relevent pointss on each image using the \code{\link[graphics]{points}} function.
+#' @param points.args A list with arguments matching those provided to the \code{\link[graphics]{points}} function used to plot \code{map.points}.  This would be used to customize the points, e.g., with different size, type, or color.
 #' @param ... Additional arguments passed to the \code{\link[graphics]{image}} or \code{\link[fields]{poly.image}} functions.  e.g., \code{xlab}, \code{ylab}, \code{xlim}, \code{ylim}, \code{zlim}, etc.
 #' @references The code for this function is derived from the internals of the \code{\link[fields]{image.plot}} function written by Doug Nychka and from \code{image.scale.2} function written by Marc Taylor and discussed at \code{http://menugget.blogspot.com/2013/12/new-version-of-imagescale-function.html}.
 #' @seealso \code{\link[graphics]{image}}, \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
 #' @return NULL
 #' @importFrom fields poly.image
 #' @importFrom mapproj map.grid mapproject
-#' @importFrom graphics axTicks axis box image layout par
+#' @importFrom graphics axTicks axis box image layout par points lines
 #' @examples
 #' # Example from image function documentation
 #' x <- y <- seq(-4*pi, 4*pi, len = 27)
@@ -121,7 +123,7 @@
 #'           map.poly = worldpoly, axes = FALSE, common.legend = FALSE,
 #'           legend.mar = c(3.1, 4.1, 0, 2.1))
 #' @export
-autoimage = function(x, y, z, col = heat.colors(12), legend = TRUE, horizontal = TRUE, common.legend = TRUE, size = c(1, 1), mratio = 5, project = FALSE, map.grid = FALSE, mmar, legend.mar, axis.args, project.args, grid.args, map.poly, poly.args, ...){
+autoimage = function(x, y, z, col = heat.colors(12), legend = TRUE, horizontal = TRUE, common.legend = TRUE, size = c(1, 1), mratio = 5, project = FALSE, map.grid = FALSE, mmar, legend.mar, axis.args, project.args, grid.args, map.poly, poly.args, map.points, points.args, ...){
   # obtain elements of ...
   args = list(...)
 
@@ -225,17 +227,26 @@ autoimage = function(x, y, z, col = heat.colors(12), legend = TRUE, horizontal =
       if(is.null(map.poly$y)) stop("The y component of map.poly is missing")
     }
   }
-
+  if(missing(map.points)) map.points = NULL
+  if(!is.null(map.points)){
+    if(!is.list(map.points)){
+      stop("map.points must be a list with x and y components")
+    }else{
+      if(is.null(map.points$x)) stop("The x component of map.points is missing")
+      if(is.null(map.points$y)) stop("The y component of map.points is missing")
+    }
+  }
+  
   if(project){
     # args$axes = FALSE
     if(is.null(project.args)){
       project.args = list()
     }
     if(!is.matrix(x)){
-      x = matrix(x, nrow = dim(z)[1], ncol = dim(z)[2], byrow = TRUE)
+      x = matrix(x, nrow = dim(z)[1], ncol = dim(z)[2])
     }
     if(!is.matrix(y)){
-      y = matrix(y, nrow = dim(z)[1], ncol = dim(z)[2])
+      y = matrix(y, nrow = dim(z)[1], ncol = dim(z)[2], byrow = TRUE)
     }
 
     if(map.grid){
@@ -252,13 +263,23 @@ autoimage = function(x, y, z, col = heat.colors(12), legend = TRUE, horizontal =
       map.poly$x = projectpoly$x
       map.poly$y = projectpoly$y
     }
+    if(!is.null(map.points)){
+      projectpoints = mapproj::mapproject(map.points$x, map.points$y)
+      map.points$x = projectpoints$x
+      map.points$y = projectpoints$y
+    }
   }
   if(missing(poly.args)) poly.args = list()
+  if(missing(points.args)) points.args = list()
   if(!is.null(map.poly)){
     poly.args$x = map.poly$x
     poly.args$y = map.poly$y
   }
-
+  if(!is.null(map.points)){
+    points.args$x = map.points$x
+    points.args$y = map.points$y
+  }
+  
   # is the grid a regular grid
   regular = ifelse(length(x) != nrow(z), FALSE, TRUE)
   # decide plotting function accordingly
@@ -324,7 +345,8 @@ autoimage = function(x, y, z, col = heat.colors(12), legend = TRUE, horizontal =
     par(mar = mmar)
     do.call(plotf, plotargs)
     if(!is.null(map.poly)) do.call(graphics::lines, poly.args)
-
+    if(!is.null(map.points)) do.call(graphics::points, points.args)
+    
     if(allaxes){
       xticks = axTicks(1)
       yticks = axTicks(2)

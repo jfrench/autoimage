@@ -2,12 +2,12 @@
 % Please edit documentation in R/autoimage.R
 \name{autoimage}
 \alias{autoimage}
-\title{Create an image plot with a legend scale.}
+\title{Display image with scaled colors}
 \usage{
 autoimage(x, y, z, col = heat.colors(12), legend = TRUE,
   horizontal = TRUE, common.legend = TRUE, size = c(1, 1), mratio = 5,
   project = FALSE, map.grid = FALSE, mmar, legend.mar, axis.args,
-  project.args, grid.args, map.poly, poly.args, ...)
+  project.args, grid.args, map.poly, poly.args, map.points, points.args, ...)
 }
 \arguments{
 \item{x, y}{Locations of grid lines at which the values in \code{z} are measured.  The values must be finite and non-missing.  These arguments can be either vectors, in which case the values must be in (strictly) ascending order.  If an irregular grid is to be used, then \code{x} and \code{y} should be numeric matrices having the same number of rows and columns as \code{z}.  If these arguments are not provided, equally spaced values from 0 to 1 are used by default. If \code{x} is a list, its components \code{x$x} and \code{x$y} are used for \code{x} and \code{y}, respectively. If the list has component \code{x$z}, this is used for \code{z}.}
@@ -44,10 +44,14 @@ autoimage(x, y, z, col = heat.colors(12), legend = TRUE,
 
 \item{poly.args}{A list with arguments matching those provided to the \code{\link[graphics]{lines}} function used to plot \code{map.poly}.  This would be used to customize the lines, e.g., with different thickness, type, or color.}
 
+\item{map.points}{A list with named elements \code{x} and \code{y} that are used to plot relevent pointss on each image using the \code{\link[graphics]{points}} function.}
+
+\item{points.args}{A list with arguments matching those provided to the \code{\link[graphics]{points}} function used to plot \code{map.points}.  This would be used to customize the points, e.g., with different size, type, or color.}
+
 \item{...}{Additional arguments passed to the \code{\link[graphics]{image}} or \code{\link[fields]{poly.image}} functions.  e.g., \code{xlab}, \code{ylab}, \code{xlim}, \code{ylim}, \code{zlim}, etc.}
 }
 \description{
-\code{autoimage} creates an image plot while also automatically plotting a legend that indicates the correspondence between the colors and the values of the \code{z} variable.  \code{autoimage} is intended to be backwards compatible with the \code{image} function, but no promises are made.  Additionally, one can plot multiple images in one graphic using this function, both with and without a common scale for the images.  Perhaps more importantly, the \code{\link[fields]{poly.image}} function from the \code{fields} package is used to provide image plots of data on an irregular grid (e.g., data measured at longitude/latitude coordinates).
+\code{autoimage} plots an image while also automatically plotting a legend that indicates the correspondence between the colors and the values of the \code{z} variable.  \code{autoimage} is intended to be backwards compatible with the \code{image} function, but no promises are made.  Additionally, one can plot multiple images in one graphic using this function, both with and without a common scale for the images.  Perhaps more importantly, the \code{\link[fields]{poly.image}} function from the \code{fields} package is used to display images for data on an irregular grid (e.g., data measured at longitude/latitude coordinates).
 }
 \details{
 When \code{project = TRUE}, the \code{\link[mapproj]{mapproject}} function is used to project the \code{x} and \code{y} coordinates.  In that case, the projected \code{x} and \code{y} coordinates of the plotted image are unlikely to be similar to the original values.  It is recommended that the user sets \code{axes = FALSE} since the x and y axis scales will not be interpretable.  However, the axes will still be useful for scaling purposes using \code{xlim} and \code{ylim}.  If reference axes are still desired, set \code{map.grid = TRUE}, in which case the \code{\link[mapproj]{map.grid}} function is used to draw correct longitude and latitude grid lines.

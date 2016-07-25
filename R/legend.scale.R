@@ -1,4 +1,4 @@
-#' Plot an legend scale.
+#' Plot a colored legend scale.
 #'
 #' \code{legend.scale} plots a color gradient with an associated quantitive scale.  This is used to add the legend scale in the \code{\link{autoimage}} function.
 #'

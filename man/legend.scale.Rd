@@ -2,7 +2,7 @@
 % Please edit documentation in R/legend.scale.R
 \name{legend.scale}
 \alias{legend.scale}
-\title{Plot an legend scale.}
+\title{Plot a colored legend scale.}
 \usage{
 legend.scale(zlim, col = heat.colors(12), horizontal = TRUE, breaks,
   axis.args)
