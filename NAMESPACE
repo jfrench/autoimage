@@ -3,6 +3,7 @@
 export(autoimage)
 export(autolayout)
 export(legend.scale)
+export(rotate)
 importFrom(fields,poly.image)
 importFrom(grDevices,heat.colors)
 importFrom(graphics,axTicks)
