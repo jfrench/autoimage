@@ -20,7 +20,11 @@ The National Center for Atmospheric Research  \url{http://www.narccap.ucar.edu/i
 data(narccap)
 }
 \description{
-These data are taken from the North American Regional Climate Change Assessment Program (NARCCAP).  Specifically, it is five consecutive days of maximum daily surface air temperature (K) (abbreviated tasmax) output from the Canadian Regional Climate Model forced by the Community Climate System Model.
+These data are taken from the North American Regional Climate Change Assessment Program (NARCCAP).  
+Specifically, data provide maximum daily surface air temperature (K) (abbreviated tasmax) for the five consecutive days 
+of May 15, 2041 to May 19, 2041 simulated by the  
+Weather Research and Forecasting model (WRFG) regional climate model forced by the 
+Canadian Climate Centre (CGCM3) atmosphere-ocean general circular model.
 }
 \references{
 Mearns, L.O., et al., 2007, updated 2012. The North American Regional Climate Change Assessment Program dataset, National Center for Atmospheric Research Earth System Grid data portal, Boulder, CO. Data downloaded 2016-08-12. [doi:10.5065/D6RN35ST] 
