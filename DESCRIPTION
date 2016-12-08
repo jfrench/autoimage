@@ -9,7 +9,7 @@ BugReports: https://github.com/jpfrench81/autoimage/issues
 Description: Functions for displaying (multiple) images with scaled colors, possibly with projected coordinates and for an irregular grid.
 Depends: R (>= 2.10)
 Imports: fields, mapproj
-Suggests: maps, abind
+Suggests: maps, abind, testthat
 License: GPL (>=2)
 LazyData: TRUE
 RoxygenNote: 5.0.1
