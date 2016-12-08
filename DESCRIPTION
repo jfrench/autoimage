@@ -12,4 +12,3 @@ Imports: fields, mapproj
 Suggests: maps, abind, testthat
 License: GPL (>=2)
 LazyData: TRUE
-RoxygenNote: 5.0.1
