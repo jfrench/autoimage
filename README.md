@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jpfrench81/autoimage.svg?branch=master)](https://travis-ci.org/jpfrench81/autoimage)
+
 # autoimage
 
 The goal of `autoimage` is to easily plot a sequence of images with corresponding color scales, i.e., a sequence of heatmaps.
