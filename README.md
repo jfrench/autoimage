@@ -13,3 +13,12 @@ The development version of `autoimage` can be installed in R using the command
 # install.packages("devtools")
 devtools::install_github("jpfrench81/autoimage")
 ```
+=======
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```R
+data(narccap)
+```
