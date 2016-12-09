@@ -44,19 +44,19 @@
 #' options(scipen = 2)
 #' legend.scale(c(0, 6), col = heat.colors(6), axis.args = list(at = 0:6, labels = 10^(0:6), las = 2))
 #'
-legend.scale <- function(zlim, col = heat.colors(12), horizontal = TRUE, breaks, axis.args){
-
+legend.scale <- function(zlim, col = viridis::viridis(12), horizontal = TRUE, breaks, axis.args){
+  if(missing(axis.args)) axis.args <- list()
   if(missing(breaks)){
     breaks <- seq(zlim[1], zlim[2], length.out=(length(col)+1))
   }else{
     if(length(breaks) != length(col) + 1) stop("the length of breaks must be one more than length of col")
+    if(is.null(axis.args$at)){
+      axis.args$at <- breaks  
+    }
   }
-  if(missing(axis.args)){
-    axis.args = list(side = ifelse(horizontal, 1, 4),
-                     las = ifelse(horizontal, 0, 2))
-  }
-  if(is.null(axis.args$side)) axis.args$side = ifelse(horizontal, 1, 4)
-  if(is.null(axis.args$las)) axis.args$las = ifelse(horizontal, 0, 2)
+
+  if(is.null(axis.args$side)) axis.args$side <- ifelse(horizontal, 1, 4)
+  if(is.null(axis.args$las)) axis.args$las <- ifelse(horizontal, 0, 2)
 
   ncol <- length(col)
 
