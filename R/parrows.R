@@ -5,7 +5,8 @@
 #' 
 #' The \code{\link[mapproj]{mapproject}} function is used for projection.
 #'
-#' @inheritParams graphics::arrows
+#' @param x0,y0 coordinates of points from which to draw.
+#' @param x1,y1 coordinates of points to which to draw
 #' @inheritParams pimage
 #' @param ... Additional arguments passed to the \code{\link[graphics]{arrows}}
 #' @seealso \code{\link[graphics]{arrows}}, \code{\link[mapproj]{mapproject}}, \code{\link[autoimage]{pimage}}

@@ -7,10 +7,9 @@
 psegments(x0, y0, x1 = x0, y1 = y0, proj, ...)
 }
 \arguments{
-\item{x0}{coordinates of points \bold{from} which to draw.}
+\item{x0, y0}{coordinates of points from which to draw.}
 
-\item{x1}{coordinates of points \bold{to} which to draw.  At least
-    one must be supplied.}
+\item{x1, y1}{coordinates of points to which to draw}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The
