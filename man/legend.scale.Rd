@@ -4,7 +4,7 @@
 \alias{legend.scale}
 \title{Create an image plot for a factor variable.}
 \usage{
-legend.scale(zlim, col = heat.colors(12), horizontal = TRUE, breaks,
+legend.scale(zlim, col = viridis::viridis(12), horizontal = TRUE, breaks,
   axis.args)
 }
 \arguments{

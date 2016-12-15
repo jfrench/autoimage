@@ -25,11 +25,16 @@
 #' all other plots, while individual legends are plotted after each respective plot.
 #'
 #' @inheritParams autoimage
+#' @param lratio A numeric value indicating the ratio of the width of 
+#' the legend scale to the width of the each image.  Default is 
+#' \code{lratio = 0.2}.
 #' @param outer A logical value indicating whether the room should be left for an outer title that 
 #' is common for all plots.  Depends on setting the \code{oma} argument of the 
 #' \code{\link[graphics]{par}} function.
 #' @param show A logical value indicating whether the \code{\link[graphics]{layout.show}} function 
 #' should be called after the layout is constructed.  
+#' @param reverse A logical value indicating whether the legend scale should be
+#' plotted before the image.  Default is \code{FALSE}.
 #' @references Portions of the code for this function is inspired by the internals of the \code{\link[fields]{image.plot}} function written by Doug Nychka and from the \code{image.scale.2} function written by Marc Taylor and discussed at \code{http://menugget.blogspot.com/2013/12/new-version-of-imagescale-function.html}.  For compatibility with the \code{\link[graphics]{image}} function, some of the sanity checking and data formatting are taken almost directly from the \code{\link[graphics]{image}} function.
 #' @seealso \code{\link[graphics]{image}}, \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
 #' @return NULL
@@ -46,17 +51,17 @@
 #' autolayout(c(2, 2), outer = TRUE)
 #' # reset oma parameters
 #' par(oma = c(0, 0, 0, 0))
-#' # impact of mratio when legend used
-#' autolayout(c(2, 2), legend = "h", mratio = 2)
-#' autolayout(c(2, 2), legend = "h", mratio = 5)
+#' # impact of lratio when legend used
+#' autolayout(c(2, 2), legend = "h", lratio = 0.5)
+#' autolayout(c(2, 2), legend = "h", lratio = 0.2)
 
 #' @export
 autolayout <- function(size, legend = "none", common.legend = TRUE, 
-                       mratio = 2, outer = FALSE, show = TRUE, reverse = FALSE){
+                       lratio = 0.2, outer = FALSE, show = TRUE, reverse = FALSE){
   # match legend argument
   legend <- try(match.arg(legend, c("none", "horizontal", "vertical")), silent = TRUE)
   # sanity check
-  arg.check.autolayout(size, legend, common.legend, outer, show, mratio, reverse)
+  arg.check.autolayout(size, legend, common.legend, outer, show, lratio, reverse)
   # number of rows and columns desired
   ng <- prod(size)
   nr <- size[1]
@@ -79,7 +84,7 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
         }else{ #first position
           mat <- rbind(mat + 1, matrix(1, ncol = nc)) # make sure legend is in first position
         }
-        lheight <- c(rep(mratio, nr), 1)
+        lheight <- c(rep(1/lratio, nr), 1)
         lwidth <- c(rep(1, nc))
       }else{
         if(!reverse){
@@ -88,7 +93,7 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
           mat <- cbind(mat + 1, matrix(1, nrow = nr)) # make sure legend is in first position  
         }
         lheight <- rep(1, nr)
-        lwidth <- c(rep(mratio, nc), 1)
+        lwidth <- c(rep(1/lratio, nc), 1)
       }
     }else{ # setup if the legend is not common
       if(legend == "horizontal"){ # horizontal legend
@@ -103,7 +108,7 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
             mat[crow + 1, ] <- (i - 1)*nc*2 + seq_len(nc)*2 - 1
           }
         }
-        lheight = c(rep(c(mratio, 1), nr))
+        lheight = c(rep(c(1/lratio, 1), nr))
         lwidth = c(rep(1, nc))
       }else{ # vertical legend
         mat <- matrix(1:(2*ng), nrow = nr, ncol = 2*nc, byrow = TRUE)
@@ -111,7 +116,7 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
           mat <- matrix(1:(2*ng), nrow = nr, ncol = 2*nc, byrow = TRUE) + matrix(rep(c(1, -1), length = ng), nrow = nr, ncol = 2*nc, byrow = TRUE)
         }
         lheight <- rep(1, nr)
-        lwidth <- c(rep(c(mratio, 1), nc))
+        lwidth <- c(rep(c(1/lratio, 1), nc))
       }
     }
   }
@@ -132,7 +137,7 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
   }
 }
 
-arg.check.autolayout <- function(size, legend, common.legend, outer, show, mratio, reverse){
+arg.check.autolayout <- function(size, legend, common.legend, outer, show, lratio, reverse){
   if(length(size) != 2){
     stop("size should be a vector of length 2")
   }
@@ -166,14 +171,14 @@ arg.check.autolayout <- function(size, legend, common.legend, outer, show, mrati
   if(!is.logical(show)){
     stop("show should be a single logical value")
   }
-  if(length(mratio) != 1){
-    stop("mratio should be a single positive number")
+  if(length(lratio) != 1){
+    stop("lratio should be a single positive number")
   }
-  if(!is.numeric(mratio)){
-    stop("mratio should be a single positive number")
+  if(!is.numeric(lratio)){
+    stop("lratio should be a single positive number")
   }
-  if(mratio <= 0){
-    stop("mratio should be a single positive number")
+  if(lratio <= 0){
+    stop("lratio should be a single positive number")
   }
   if(length(reverse) > 1){
     stop("reverse should be a single logical value")

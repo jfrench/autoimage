@@ -4,19 +4,19 @@
 \alias{autolayout}
 \title{Divide device into rows and columns}
 \usage{
-autolayout(size, legend = FALSE, horizontal = TRUE, common.legend = TRUE,
-  mratio = 2, outer = FALSE, show = TRUE)
+autolayout(size, legend = "none", common.legend = TRUE, lratio = 0.2,
+  outer = FALSE, show = TRUE, reverse = FALSE)
 }
 \arguments{
 \item{size}{A vector of length two indicating the number of rows and columns that should be used for the series of image data in \code{z}.  Note that \code{prod(size)} must match the length of the third dimension of \code{z} (if it is an array), or \code{c(1, 1)} if \code{z} is a matrix.}
 
 \item{legend}{A logical value indicating whether a legend scale should be added to the plot.  Default is \code{TRUE}.}
 
-\item{horizontal}{A logical value indicating whether the legend scale should be horizontal or vertical.  Default is \code{TRUE}, indicating the legend scale will be on the bottom of the plot and the colors will run from left to right.  If \code{FALSE}, the legend scale will be on the right side of the plot and the colors will run vertically.}
-
 \item{common.legend}{A logical value indicating whether a common legend scale should be used for all images provided in the \code{z} array.  Default is \code{TRUE}.  If \code{FALSE}, a separate legend is used for each image.}
 
-\item{mratio}{A numeric value indicating the ratio of the width of each image to the width of the legend scale.  Default is \code{mratio = 5}.}
+\item{lratio}{A numeric value indicating the ratio of the width of 
+the legend scale to the width of the each image.  Default is 
+\code{lratio = 0.2}.}
 
 \item{outer}{A logical value indicating whether the room should be left for an outer title that 
 is common for all plots.  Depends on setting the \code{oma} argument of the 
@@ -24,6 +24,9 @@ is common for all plots.  Depends on setting the \code{oma} argument of the
 
 \item{show}{A logical value indicating whether the \code{\link[graphics]{layout.show}} function 
 should be called after the layout is constructed.}
+
+\item{reverse}{A logical value indicating whether the legend scale should be
+plotted before the image.  Default is \code{FALSE}.}
 }
 \description{
 \code{autolayout} divides the current device into equal-sized rows and equal-sized 
@@ -40,7 +43,8 @@ Note \code{\link[graphics]{par}} parameters are NOT RESET after executing the
 \code{\link[graphics]{layout}} function so the the user can use existing layout 
 for plots.
 
-If \code{legend = TRUE}, then a portion of the device is dedicated to a legend.
+If \code{legend = "horizontal"} or \code{legend = "vertical"}, 
+then a portion of the device is dedicated to a legend.
 
 If \code{common.legend = TRUE}, then one legend region is created for the 
 entire set of plots.  
@@ -54,18 +58,18 @@ all other plots, while individual legends are plotted after each respective plot
 # basic 2x2 layout
 autolayout(c(2, 2))
 # 3x2 layout with space for legends
-autolayout(c(3, 2), legend = TRUE)
-autolayout(c(3, 2), legend = TRUE, horizontal = FALSE)
+autolayout(c(3, 2), legend = "h")
+autolayout(c(3, 2), legend = "v")
 # 3x2 layout with individuals legends
-autolayout(c(3, 2), legend = TRUE, common.legend = FALSE)
-autolayout(c(3, 2), legend = TRUE, horizontal = FALSE, common.legend = FALSE)
+autolayout(c(3, 2), legend = "h", common.legend = FALSE)
+autolayout(c(3, 2), legend = "v", common.legend = FALSE)
 # if outer title is desired
 autolayout(c(2, 2), outer = TRUE)
 # reset oma parameters
 par(oma = c(0, 0, 0, 0))
-# impact of mratio when legend used
-autolayout(c(2, 2), legend = TRUE, mratio = 2)
-autolayout(c(2, 2), legend = TRUE, mratio = 5)
+# impact of lratio when legend used
+autolayout(c(2, 2), legend = "h", lratio = 0.5)
+autolayout(c(2, 2), legend = "h", lratio = 0.2)
 }
 \references{
 Portions of the code for this function is inspired by the internals of the \code{\link[fields]{image.plot}} function written by Doug Nychka and from the \code{image.scale.2} function written by Marc Taylor and discussed at \code{http://menugget.blogspot.com/2013/12/new-version-of-imagescale-function.html}.  For compatibility with the \code{\link[graphics]{image}} function, some of the sanity checking and data formatting are taken almost directly from the \code{\link[graphics]{image}} function.
