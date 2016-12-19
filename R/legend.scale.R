@@ -46,7 +46,8 @@
 #'
 legend.scale <- function(zlim, col = viridis::viridis(12), horizontal = TRUE, breaks, axis.args){
   if(missing(axis.args)) axis.args <- list()
-  if(missing(breaks)){
+  if(missing(breaks)) breaks <- NULL
+  if(is.null(breaks)){
     breaks <- seq(zlim[1], zlim[2], length.out=(length(col)+1))
   }else{
     if(length(breaks) != length(col) + 1) stop("the length of breaks must be one more than length of col")

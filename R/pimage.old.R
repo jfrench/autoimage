@@ -70,7 +70,7 @@
 #' curpar <- par(no.readonly = TRUE)
 #' # image plot for data on an irregular grid
 #' data(co, package = "gear")
-#' pimage(co$longitude, co$latitude, co$Al)
+#' pimage(co$longitude, co$latitude, co$Al, legend = "vertical", col = heat.colors(4))
 #' 
 #' # show observed locations on image,
 #' # along with Colorado border
@@ -83,15 +83,12 @@
 #'        points = copoints, 
 #'        points.args = list(pch = 21, bg = "white"))
 #' 
+#' 
 #' # image plot for data on irregular grid
 #' par(curpar)
 #' data(narccap)
 #' pimage(lon, lat, tasmax[,,1], proj = "bonne",
 #'        proj.args = list(parameters = 45),
-#'        map = "world")
-#'        
-#' pimage(lon, lat, tasmax[,,1], proj = "albers",
-#'        proj.args = list(parameters = c(33, 45)),
 #'        map = "world")
 #'        
 #' par(curpar)
@@ -108,8 +105,8 @@
 #'        ylab = "latitude",
 #'        main = "temperature (K)")
 #'        
-#' @export
-pimage <- function(x, y, z, legend = "horizontal", proj = "none", proj.args, 
+# no export
+pimage.old <- function(x, y, z, legend = "horizontal", proj = "none", proj.args, 
                    lratio = 0.2, map = "none", ...){
   # determine current par values to restore later
   curpar <- par(no.readonly = TRUE)
@@ -120,28 +117,22 @@ pimage <- function(x, y, z, legend = "horizontal", proj = "none", proj.args,
   arglist = list(...)
   tx <- ifelse(is.null(x), "", deparse(substitute(x)))
   ty <- ifelse(is.null(y), "", deparse(substitute(y)))
-  if(proj != "none") arglist$asp <- 1
   xyz <- pimage.xyz.setup(x, y, z, tx, ty, arglist)
   # default proj.args
   if(missing(proj.args)) proj.args <- list()
   
   # check/setup arguments for pimage
-  # print(xyz$arglist$legend.mar)
   object <- pimage.setup(xyz, legend, proj, proj.args, lratio, map)
-  # print(object$legend.mar)
-  if(legend != "none"){
-    .legend.mar(object$legend.mar)
-  }
-  .legend.scale.args(object$legend.scale.args)
-  # cat(paste(object$legend.mar,"\n"))
-  # cat(paste(object$legend.scale.args,"\n"))
+  .pimage.legend(list(legend.mar = object$legend.mar,
+                      legend.scale.args = object$legend.scale.args))
   
   if(legend == "none"){
     do.call(object$plotf, object$arglist)
   }else{
     curmar <- par()$mar # current mar values
     autolayout(size = c(1, 1), legend = legend, lratio = lratio, show = FALSE, reverse = TRUE)
-    autolegend()
+    par(mar = object$legend.mar) # set mar for legend.scale
+    do.call(legend.scale, object$legend.scale.args)
     par(mar = curmar) # reset to original mar values
     do.call(object$plotf, object$arglist)
   }

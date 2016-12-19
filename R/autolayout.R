@@ -57,11 +57,14 @@
 
 #' @export
 autolayout <- function(size, legend = "none", common.legend = TRUE, 
-                       lratio = 0.2, outer = FALSE, show = TRUE, reverse = FALSE){
+                       lratio = 0.2, outer = FALSE, show = TRUE, reverse = FALSE,
+                       legend.mar){
   # match legend argument
   legend <- try(match.arg(legend, c("none", "horizontal", "vertical")), silent = TRUE)
+  # set legend margin values, if not specified
+  if(missing(legend.mar)) legend.mar <- set.legend.mar(legend)
   # sanity check
-  arg.check.autolayout(size, legend, common.legend, outer, show, lratio, reverse)
+  arg.check.autolayout(size, legend, common.legend, outer, show, lratio, reverse, legend.mar)
   # number of rows and columns desired
   ng <- prod(size)
   nr <- size[1]
@@ -131,13 +134,16 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
   } 
   # execute layout
   layout(mat, heights = lheight, widths = lwidth)
+  .legend.horizontal(ifelse(legend == "vertical", FALSE, TRUE))
+  .legend.mar(legend.mar)
   # show layout, if desired
   if(show){
     graphics::layout.show(max(mat))
   }
 }
 
-arg.check.autolayout <- function(size, legend, common.legend, outer, show, lratio, reverse){
+arg.check.autolayout <- function(size, legend, common.legend, outer, show, lratio, 
+                                 reverse, legend.mar = par("mar")){
   if(length(size) != 2){
     stop("size should be a vector of length 2")
   }
@@ -185,5 +191,14 @@ arg.check.autolayout <- function(size, legend, common.legend, outer, show, lrati
   }
   if(!is.logical(reverse)){
     stop("reverse should be a single logical value")
+  }
+  if(length(legend.mar) != 4){
+    stop("legend.mar should have four elements")
+  }
+  if(!is.numeric(legend.mar)){
+    stop("legend.mar should be a numeric vector")
+  }
+  if(min(legend.mar) < 0){
+    stop("legend.mar cannot have negative values")
   }
 }

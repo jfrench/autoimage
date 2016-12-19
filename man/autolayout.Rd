@@ -5,7 +5,7 @@
 \title{Divide device into rows and columns}
 \usage{
 autolayout(size, legend = "none", common.legend = TRUE, lratio = 0.2,
-  outer = FALSE, show = TRUE, reverse = FALSE)
+  outer = FALSE, show = TRUE, reverse = FALSE, legend.mar)
 }
 \arguments{
 \item{size}{A vector of length two indicating the number of rows and columns that should be used for the series of image data in \code{z}.  Note that \code{prod(size)} must match the length of the third dimension of \code{z} (if it is an array), or \code{c(1, 1)} if \code{z} is a matrix.}
@@ -27,6 +27,8 @@ should be called after the layout is constructed.}
 
 \item{reverse}{A logical value indicating whether the legend scale should be
 plotted before the image.  Default is \code{FALSE}.}
+
+\item{legend.mar}{A vector of length four indicating the margins of the legend scale.  This is passed internally to the \code{mar} argument of the \code{\link[graphics]{par}} function.  See the \code{\link[graphics]{par}} function for more details.  The default is sensible values based on the value of \code{mmar}.}
 }
 \description{
 \code{autolayout} divides the current device into equal-sized rows and equal-sized 

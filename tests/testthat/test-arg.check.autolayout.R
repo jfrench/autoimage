@@ -39,4 +39,12 @@ test_that("sanity checks for arg.check.autolayout arguments", {
                "lratio should be a single positive number")
   expect_error(arg.check.autolayout(1:2, "none", TRUE, TRUE, TRUE, -1, TRUE),
                "lratio should be a single positive number")
+  
+  # check legend.mar
+  expect_error(arg.check.autolayout(1:2, "none", TRUE, TRUE, TRUE, 0.2, TRUE, 
+                                    1:5)) # too many elements
+  expect_error(arg.check.autolayout(1:2, "none", TRUE, TRUE, TRUE, 0.2, TRUE, 
+                                    rep("a", 4))) # not numeric
+  expect_error(arg.check.autolayout(1:2, "none", TRUE, TRUE, TRUE, 0.2, TRUE, 
+                                    -1:2)) # negative values
 })

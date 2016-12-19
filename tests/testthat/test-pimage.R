@@ -62,6 +62,35 @@ if(test){
          ylim = c(23, 50))
   plines(worldpoly, proj = "bonne")
   title("USA")
+  
+  par(curpar)
+  pimage(lon, lat, z = tasmax[,,1], map = "world")
+  title("narccap with worldpoly")
+  
+  par(curpar)
+  pimage(lon, lat, z = tasmax[,,1], map = "county")
+  title("narccap with counties")
+  
+  par(curpar)
+  pimage(lon, lat, z = tasmax[,,1], map = "usa")
+  title("narccap with usa border")
+  
+  par(curpar)
+  pimage(lon, lat, z = tasmax[,,1], map = "state")
+  title("narccap with state borders")
+  
+  par(curpar)
+  pimage(lon + 360, lat, z = tasmax[,,1], lines = world2)
+  title("narccap with world2 borders")
+  
+  par(curpar)
+  pimage(lon + 90, lat, z = tasmax[,,1], map = "france")
+  title("narccap with france borders")
+  
+  par(curpar)
+  pimage(lon + 300, lat - 80, z = tasmax[,,1], map = "nz")
+  title("narccap with new zealand borders")
+  
   dev.off()
 }
 
