@@ -1,6 +1,5 @@
 test <- FALSE
-
-test <- FALSE
+# test <- TRUE
 
 if(test){
   setwd("~")
@@ -8,10 +7,8 @@ if(test){
   data(narccap)
   data(worldMapEnv, package = "maps")
   worldpoly <- maps::map("world", plot = FALSE)
-  par(curpar)
   pimage(lon, lat, z = tasmax[,,1], lines = worldpoly, main = "world poly", 
          proj = "mercator")
-  par(curpar)
   pimage(lon, lat, z = tasmax[,,1], proj = "mercator", main = "world poly")
   plines(worldpoly, proj = "mercator")
   dev.off()

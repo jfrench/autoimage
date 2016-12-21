@@ -1,418 +1,177 @@
-#' Display image with scaled colors
+#' Automatic facetting of multiple projected images
 #'
-#' \code{autoimage} plots an image while also automatically plotting a legend that indicates the correspondence between the colors and the values of \code{z}.  \code{autoimage} is intended to be backwards compatible with the \code{\link[graphics]{image}} function, but no promises are made.  Additionally, one can plot multiple images in one graphic using this function, both with and without a common scale for the images.  Perhaps more importantly, the \code{\link[fields]{poly.image}} function from the \code{fields} package is used to display images for data on an irregular grid (e.g., data measured at longitude/latitude coordinates).
-#'
-#' When \code{project = TRUE}, the \code{\link[mapproj]{mapproject}} function is used to project the \code{x} and \code{y} coordinates.  In that case, the projected \code{x} and \code{y} coordinates of the plotted image are unlikely to be similar to the original values.  It is recommended that the user sets \code{axes = FALSE} since the x and y axis scales will not be interpretable.  However, the axes will still be useful for scaling purposes using \code{xlim} and \code{ylim}.  If reference axes are still desired, set \code{map.grid = TRUE}, in which case the \code{\link[mapproj]{map.grid}} function is used to draw correct longitude and latitude grid lines.
-#'
-#' If multiple images are to be plotted (i.e., if \code{z} is an array), then the \code{main} argument can be a vector with length matching \code{dim(z)[3]}, and each successive element of the vector will be used to add a title to each successive image plotted.  See the Examples.
-#'
-#' Additionally, if \code{common.legend = FALSE}, then separate limits for the z-axis of each image can be provided as a list.  Specifically, if \code{dim(z)[3] == k}, then \code{zlim} should be a list of length \code{k}, and each element of the list should be a 2-dimensional vector providing the lower and upper limit, respectively, of the legend for each image.
+#' \code{autoimage} plots a sequence of images (with possibly 
+#' projected coordinates) while also automatically plotting a 
+#' color scale matching the image colors to the values of \code{z}.  
+#' Many options are available for legend customization.  The coordinates
+#' can be irregularly spaced, on a regular grid, or on an irregular 
+#' grid.  \code{z} can be a numeric vector, matrix, or array, depending
+#' on the context.
 #' 
-#' The range of \code{zlim} is cut into \eqn{n} partitions, where \code{n} is the length of \code{col}.
+#' The \code{\link[mapproj]{mapproject}} function is used to project 
+#' the \code{x} and \code{y} coordinates when \code{proj != "none"}.
 #'
-#' Note that the more images that are plotted simulataneously, the smaller one typically wants \code{mratio} to be.
+#' If multiple images are to be plotted (i.e., if \code{z} is an array), 
+#' then the \code{main} argument can be a vector with length matching 
+#' \code{dim(z)[3]}, and each successive element of the vector will 
+#' be used to add a title to each successive image plotted.  
+#' See the Examples.
 #'
-#' The multiple plots are constructed using the \code{\link[graphics]{layout}} function, which is incompatible with the \code{mfrow} and \code{mfcol} arguments in the \code{\link[graphics]{par}} function and is also incompatible with the \code{\link[graphics]{split.screen}} function.
+#' Additionally, if \code{common.legend = FALSE}, then separate limits 
+#' for the z-axis of each image can be provided as a list.  
+#' Specifically, if \code{dim(z)[3] == k}, then \code{zlim} should 
+#' be a list of length \code{k}, and each element of the list should 
+#' be a 2-dimensional vector providing the lower and upper limit, 
+#' respectively, of the legend for each image.  Alternatively, if 
+#' \code{zlim} is a list of length \code{k}, then \code{common.legend}
+#' is set to \code{FALSE}. 
+#' 
+#' The range of \code{zlim} is cut into \eqn{n} partitions, 
+#' where \code{n} is the length of \code{col}.
 #'
-#' @param x,y Locations of grid points at which the values in \code{z} are measured.  The values must be finite and non-missing.  These arguments can be either vectors, in which case the values must be in (strictly) ascending order.  If an irregular grid is to be used, then \code{x} and \code{y} should be numeric matrices having the same number of rows and columns as \code{z}.  If these arguments are not provided, equally spaced values from 0 to 1 are used by default. If \code{x} is a list, its components \code{x$x} and \code{x$y} are used for \code{x} and \code{y}, respectively. If the list has component \code{x$z}, this is used for \code{z}.
-#' @param z A numeric or logical matrix containing the values to be plotted (NAs are allowed). If multiple images are to be plotted, a numeric array can be provided instead.  The third dimension of the array indicates the number of images that should be plotted.  Note that \code{x} can be used instead of \code{z} for convenience.
-#' @param col A vector of colors such as those generated by \code{\link[grDevices]{rainbow}}, \code{\link[grDevices]{heat.colors}}, \code{\link[grDevices]{topo.colors}}, \code{\link[grDevices]{terrain.colors}} or similar functions.  The default is given by \code{heat.colors(12)}.
-#' @param legend A logical value indicating whether a legend scale should be added to the plot.  Default is \code{TRUE}.
-#' @param horizontal A logical value indicating whether the legend scale should be horizontal or vertical.  Default is \code{TRUE}, indicating the legend scale will be on the bottom of the plot and the colors will run from left to right.  If \code{FALSE}, the legend scale will be on the right side of the plot and the colors will run vertically.
-#' @param common.legend A logical value indicating whether a common legend scale should be used for all images provided in the \code{z} array.  Default is \code{TRUE}.  If \code{FALSE}, a separate legend is used for each image.
-#' @param size A vector of length two indicating the number of rows and columns that should be used for the series of image data in \code{z}.  Note that \code{prod(size)} must match the length of the third dimension of \code{z} (if it is an array), or \code{c(1, 1)} if \code{z} is a matrix.
-#' @param mratio A numeric value indicating the ratio of the width of each image to the width of the legend scale.  Default is \code{mratio = 5}.
-#' @param mmar A vector of length four indicating the margins of each image in the plot.  This is passed internally to the \code{mar} argument of the \code{\link[graphics]{par}} function.  See the \code{\link[graphics]{par}} function for more details.  The default is the currently specified \code{mar} argument of the \code{par} function.
-#' @param legend.mar A vector of length four indicating the margins of the legend scale.  This is passed internally to the \code{mar} argument of the \code{\link[graphics]{par}} function.  See the \code{\link[graphics]{par}} function for more details.  The default is sensible values based on the value of \code{mmar}.
-#' @param axis.args A list with arguments matching the arguments of the \code{\link[graphics]{axis}} function that is used to customize the legend scale.  See \code{\link{legend.scale}} for examples.
+#' Note that the more images that are plotted simulataneously, 
+#' the smaller one typically wants \code{lratio} to be.
+#'
+#' The multiple plots are constructed using the 
+#' \code{\link[autoimage]{autolayout}} function, which 
+#' is incompatible with the \code{mfrow} and \code{mfcol} arguments 
+#' in the \code{\link[graphics]{par}} function and is also 
+#' incompatible with the \code{\link[graphics]{split.screen}} function.
+#'
+#' @inheritParams pimage
+#' @inheritParams autolayout
 #' @param outer.title A title related to all of the images that is plotted in the outer margin of the figure.
-#' @param oma A vector specifying the outer margin of the plots.  See \code{oma} in \code{\link[graphics]{par}}.  Default is \code{c(0, 0, 3, 0)} if \code{outer.title} is specified.
-#' @param mtext.args A list specifying the arguments passed to the \code{\link[graphics]{mtext}} function if \code{outer.title} is specified.  This can be used to modify the look of the outer title.
-#' @param ... Additional arguments passed to the \code{\link[graphics]{image}} or \code{\link[fields]{poly.image}} functions.  e.g., \code{xlab}, \code{ylab}, \code{xlim}, \code{ylim}, \code{zlim}, etc.
-#' @param project A logical value indicating whether the \code{x} and \code{y} coordinates should be projected before plotting.  This only makes sense if the values in \code{x} and \code{y} are longitude and latitude coordinates.  Default is \code{FALSE}.  If \code{TRUE}, then the \code{\link[mapproj]{mapproject}} function is used to project the coordinates.  If \code{TRUE}, then additional arguments for \code{\link[mapproj]{mapproject}} should be provided in \code{project.args}.
-#' @param project.args A list with arguments matching the non \code{x} and \code{y} arguments of the \code{\link[mapproj]{mapproject}} function.
-#' @param map.grid A logical value indicating whether a map grid should be added to the current plot using the \code{\link[mapproj]{map.grid}} function.  This will only be sensible when \code{project = TRUE}.  See Details.  Additional arguments to \code{\link[mapproj]{map.grid}} can be provided as a list to \code{grid.args}.
-#' @param grid.args A list with arguments matching the non \code{lim} arguments of the \code{\link[mapproj]{map.grid}} function.  This is used to customize the plotted grid when \code{map.grid = TRUE}.
-#' @param map.poly A list with named elements \code{x} and \code{y} specifying polygon(s) to be plotted on each image using the \code{\link[graphics]{lines}} function.
-#' @param poly.args A list with named arguments matching those provided to the \code{\link[graphics]{lines}} function used to plot \code{map.poly}.  This would be used to customize the lines, e.g., with different thickness, type, or color.
-#' @param map.points A list with named elements \code{x} and \code{y} specifying point(s) to be plotted on each image using the \code{\link[graphics]{points}} function.
-#' @param points.args A list with arguments matching those provided to the \code{\link[graphics]{points}} function used to plot \code{map.points}.  This would be used to customize the points, e.g., with different size, type, or color.
-#' @references Portions of the code for this function is inspired by the internals of the \code{\link[fields]{image.plot}} function written by Doug Nychka and from the \code{image.scale.2} function written by Marc Taylor and discussed at \code{http://menugget.blogspot.com/2013/12/new-version-of-imagescale-function.html}.  For compatibility with the \code{\link[graphics]{image}} function, some of the sanity checking and data formatting are taken almost directly from the \code{\link[graphics]{image}} function.
-#' @seealso \code{\link[graphics]{image}}, \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
+#' @param ... Additional arguments passed to the \code{\link[graphics]{image}} or 
+#' \code{\link[fields]{poly.image}} functions.  e.g., \code{xlab}, \code{ylab}, 
+#' \code{xlim}, \code{ylim}, \code{zlim}, etc.
+#' @seealso \code{\link[autoimage]{pimage}}
 #' @return NULL
-#' @importFrom fields poly.image
-#' @importFrom mapproj map.grid mapproject
-#' @importFrom graphics axTicks axis box image layout par points lines mtext
 #' @examples
-# Example from image function documentation
-#' x <- y <- seq(-4*pi, 4*pi, len = 27)
-#' r <- sqrt(outer(x^2, y^2, "+"))
-#' z <- cos(r^2)*exp(-r/6)
-#' image(z, col  = gray((0:32)/32))
-#' autoimage(z, col  = gray((0:32)/32), legend = FALSE)
-#'
-#' # now with legend
-#' autoimage(z, col  = gray((0:32)/32))
-#' autoimage(z, col  = gray((0:32)/32), horizontal = FALSE)
-#'
-#' # add some customization
-#' autoimage(x, y, z, xlab = "x1", ylab = "y1", main = "Math is beautiful ...")
-#'
-#' # now do some examples with multiple images
-#' z2 <- cos(r^2/2)*exp(-r/3)
-#' z3 <- cos(r^2/2)*exp(-r/6)
-#' z4 <- cos(r^2/3)*exp(-r/5)
-#' zarray <- abind::abind(z, z2, z3, z4, along = 3)
-#'
-#' # multiple images with common scale, separate titles
-#' autoimage(x, y, zarray, main = letters[1:4], size = c(2, 2),
-#'           mratio = 3, mmar = c(4.1, 4.1, 2.1, 2.1))
-#' # change the orientation of the scale
-#' autoimage(x, y, zarray, main = letters[1:4], size = c(2, 2),
-#'           mratio = 4, mmar = c(4.1, 4.1, 2.1, 2.1),
-#'           horizontal = FALSE)
-#' 
-#' # add overall title to plots
-#' autoimage(x, y, zarray, main = letters[1:4], size = c(2, 2),
-#'           mratio = 4, mmar = c(4.1, 4.1, 2.1, 2.1),
-#'           horizontal = FALSE, 
-#'           outer.title = "Interesting images with colored title",
-#'           mtext.args = list(col = "blue"))
-#' # multiple images with separate legends
-#' autoimage(x, y, zarray, size = c(2, 2),
-#'           mratio = 4, mmar = c(4.1, 4.1, 2.1, 2.1),
-#'           horizontal = FALSE, common.legend = FALSE,
-#'           outer.title = "Interesting images")
-#' 
-#' # do some examples with an irregular grid
-#' # load data from fields package
 #' data(narccap)
 #' # restructure data for 2 images
 #' tasmax2 = tasmax[,,1:2]
-#' tasmax4 = tasmax[,,1:4]
 #' 
-#' # plot irregularly gridded images
-#' autoimage(lon, lat, tasmax2, col = fields::tim.colors(12), size = c(1, 2))
+#' # plot irregularly gridded images with separate legends
+#' # and usa border
+#' autoimage(lon, lat, tasmax2, common.legend = FALSE, map = "usa")
 #' 
-#' # Do the same plot, but with a projection.
-#' # Notice that the axis scales seem off because of the projection
-#' autoimage(lon, lat, tasmax2, col = fields::tim.colors(12), size = c(1, 2),
-#'           project = TRUE,
-#'           project.args = list(projection = "albers", parameters = c(33, 45)))
-#' # compare the axes for the projected coordinates to the correct references lines using map.grid.
-#' autoimage(lon, lat, tasmax2, col = fields::tim.colors(12), size = c(1, 2),
-#'           project = TRUE, map.grid = TRUE,
-#'           project.args = list(projection = "albers", parameters = c(33, 45)),
-#'           grid.args = list(col = "black", nx = 5, ny = 5))
-#' # turn axes off
-#' autoimage(lon, lat, tasmax2, col = fields::tim.colors(12), size = c(1, 2),
-#'           project = TRUE, map.grid = TRUE, axes = FALSE, xlab = "", ylab = "",
-#'           project.args = list(projection = "albers", parameters = c(33, 45)),
-#'           grid.args = list(col = "black", nx = 5, ny = 5))
-#'
-#' # more images in a plot.  Need to change mratio
-#' autoimage(lon, lat, tasmax4, col = fields::tim.colors(12), size = c(2, 2), 
-#'           horizontal = FALSE, mratio = 4)
-#' autoimage(lon, lat, tasmax4, col = fields::tim.colors(12), size = c(2, 2), mratio = 4)
-#'
-#' # add a nice polygon to the images
-#' library(maps) # need to get world map
-#' # get the polygon for the world from the maps package
-#' worldpoly = map("world", plot = FALSE)
-# project and plot two images, no axes,
-# with polygon of national boundaries and X marking a location in Wyoming, 
-# adjust the default points options
-#' autoimage(lon, lat, tasmax2, size = c(1, 2), project = TRUE, 
-#'           project.args = list(projection = "albers", parameters = c(33, 45)),
-#'           map.poly = worldpoly, axes = FALSE,
-#'           mmar = c(0.5, 0.5, 0.5, 0.5), legend.mar = c(2, 0.5, 0.5, 0.5), 
-#'           map.points = list(x = -108.529, y = 43.33091), 
-#'           points.args = list(pch = 4, cex = 2, lwd = 2),
-#'           outer.title = "NARCCAP output")
+#' # plot irregularly gridded images with common legend and world lines
+#' # customize world lines
+#' # add and customize title
+#' autoimage(lon, lat, tasmax2, map = "world", 
+#'           lines.args = list(col = "white", lwd = 2),
+#'           outer.title = "Maximum Daily Surface Air Temperature (K)",
+#'           mtext.args = list(col = "blue", cex = 2))
+#' 
+#' # plot irregularly-spaced responsed as images with separate legends
+#' # and county borders.  Add observed data locations with custom point
+#' # options
+#' data(co, package = "gear")
+#' autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE, 
+#'           map = "county", main = c("Aluminum", "Cadmium"),
+#'           points = list(x = co$easting, y = co$northing),
+#'           points.args = list(pch = 20, col = "white"))
+#' 
+#' # customize margins and lratio for large plot
+#' # also use projection
+#' # specify manual lines (though in this case it is the same as using map = "world")
+#' data(worldMapEnv, package = "maps")
+#' worldpoly <- maps::map("world", plot = FALSE)
+#' par(mar = c(1.1, 4.1, 2.1, 1.1))
+#' autoimage(lon, lat, tasmax, lines = worldpoly, 
+#'           proj = "bonne", proj.args = list(parameters = 40),
+#'           main = c("day 1", "day 2", "day 3", "day 4", "day 5"),
+#'           ylab = "",
+#'           axes = FALSE,
+#'           lratio = 0.5)
 #' @export
-autoimage = function(x, y, z, col = heat.colors(12), legend = TRUE, horizontal = TRUE, common.legend = TRUE, size = c(1, 1), mratio = 5, mmar, legend.mar, axis.args, outer.title, oma, mtext.args, ..., project = FALSE, project.args, map.grid = FALSE, grid.args, map.poly, poly.args, map.points, points.args){
+autoimage = function(x, y, z, legend = "horizontal", proj = "none", proj.args, 
+                     lratio = 0.2, common.legend = TRUE, map = "none", size, 
+                     outer.title, ...){
   # obtain elements of ...
-  args = list(...)
+  arglist = list(...)
+  mtext.args <- arglist$mtext.args
+  arglist$mtext.args <- NULL
+  if(missing(proj.args)) proj.args <- list()
+  legend <- match.arg(legend, c("none", "horizontal", "vertical"))
+  
+  # attempt to match deprecated arguments
+  argmatch <- autoimage.match.old.args(legend, proj, proj.args, lratio,
+                                       arglist)
+  # set default for missing arguments
+  if(missing(x)) x <- NULL
+  if(missing(y)) y <- NULL
+  if(missing(z)) z <- NULL
+  if(missing(outer.title)) outer.title <- NULL
+  # deparse label names
+  tx <- ifelse(is.null(x), "", deparse(substitute(x)))
+  ty <- ifelse(is.null(y), "", deparse(substitute(y)))
 
-  # sort out x, y, and z.  This is mostly identical to the beginning of
-  # graphics::image
-  if (missing(z)) {
-    if (!missing(x)) {
-      if (is.list(x)) {
-        z <- x$z; y <- x$y; x <- x$x
-      } else {
-        if(is.null(dim(x)))
-          stop("argument must be matrix-like")
-        z <- x
-        x <- seq.int(0, 1, length.out = nrow(z))
-        if(missing(y)) y <- seq.int(0, 1, length.out = ncol(z))
-      }
-      if (is.null(args$xlab)) args$xlab <- ""
-      if (is.null(args$ylab)) args$ylab <- ""
-    } else stop("no 'z' matrix specified")
-  } else if (is.list(x)) {
-    y <- x$y
-    x <- x$x
+  verbose <- FALSE # some debugging stuff
+  # setup x, y, z information
+  xyz.list <- autoimage.xyz.setup(x, y, z, tx, ty, arglist, verbose, common.legend, legend)
+  ng <- length(xyz.list) # number of grids
+  # additional argument checking
+  if(missing(size)) size <- autosize(length(xyz.list))
+  # change common.legend if zlim is a list
+  if(!is.null(arglist$zlim)){
+    if(is.list(arglist$zlim)) common.legend <- FALSE
   }
-
-  # argument checking
-  if(!is.logical(legend) | length(legend) != 1) stop("legend should be a logical value")
-  if(!is.logical(horizontal) | length(horizontal) != 1) stop("horizontal should be a logical value")
-  if(!is.logical(common.legend) | length(common.legend) != 1) stop("common.legend should be a logical value")
-  if(!is.numeric(size) | length(size) > 2 | min(size) < 1) stop("size should be a vector of length with positive integer values")
- 
-  # convert matrix to array, if z is a matrix, double check size argument
-  if(length(dim(z)) == 2){
-    if(!all.equal(size, c(1, 1)) & dim(z)[3] == 1){
-      stop("size must equal c(1, 1) when z is a matrix")
-    }
-    dim(z) = c(dim(z), 1)
-  }
-  # double check that dimensions of size and z match
-  if(dim(z)[3] != prod(size)){
-    stop("dim(z)[3] != prod(size)")
-  }
+  # check other argument, specify outer arguments
+  outer.args <- arg.check.autoimage(common.legend, size, outer.title, 
+                                    ng, mtext.args)
+  # outer <- ifelse(!is.null(outer.title), TRUE, FALSE)
+  # if(is.null(mtext.args)) mtext.args <- list()
+  # if(!is.list(mtext.args)) stop("mtext.args should be a list")
   
-  # more argument checking 
-  if(!is.numeric(mratio) | length(mratio) != 1 | mratio <= 0) stop("mratio should be a positive number")
-  if(!is.logical(project) | length(project) != 1) stop("project should be a logical value")
-  if(!is.logical(map.grid) | length(map.grid) != 1) stop("map.grid should be a logical value")
-  
-  # get x and y labels
-  if(is.null(args$xlab)){
-    args$xlab <- if (missing(x)) "" else deparse(substitute(x))
-  }
-  if(is.null(args$ylab)){
-    args$ylab <- if (missing(y)) "" else deparse(substitute(y))
-  }
-  
-  # set default arguments for missing arguments
-  if(missing(mmar)) mmar = par()$mar
-  if(missing(legend.mar)){
-    legend.mar = mmar
-    if(horizontal){
-      legend.mar[3] = 0
-      legend.mar[1] = 3.1
-    }else{
-      legend.mar[2] = 0
-      legend.mar[4] = 3.1
+  curpar <- par(no.readonly = TRUE)
+  curmar <- curpar$mar # current mar values
+  autolayout(size, legend = legend, common.legend = common.legend,
+             lratio = lratio, outer = outer.args$outer, show = FALSE,
+             reverse = FALSE)
+  for(i in seq_along(xyz.list)){
+    par(mar = curmar)
+    arglisti <- xyz.list[[i]]
+    arglisti$legend = "none"
+    arglisti$proj = proj
+    arglisti$proj.args = proj.args
+    arglisti$map = map
+    do.call("pimage", arglisti)
+    if(!common.legend & legend != "none") {
+      autolegend()
     }
   }
-  if(missing(axis.args)) axis.args = list()
-  if(is.null(axis.args$las)) axis.args$las = ifelse(horizontal, 0, 2)
-  
-  # update main to ensure that dimensions match
-  ng = prod(size)
-  if(!is.null(args$main)){
-    if(length(args$main) != ng){
-      stop("The number of elements in main must equal prod(size) so that each plot in the grid has a specified title")
-    }
-  }else{
-    args$main = rep("", ng)
-  }
-
-  # specify zlims to match dimensions of z depending on whether
-  # a common legend will be used
-  if(is.null(args$zlim)){
-    zl = vector("list", ng)
-    if(common.legend){
-      ran = range(z, na.rm = TRUE)
-      for(j in seq_along(zl)) zl[[j]] = ran
-    }else{
-      for(j in seq_along(zl)) zl[[j]] = range(z[,,j], na.rm = TRUE)
-    }
-    args$zlim = zl
-  }else{
-    if(!is.list(args$zlim)){
-      if(length(args$zlim) != 2) stop("If using a common legend, then zlim should be a vector of length 2")
-      zl = vector("list", ng)
-      for(j in seq_along(zl)) zl[[j]] = args$zlim
-      args$zlim = zl
-    }else{
-      if(length(args$zlim) != ng) stop("zlim should be a list of length prod(size), with each element specifying the zlim of the corresponding image")
-    }
-  }
-
-  # setup defaults for missing arguments related to projection
-  if(is.null(args$axes)) args$axes = TRUE
-  if(missing(grid.args)) grid.args = list()
-  if(!is.list(grid.args)) stop("grid.args should be a list")
-  if(missing(map.poly)) map.poly = NULL
-  if(!is.null(map.poly)){
-    if(!is.list(map.poly)){
-      stop("map.poly must be a list with x and y components")
-    }else{
-      if(is.null(map.poly$x)) stop("The x component of map.poly is missing")
-      if(is.null(map.poly$y)) stop("The y component of map.poly is missing")
-    }
-  }
-  if(missing(map.points)) map.points = NULL
-  if(!is.null(map.points)){
-    if(!is.list(map.points)){
-      stop("map.points must be a list with x and y components")
-    }else{
-      if(is.null(map.points$x)) stop("The x component of map.points is missing")
-      if(is.null(map.points$y)) stop("The y component of map.points is missing")
-    }
-  }
-  
-  if(project){
-    # args$axes = FALSE
-    if(missing(project.args)){
-      project.args = list()
-    }
-    if(!is.list(project.args)) stop("project.args should be a list")
     
-    if(!is.matrix(x)){
-      x = matrix(x, nrow = dim(z)[1], ncol = dim(z)[2])
-    }
-    if(!is.matrix(y)){
-      y = matrix(y, nrow = dim(z)[1], ncol = dim(z)[2], byrow = TRUE)
-    }
-
-    if(map.grid){
-      grid.args$lim = c(range(x), range(y))
-    }
-    if(missing(map.poly)) map.poly = NULL
-
-    if(is.null(project.args$projection)) project.args$project = ""
-    projectxy = mapproj::mapproject(c(x), c(y), projection = project.args$projection, parameters = project.args$parameters, orientation = project.args$orientation)
-    x = matrix(projectxy$x, nrow = nrow(x))
-    y = matrix(projectxy$y, nrow = nrow(y))
-    if(!is.null(map.poly)){
-      projectpoly = mapproj::mapproject(map.poly$x, map.poly$y)
-      map.poly$x = projectpoly$x
-      map.poly$y = projectpoly$y
-    }
-    if(!is.null(map.points)){
-      projectpoints = mapproj::mapproject(map.points$x, map.points$y)
-      map.points$x = projectpoints$x
-      map.points$y = projectpoints$y
-    }
-  }
-  if(missing(poly.args)) poly.args = list()
-  if(!is.list(poly.args)) stop("poly.args should be a list")
-  
-  if(missing(points.args)) points.args = list()
-  if(!is.list(points.args)) stop("points.args should be a list")
-  
-  if(!is.null(map.poly)){
-    poly.args$x = map.poly$x
-    poly.args$y = map.poly$y
-  }
-  if(!is.null(map.points)){
-    points.args$x = map.points$x
-    points.args$y = map.points$y
-  }
-  
-  # setup related to outer.title
-  if(missing(outer.title)) outer.title = NULL
-  if(!is.null(outer.title)){
-    if(!is.character(outer.title)) stop("outer.title must be a character")
-    if(length(outer.title) > 1) stop("outer.title should be a single character")
-    if(missing(oma)) oma = c(0, 0, 3, 0)
-  }
-  if(missing(mtext.args)) mtext.args = list()
-  if(!is.list(mtext.args)) stop("mtext.args should be a list")
-  
-  # is the grid a regular grid
-  regular = ifelse(length(x) != nrow(z), FALSE, TRUE)
-  # decide plotting function accordingly
-  plotf = fields::poly.image
-  if(regular) plotf = image
-
-  nr = size[1]
-  nc = size[2]
-  # choose layout depending on whether a legend is required, and if so,
-  # whether the legend should be horizontal or vertical and whether the legend
-  # is common.  Note that the layout is chosen so that the legends are plotted first
-  # then the images, so that lines and points can be added to the image
-  # afterward.
-  if(!legend){ # setup if there is no legend
-    mat = matrix(seq_len(ng), nrow = nr, byrow = TRUE)
-    lheight = rep(1, nr)
-    lwidth = rep(1, nc)
-  }else{ # setup if there should be a legend
-    if(common.legend){ # setup the legend is common
-      mat = matrix(seq_len(ng), nrow = nr, byrow = TRUE)
-      # ni = ng + 1
-      if(horizontal){
-        mat = rbind(mat + 1, matrix(1, ncol = nc)) # make sure legend is in first position
-        lheight = c(rep(mratio, nr), 1)
-        lwidth = c(rep(1, nc))
-      }else{
-        mat = cbind(mat + 1, matrix(1, nrow = nr)) # make sure legend is in first position
-        lheight = rep(1, nr)
-        lwidth = c(rep(mratio, nc), 1)
-      }
-    }else{ # setup if the legend is not common
-      if(horizontal){ # horizontal legend
-        mat = matrix(0, nrow = 2 * nr, ncol = nc)
-        for(i in seq_len(nr)){
-          crow = (i-1)*2 + 1
-          mat[crow, ] = (i - 1)*nc*2 + seq_len(nc)*2 # (i - 1)*nc*2 + seq_len(nc)*2 - 1
-          mat[crow + 1, ] = (i - 1)*nc*2 + seq_len(nc)*2 - 1 # (i - 1)*nc*2 + seq_len(nc)*2
-        }
-        lheight = c(rep(c(mratio, 1), nr))
-        lwidth = c(rep(1, nc))
-      }else{ # vertical legend
-        mat = matrix(1:(2*ng), nrow = nr, ncol = 2*nc, byrow = TRUE) + matrix(rep(c(1, -1), length = ng), nrow = nr, ncol = 2*nc, byrow = TRUE) # the second adjustment is to plot the legend before the image
-        lheight = rep(1, nr)
-        lwidth = c(rep(c(mratio, 1), nc))
-      }
-    }
-  }
-  
-  # determine current par values to restore later
-  curpar = par(no.readonly = TRUE)
-  
-  # account for outer margin, if necessary
-  if(!is.null(outer.title)) par(oma = oma)
-  layout(mat, heights = lheight, widths = lwidth)
-  
-  allmain = args$main
-  allzlim = args$zlim
-  allaxes = args$axes
-  
-  # plot common legend, if necessary
-  if(legend & common.legend){
-    par(mar = legend.mar)
-    legend.scale(zlim = args$zlim[[1]], col = col, horizontal = horizontal, axis.args = axis.args)
-  }
-  
-  # plot legends, images, lines, and points
-  for(i in seq_len(ng)){
-    
-    # plot legend before images
-    if(legend & !common.legend){
-      par(mar = legend.mar)
-      legend.scale(zlim = args$zlim[[i]], col = col, horizontal = horizontal, axis.args = axis.args)
-    }
-    
-    if(regular){
-      plotargs = list(x = list(x = x, y = y, z = z[,,i]), col = col)
-    }else{
-      plotargs = list(x = x, y = y, z = z[,,i], col = col)
-    }
-    plotargs = c(plotargs, args)
-    plotargs$main = allmain[i]
-    plotargs$zlim = allzlim[[i]]
-    if(project) plotargs$asp = 1
-    par(mar = mmar)
-    do.call(plotf, plotargs)
-    if(!is.null(map.poly)) do.call(graphics::lines, poly.args)
-    if(!is.null(map.points)) do.call(graphics::points, points.args)
-    if(project & map.grid){
-      do.call(mapproj::map.grid, grid.args)
-    }
-  }
+  deficit <- prod(size) - ng
+  if(!common.legend & legend != "none") deficit <- 2*deficit
+  for(i in seq_len(deficit)){ blank.plot() }
+  if(common.legend & legend != "none") autolegend() 
 
   # plot outer title, if necessary
-  if(!is.null(outer.title)){
-    mtext.args$text = outer.title
-    mtext.args$outer = TRUE
-    do.call(mtext, mtext.args)
-  }
+  if(outer.args$outer) do.call("mtext", outer.args$mtext.args)
+  
   # restore previous par() settings
   on.exit(par(curpar))
+}
+
+arg.check.autoimage <- function(common.legend, size = c(1, 1), outer.title = NULL, ng = 1,
+                                mtext.args = NULL){
+  if(length(common.legend) != 1) stop("common.legend should be a logical value")
+  if(!is.logical(common.legend)) stop("common.legend should be a logical value")
+  if(length(size) != 2) stop("size should be a vector of length 2")
+  if(!is.numeric(size)) stop("size should be a numeric vector")
+  if(prod(size) < ng) stop("size is not large enough to hold all plots")
+  if(!is.null(outer.title)){
+    if(length(outer.title) != 1) stop("outer.title should have length 1")
+    if(!is.character(outer.title)) stop("outer.title should be a character string")
+  }
+  if(is.null(mtext.args)) mtext.args <- list()
+  if(!is.list(mtext.args)) stop("mtext.args should be a list")
+  outer <- FALSE
+  if(!is.null(outer.title)){
+    outer <- TRUE
+    mtext.args$text <- outer.title
+    mtext.args$outer <- TRUE
+  }
+  return(list(outer = outer, mtext.args = mtext.args))
 }

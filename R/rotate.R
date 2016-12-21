@@ -1,6 +1,6 @@
 #' Rotate coordinates
 #'
-#' \code{rotate} rotates coordinates angle theta around a pivot point.
+#' \code{rotate} rotates the coordinates by angle theta around a pivot point.
 #' 
 #' @param coords A 2-column matrix with the coordinates to be rotated.
 #' @param theta The angle (in radians) to rotate the coordinates.

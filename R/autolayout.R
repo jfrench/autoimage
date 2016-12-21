@@ -24,7 +24,11 @@
 #' With respective to ordering of the plotting regions: A common legend is plotted after 
 #' all other plots, while individual legends are plotted after each respective plot.
 #'
-#' @inheritParams autoimage
+#' @param size A vector of length two indicating the number of rows and columns that should be used for the series of image data in \code{z}.  Note that \code{prod(size)} must match the length of the third dimension of \code{z} (if it is an array), or \code{c(1, 1)} if \code{z} is a matrix.
+#' @param legend A character string indicating where the color scale
+#' should be placed.  The default is \code{"horizontal"}.  The other
+#' valid options are \code{"none"} and \code{"vertical"}.
+#' @param common.legend A logical value indicating whether a common legend scale should be used for all images provided in the \code{z} array.  Default is \code{TRUE}.  If \code{FALSE}, a separate legend is used for each image.
 #' @param lratio A numeric value indicating the ratio of the width of 
 #' the legend scale to the width of the each image.  Default is 
 #' \code{lratio = 0.2}.
@@ -35,6 +39,9 @@
 #' should be called after the layout is constructed.  
 #' @param reverse A logical value indicating whether the legend scale should be
 #' plotted before the image.  Default is \code{FALSE}.
+#' @param legend.mar The margins for the legend.  (See the \code{mar} 
+#' argument of \code{\link[graphics]{par}}).  If not specified, then 
+#' sensible values are chosen based on the current vector \code{par("mar")}.
 #' @references Portions of the code for this function is inspired by the internals of the \code{\link[fields]{image.plot}} function written by Doug Nychka and from the \code{image.scale.2} function written by Marc Taylor and discussed at \code{http://menugget.blogspot.com/2013/12/new-version-of-imagescale-function.html}.  For compatibility with the \code{\link[graphics]{image}} function, some of the sanity checking and data formatting are taken almost directly from the \code{\link[graphics]{image}} function.
 #' @seealso \code{\link[graphics]{image}}, \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
 #' @return NULL
@@ -54,15 +61,14 @@
 #' # impact of lratio when legend used
 #' autolayout(c(2, 2), legend = "h", lratio = 0.5)
 #' autolayout(c(2, 2), legend = "h", lratio = 0.2)
-
 #' @export
 autolayout <- function(size, legend = "none", common.legend = TRUE, 
-                       lratio = 0.2, outer = FALSE, show = TRUE, reverse = FALSE,
-                       legend.mar){
+                       lratio = 0.2, outer = FALSE, show = TRUE, 
+                       reverse = FALSE, legend.mar){
   # match legend argument
   legend <- try(match.arg(legend, c("none", "horizontal", "vertical")), silent = TRUE)
   # set legend margin values, if not specified
-  if(missing(legend.mar)) legend.mar <- set.legend.mar(legend)
+  if(missing(legend.mar)) legend.mar <- automar(legend)
   # sanity check
   arg.check.autolayout(size, legend, common.legend, outer, show, lratio, reverse, legend.mar)
   # number of rows and columns desired
@@ -125,15 +131,15 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
   }
   
   if(outer){
-    oma <- par()$oma
+    oma <- graphics::par("oma")
     # make sure there's room for outer title
     if(max(oma) == 0){
       warning("There is no room in the outer margin for an outer title.  Setting par(oma = c(0, 0, 3, 0)).")
-      par(oma = c(0, 0, 3, 0))
+      graphics::par(oma = c(0, 0, 3, 0))
     }
   } 
   # execute layout
-  layout(mat, heights = lheight, widths = lwidth)
+  graphics::layout(mat, heights = lheight, widths = lwidth)
   .legend.horizontal(ifelse(legend == "vertical", FALSE, TRUE))
   .legend.mar(legend.mar)
   # show layout, if desired
@@ -143,7 +149,7 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
 }
 
 arg.check.autolayout <- function(size, legend, common.legend, outer, show, lratio, 
-                                 reverse, legend.mar = par("mar")){
+                                 reverse, legend.mar = graphics::par("mar")){
   if(length(size) != 2){
     stop("size should be a vector of length 2")
   }

@@ -1,7 +1,10 @@
 # sorts out x, y, and z for autoimage function
-autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose, common.legend = FALSE){
+autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, 
+                                verbose, common.legend = FALSE, legend = "none"){
   # sort out x, y, z, labels, etc.
-  # This is a revision of the beginning of graphics::image
+  # Part of this is a revision of the beginning of graphics::image
+  
+  # sanity checiking
   if(length(verbose) != 1){
     stop("verbose must be a single logical value")
   }
@@ -14,7 +17,9 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose, common.legend
   if(!is.logical(common.legend)){
     stop("common.legend should be a logical value")
   }
+  if(length(legend) != 1) stop("legend should be a single value")
   
+  # set axis labels
   if(is.null(arglist$xlab)){
     if(is.null(z)){
       arglist$xlab <- ""
@@ -30,6 +35,7 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose, common.legend
     }
   }
   
+  # checking x, y, z structure
   if (is.null(z)) {
     if (!is.null(x)) {
       if (is.list(x)) {
@@ -47,10 +53,12 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose, common.legend
     x <- x$x
   } 
   
+  # make sure z is a matrix
   if(is.data.frame(z)){
     z <- as.matrix(z)
   }
   
+  # set plotting options
   if(common.legend){
     if(is.null(arglist$zlim)){
       arglist$zlim <- range(z, na.rm = TRUE)
@@ -64,6 +72,11 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose, common.legend
     }
   }
 
+  if(is.null(arglist$legend.mar) & legend != "none"){
+    arglist$legend.mar <- automar(legend)
+  }
+  
+  # more x, y, z structure checking
   # irregularly spaced coordinates
   if(!is.matrix(z) & !is.array(z)){
     if(is.null(x) | is.null(y)){
@@ -106,10 +119,8 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose, common.legend
     }
   }
   
-  if(is.data.frame(z)) z <- as.matrix(z)
-  # print(length(x))
-  
-  # determine third dimension of z
+  # determine third dimension of z and the type of plot 
+  # that will be constructed
   if(is.matrix(z)){
     if(is.matrix(x)){
       xyz.list <- vector("list", 1)

@@ -10,7 +10,8 @@
  \item{y}{latitude coordinates for Colorado border}
 }}
 \source{
-The \code{\link[maps]{stateMapEnv}} in the \code{maps} package.
+The \code{\link[maps]{stateMapEnv}} data set in the 
+\code{maps} package.
 }
 \usage{
 data(copoly)
@@ -18,7 +19,7 @@ data(copoly)
 \description{
 A list with components \code{x} and \code{y} specifying
 the borders of the state of Colorado in longitude/latitude coordinates.  
-This was derived from the \code{\link[maps]{stateMapEnv}} in the 
-\code{maps} package.
+This was derived from the \code{\link[maps]{stateMapEnv}} data set 
+in the \code{maps} package.
 }
 

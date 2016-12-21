@@ -10,7 +10,9 @@ autolayout(size, legend = "none", common.legend = TRUE, lratio = 0.2,
 \arguments{
 \item{size}{A vector of length two indicating the number of rows and columns that should be used for the series of image data in \code{z}.  Note that \code{prod(size)} must match the length of the third dimension of \code{z} (if it is an array), or \code{c(1, 1)} if \code{z} is a matrix.}
 
-\item{legend}{A logical value indicating whether a legend scale should be added to the plot.  Default is \code{TRUE}.}
+\item{legend}{A character string indicating where the color scale
+should be placed.  The default is \code{"horizontal"}.  The other
+valid options are \code{"none"} and \code{"vertical"}.}
 
 \item{common.legend}{A logical value indicating whether a common legend scale should be used for all images provided in the \code{z} array.  Default is \code{TRUE}.  If \code{FALSE}, a separate legend is used for each image.}
 
@@ -28,7 +30,9 @@ should be called after the layout is constructed.}
 \item{reverse}{A logical value indicating whether the legend scale should be
 plotted before the image.  Default is \code{FALSE}.}
 
-\item{legend.mar}{A vector of length four indicating the margins of the legend scale.  This is passed internally to the \code{mar} argument of the \code{\link[graphics]{par}} function.  See the \code{\link[graphics]{par}} function for more details.  The default is sensible values based on the value of \code{mmar}.}
+\item{legend.mar}{The margins for the legend.  (See the \code{mar} 
+argument of \code{\link[graphics]{par}}).  If not specified, then 
+sensible values are chosen based on the current vector \code{par("mar")}.}
 }
 \description{
 \code{autolayout} divides the current device into equal-sized rows and equal-sized 

@@ -1,22 +1,21 @@
 test <- FALSE
-
-test <- FALSE
+# test <- TRUE
 
 if(test){
   setwd("~")
-  pdf("test-plines.pdf")
+  pdf("test-points.pdf")
   data(narccap)
   data(worldMapEnv, package = "maps")
   worldpoly <- maps::map("world", plot = FALSE)
-  par(curpar)
   data(us.cities, package = "maps")
-  usm <- head(us.cities)
-  cityxy <- list(x = usm$long, y = usm$lat)
+  cap <- us.cities[us.cities$capital == 2, ]
+  cityxy <- list(x = cap$long, y = cap$lat)
   pimage(lon, lat, z = tasmax[,,1], proj = "mercator", 
          points = cityxy, points.args = list(col = "orange", pch = 20))
-  par(curpar)
+  plines(worldpoly, proj = "mercator")
   pimage(lon, lat, z = tasmax[,,1], proj = "mercator")
   ppoints(cityxy, proj = "mercator", col = "orange", pch = 20)
+  plines(worldpoly, proj = "mercator")
   dev.off()
 }
 

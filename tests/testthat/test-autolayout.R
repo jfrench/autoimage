@@ -1,8 +1,9 @@
-# uncomment second p to generate pdf in home directory
+# uncomment first test to generate pdf in home directory
 # pdf shows examples of autolayout to ensure accuracy
-p <- FALSE
-# p <- TRUE
-if(p){
+test <- FALSE
+# test <- TRUE
+
+if(test){
 setwd("~")
 pdf("test-autolayout.pdf")
 plot(0:1, 0:1, type = "n")
@@ -20,8 +21,8 @@ suppressWarnings(autolayout(c(2, 2), outer = TRUE))
 # reset oma parameters
 par(oma = c(0, 0, 0, 0))
 # impact of mratio when legend used
-autolayout(c(2, 2), legend = "h", mratio = 2)
-autolayout(c(2, 2), legend = "h", mratio = 5)
+autolayout(c(2, 2), legend = "h", lratio = 0.5)
+autolayout(c(2, 2), legend = "h", lratio = 0.2)
 
 # reverse
 par(mfrow = c(1, 1))
@@ -38,14 +39,14 @@ suppressWarnings(autolayout(c(2, 2), outer = TRUE, reverse = TRUE))
 # reset oma parameters
 par(oma = c(0, 0, 0, 0))
 # impact of mratio when legend used
-autolayout(c(2, 2), legend = "h", mratio = 2, reverse = TRUE)
-autolayout(c(2, 2), legend = "h", mratio = 5, reverse = TRUE)
+autolayout(c(2, 2), legend = "h", lratio = 0.5, reverse = TRUE)
+autolayout(c(2, 2), legend = "h", lratio = 0.2, reverse = TRUE)
 dev.off()
 }
 
-test_that("autolayout check",{
-  expect_warning(autolayout(c(2, 2), outer = TRUE))
-  par(oma = c(0, 0, 0, 0))
-  expect_warning(autolayout(c(2, 2), outer = TRUE, reverse = TRUE))
-  par(oma = c(0, 0, 0, 0))
-})
+# test_that("autolayout check",{
+#   expect_warning(autolayout(c(2, 2), outer = TRUE))
+#   par(oma = c(0, 0, 0, 0))
+#   expect_warning(autolayout(c(2, 2), outer = TRUE, reverse = TRUE))
+#   par(oma = c(0, 0, 0, 0))
+# })

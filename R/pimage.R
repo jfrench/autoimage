@@ -69,6 +69,7 @@
 #' @examples
 #' curpar <- par(no.readonly = TRUE)
 #' # image plot for data on an irregular grid
+#' par(curpar) # reset graphics device
 #' data(co, package = "gear")
 #' pimage(co$longitude, co$latitude, co$Al)
 #' 
@@ -81,33 +82,50 @@
 #'        lines = copoly, 
 #'        lines.args = list(lwd = 2, col = "grey"),
 #'        points = copoints, 
-#'        points.args = list(pch = 21, bg = "white"))
+#'        points.args = list(pch = 21, bg = "white"),
+#'        xlim = c(-109.1, -102),
+#'        ylim = c(36.8, 41.1))
 #' 
 #' # image plot for data on irregular grid
+#' # notice the poor axis labeling
 #' par(curpar)
 #' data(narccap)
 #' pimage(lon, lat, tasmax[,,1], proj = "bonne",
 #'        proj.args = list(parameters = 45),
 #'        map = "world")
-#'        
+#' # same plot but customize axis labeling 
+#' # need to extend horizontally-running axis lines
+#' # farther to the west and east
+#' # also need the vertically-running lines
+#' # to run further north/sount
+#' # will need manual adjusting depending on size
+#' # of current device 
+#' pimage(lon, lat, tasmax[,,1], proj = "bonne",
+#'        proj.args = list(parameters = 45),
+#'        map = "world", axes = FALSE)
+#' paxes(proj = "bonne", 
+#'       xlim = range(lon), ylim = range(lat), 
+#'       xaxp = c(-200, 0, 10), 
+#'       yaxp = c(-10, 80, 9))
+#' 
+#' # slightly different projection
 #' pimage(lon, lat, tasmax[,,1], proj = "albers",
 #'        proj.args = list(parameters = c(33, 45)),
 #'        map = "world")
 #'        
-#' par(curpar)
 #' # same image with different arguments
 #' pimage(lon, lat, tasmax[,,1], 
 #'        legend = "vertical",
 #'        proj = "bonne",
 #'        proj.args = list(parameters = 45),
 #'        map = "state",
-#'        paxes.args = list(col = "grey", lty = 3),
+#'        paxes.args = list(lty = 3),
 #'        axis.args = list(col = "blue", col.axis = "blue"),
 #'        col = fields::tim.colors(64),
 #'        xlab = "longitude",
 #'        ylab = "latitude",
 #'        main = "temperature (K)")
-#'        
+#' par(curpar) # reset graphics device
 #' @export
 pimage <- function(x, y, z, legend = "horizontal", proj = "none", proj.args, 
                    lratio = 0.2, map = "none", ...){
@@ -139,92 +157,27 @@ pimage <- function(x, y, z, legend = "horizontal", proj = "none", proj.args,
   if(legend == "none"){
     do.call(object$plotf, object$arglist)
   }else{
-    curmar <- par()$mar # current mar values
+    # curmar <- par()$mar # current mar values
     autolayout(size = c(1, 1), legend = legend, lratio = lratio, show = FALSE, reverse = TRUE)
     autolegend()
-    par(mar = curmar) # reset to original mar values
+    # par(mar = .legend.mar())
+    # blank.plot()
+    # autolegend()
+    # par(mar = curpar$mar) # reset to original mar values
     do.call(object$plotf, object$arglist)
   }
   
-  # plot axes and grid lines, if desired
+  # plot axes, lines, points if desired
   if(object$axes){
     do.call("paxes", object$paxes.args)
   }
-  
   if(!is.null(object$lines.args$x)){
     do.call("plines", object$lines.args)
   }
   if(!is.null(object$points.args$x)){
-    do.call("ppoints", object$points.args)
+    f <- autoimage::ppoints
+    do.call(f, object$points.args)
   }
   return(invisible(structure(object, class = "pimage")))
 }
 
-pimage.xyz.setup <- function(x, y, z, tx, ty, arglist){
-  # sort out x, y, z, labels, etc.
-  # This is a revision of the beginning of graphics::image
-  if(is.null(arglist$xlab)){
-    if(is.null(z)){
-      arglist$xlab <- ""
-    }else{
-      arglist$xlab <- tx
-    }
-  }
-  if(is.null(arglist$ylab)){
-    if(is.null(z)){
-      arglist$ylab <- ""      
-    }else{
-      arglist$ylab <- ty
-    }
-  }
-
-  if (is.null(z)) {
-    if (!is.null(x)) {
-      if (is.list(x)) {
-        z <- x$z; y <- x$y; x <- x$x
-      } else {
-        if(is.null(dim(x)))
-          stop("argument must be matrix-like")
-        z <- x
-        x <- seq.int(0, 1, length.out = nrow(z))
-        if(is.null(y)) y <- seq.int(0, 1, length.out = ncol(z))
-      }
-    } else stop("no 'z' matrix specified")
-  } else if (is.list(x)) {
-    y <- x$y
-    x <- x$x
-  } 
-  if(!is.matrix(z)){
-    if(is.null(x) | is.null(y)){
-      stop("x and y must be specified when z is not a matrix")
-    }
-    if(! (length(x) == length(y))){
-      stop("x and y do not have the same length and/or dimensions")
-    }
-  }else{
-    if(is.null(x)) x <- seq.int(0, 1, length.out = nrow(z))
-    if(is.null(y)) y <- seq.int(0, 1, length.out = ncol(z))
-    if(!is.matrix(x)){
-      if(length(x) != nrow(z)){
-        stop("length(x) != nrow(z)")
-      }
-    }
-    if(!is.matrix(y)){
-      if(length(y) != ncol(z)){
-        stop("length(y) != ncol(z)")
-      }
-    }
-    if(is.matrix(x) | is.matrix(y)){
-      if(!is.matrix(x) | !is.matrix(y)){
-        stop("If x is a matrix, then y must be a matrix and vice versa")
-      }
-      if(!identical(dim(x), dim(z))){
-        stop("dim(x) should match dim(z)")
-      }
-      if(!identical(dim(y), dim(z))){
-        stop("dim(y) should match dim(z)")
-      }
-    }
-  }
-  return(list(x = x, y = y, z = z, arglist = arglist))
-}

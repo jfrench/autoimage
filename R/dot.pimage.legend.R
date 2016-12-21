@@ -10,7 +10,7 @@
 #' @export
 ".legend.mar" <-
   local({
-    val <- par("mar")
+    val <- c(5.1, 0, 4.1, 0) # par(no.readonly = TRUE)$mar
     function(new) if(!missing(new)) val <<- new else val
   })
 

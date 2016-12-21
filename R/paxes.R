@@ -59,6 +59,7 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, ...){
       pxl <- mapproj::mapproject(xl[,1], xl[,2])
       if(grid){
         lines(pxl$x, pxl$y, ...)
+        # lines(pxl$x, pxl$y)
       }
       # need to interpolate to edge of plot
       xe[i] <- stats::spline(pxl$y, pxl$x, xout = par("usr")[3])$y
@@ -69,6 +70,7 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, ...){
       pyl <- mapproj::mapproject(yl[,1], yl[,2])
       if(grid){
         lines(pyl$x, pyl$y, ...)
+        # lines(pyl$x, pyl$y)
       }
       ye[j] <- stats::spline(pyl$x, pyl$y, xout = par("usr")[1])$y
     }

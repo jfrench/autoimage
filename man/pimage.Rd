@@ -83,6 +83,7 @@ then a color scale is added to the right of the image.
 \examples{
 curpar <- par(no.readonly = TRUE)
 # image plot for data on an irregular grid
+par(curpar) # reset graphics device
 data(co, package = "gear")
 pimage(co$longitude, co$latitude, co$Al)
 
@@ -95,33 +96,50 @@ pimage(co$longitude, co$latitude, co$Al,
        lines = copoly, 
        lines.args = list(lwd = 2, col = "grey"),
        points = copoints, 
-       points.args = list(pch = 21, bg = "white"))
+       points.args = list(pch = 21, bg = "white"),
+       xlim = c(-109.1, -102),
+       ylim = c(36.8, 41.1))
 
 # image plot for data on irregular grid
+# notice the poor axis labeling
 par(curpar)
 data(narccap)
 pimage(lon, lat, tasmax[,,1], proj = "bonne",
        proj.args = list(parameters = 45),
        map = "world")
-       
+# same plot but customize axis labeling 
+# need to extend horizontally-running axis lines
+# farther to the west and east
+# also need the vertically-running lines
+# to run further north/sount
+# will need manual adjusting depending on size
+# of current device 
+pimage(lon, lat, tasmax[,,1], proj = "bonne",
+       proj.args = list(parameters = 45),
+       map = "world", axes = FALSE)
+paxes(proj = "bonne", 
+      xlim = range(lon), ylim = range(lat), 
+      xaxp = c(-200, 0, 10), 
+      yaxp = c(-10, 80, 9))
+
+# slightly different projection
 pimage(lon, lat, tasmax[,,1], proj = "albers",
        proj.args = list(parameters = c(33, 45)),
        map = "world")
        
-par(curpar)
 # same image with different arguments
 pimage(lon, lat, tasmax[,,1], 
        legend = "vertical",
        proj = "bonne",
        proj.args = list(parameters = 45),
        map = "state",
-       paxes.args = list(col = "grey", lty = 3),
+       paxes.args = list(lty = 3),
        axis.args = list(col = "blue", col.axis = "blue"),
        col = fields::tim.colors(64),
        xlab = "longitude",
        ylab = "latitude",
        main = "temperature (K)")
-       
+par(curpar) # reset graphics device
 }
 \seealso{
 \code{\link[graphics]{image}}, \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}

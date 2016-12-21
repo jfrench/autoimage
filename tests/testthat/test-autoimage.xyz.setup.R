@@ -70,6 +70,25 @@ test_that("sanity checks for autoimage.xyz.setup", {
   expect_error(autoimage.xyz.setup(x = matrix(1, nrow = nr, ncol = nc), 
                                 y = 1:nc,
                                 z = z, "", "", arglist, TRUE))
+  
+  # test common.legend
+  expect_error(autoimage.xyz.setup(x = matrix(1, nrow = (nr + 1), ncol = nc), 
+                                   y = matrix(rnorm(prod(dim(z))), nrow = nr),
+                                   z = z, "", "", arglist, TRUE,
+                                   c(TRUE, TRUE)),
+               "common.legend should be a single value")
+  expect_error(autoimage.xyz.setup(x = matrix(1, nrow = (nr + 1), ncol = nc), 
+                                   y = matrix(rnorm(prod(dim(z))), nrow = nr),
+                                   z = z, "", "", arglist, TRUE,
+                                   "tom"),
+               "common.legend should be a logical value")
+  
+  # test legend
+  expect_error(autoimage.xyz.setup(x = matrix(1, nrow = nr, ncol = nc), 
+                                   y = matrix(1, nrow = nr, ncol = (nc + 1)),
+                                   z = z, "", "", arglist, TRUE, TRUE,
+                                   c("horizontal", "horizontal")),
+               "legend should be a single value")
 })
 
 

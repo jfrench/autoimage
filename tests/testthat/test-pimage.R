@@ -1,4 +1,5 @@
 test <- FALSE
+# test <- TRUE
 
 if(test){
   setwd("~")
@@ -80,7 +81,7 @@ if(test){
   title("narccap with state borders")
   
   par(curpar)
-  pimage(lon + 360, lat, z = tasmax[,,1], lines = world2)
+  pimage(lon + 360, lat, z = tasmax[,,1], map = "world2")
   title("narccap with world2 borders")
   
   par(curpar)

@@ -15,7 +15,7 @@ rotate(coords, theta, pivot = c(0, 0))
 Default is c(0, 0), i.e., the origin.}
 }
 \description{
-\code{rotate} rotates coordinates angle theta around a pivot point.
+\code{rotate} rotates the coordinates by angle theta around a pivot point.
 }
 \examples{
 # coordinates to rotate

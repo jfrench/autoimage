@@ -56,7 +56,7 @@ pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none"){
   legend.mar <- arglist$legend.mar
   arglist$legend.mar <- NULL # remove non-graphical argument from arglist
   if(is.null(legend.mar)){
-    legend.mar <- set.legend.mar(legend)
+    legend.mar <- automar(legend)
   }
   # if(is.null(legend.mar)){
   #   legend.mar = par()$mar
@@ -249,7 +249,7 @@ pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none"){
   regular <- ifelse(length(x) != nrow(z), FALSE, TRUE)
   # decide plotting function accordingly
   plotf <- fields::poly.image
-  if(regular) plotf <- image
+  if(regular) plotf <- graphics::image
   
   arglist$x <- x
   arglist$y <- y
@@ -269,16 +269,3 @@ pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none"){
                  paxes.args = paxes.args)
   return(object)
 }
-
-set.legend.mar <- function(legend = "none"){
- legend.mar = par()$mar
-  if(legend == "horizontal"){
-    legend.mar[3] = 0
-    legend.mar[1] = 3.1
-  }else if(legend == "vertical"){
-    legend.mar[2] = 0
-    legend.mar[4] = 3.1
-  }
-  return(legend.mar)
-}
-
