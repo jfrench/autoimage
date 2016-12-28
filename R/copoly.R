@@ -14,3 +14,4 @@
 #' @source The \code{\link[maps]{stateMapEnv}} data set in the 
 #' \code{maps} package.
 NULL
+TRUE

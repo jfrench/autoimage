@@ -7,13 +7,13 @@
 blank.plot()
 }
 \description{
-\code{blank.plot} draws a blank plot (no data, axis, or labels)
-on the current device.
+\code{blank.plot} draws a blank plot (no data, axis, or labels) on 
+the current device.
 }
 \details{
-Used by the \code{autoimage} function to 
-fill remaining regions with white space when there are 
-more plotting regions than images to plot.
+Used by the \code{autoimage} function to fill remaining regions 
+with white space when there are more plotting regions than images 
+to plot.
 }
 \examples{
 blank.plot()

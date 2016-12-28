@@ -9,18 +9,20 @@ plines(x, y = NULL, type = "l", proj, ...)
 \arguments{
 \item{x}{coordinate vectors of points to join.}
 
-\item{y}{Locations of grid points at which the values in \code{z} 
+\item{y}{Locations of grid points at which the values in \code{z}
 are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors, in which case the values must be in (strictly) ascending order.  If an irregular grid is to be used, then \code{x} and \code{y} should be numeric matrices having the same number of rows and columns as \code{z}.  If these arguments are not provided, equally spaced values from 0 to 1 are used by default. If \code{x} is a list, its components \code{x$x} and \code{x$y} are used for \code{x} and \code{y}, respectively. If the list has component \code{x$z}, this is used for \code{z}.}
+arguments can be either vectors or matrices depending on the
+type of data to be displayed.  See Details.}
 
 \item{type}{character indicating the type of plotting; actually any of
     the \code{type}s as in \code{\link{plot.default}}.}
 
 \item{proj}{A character string indicating what projection should be
-used for the included \code{x} and \code{y} coordinates.  The
-default is \code{"none"}.  The other valid choices correspond to the
-\code{"projection"} argument in the \code{\link[mapproj]{mapproject}} 
-function, which is used for the projection.}
+used for the included \code{x} and \code{y} coordinates.  The 
+default is \code{'none'}.  The other valid choices correspond to
+the \code{'projection'} argument in the
+\code{\link[mapproj]{mapproject}} function, which is used for the
+projection.}
 
 \item{...}{Further graphical parameters (see \code{\link{par}}) may
     also be supplied as arguments, particularly, line type, \code{lty},
@@ -29,25 +31,27 @@ function, which is used for the projection.}
     and \code{lmitre}.}
 }
 \description{
-\code{plines} takes coordinates and joins the corresponding
-points with line segments, possibly after projection.
+\code{plines} takes coordinates and joins the corresponding points
+with line segments, possibly after projection.
 }
 \details{
-The \code{\link[mapproj]{mapproject}} function is used for projection.
+The \code{\link[mapproj]{mapproject}} function is used for
+projection.
 }
 \examples{
 data(narccap)
 # plot image using bonne projection (w/o grid lines)
-pimage(lon, lat, tasmax[,,1], proj = "bonne",
+pimage(lon, lat, tasmax[,,1], proj = 'bonne',
        proj.args = list(parameters = 40), 
        paxes.args = list(grid = FALSE))
 # get national boundaries
-data(worldMapEnv, package = "maps")
-worldpoly <- maps::map("world", plot = FALSE)
+data(worldMapEnv, package = 'maps')
+worldpoly <- maps::map('world', plot = FALSE)
 # add boundaries to existing plot
-plines(worldpoly, proj = "bonne")
+plines(worldpoly, proj = 'bonne')
 }
 \seealso{
-\code{\link[autoimage]{pimage}}, \code{\link[mapproj]{mapproject}}, \code{\link[graphics]{lines}}
+\code{\link[autoimage]{pimage}},
+  \code{\link[mapproj]{mapproject}}, \code{\link[graphics]{lines}}
 }
 

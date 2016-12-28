@@ -9,43 +9,54 @@ autoimage(x, y, z, legend = "horizontal", proj = "none", proj.args,
   ...)
 }
 \arguments{
-\item{x}{Locations of grid points at which the values in \code{z} 
+\item{x}{Locations of grid points at which the values in \code{z}
 are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors, in which case the values must be in (strictly) ascending order.  If an irregular grid is to be used, then \code{x} and \code{y} should be numeric matrices having the same number of rows and columns as \code{z}.  If these arguments are not provided, equally spaced values from 0 to 1 are used by default. If \code{x} is a list, its components \code{x$x} and \code{x$y} are used for \code{x} and \code{y}, respectively. If the list has component \code{x$z}, this is used for \code{z}.}
+arguments can be either vectors or matrices depending on the
+type of data to be displayed.  See Details.}
 
-\item{y}{Locations of grid points at which the values in \code{z} 
+\item{y}{Locations of grid points at which the values in \code{z}
 are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors, in which case the values must be in (strictly) ascending order.  If an irregular grid is to be used, then \code{x} and \code{y} should be numeric matrices having the same number of rows and columns as \code{z}.  If these arguments are not provided, equally spaced values from 0 to 1 are used by default. If \code{x} is a list, its components \code{x$x} and \code{x$y} are used for \code{x} and \code{y}, respectively. If the list has component \code{x$z}, this is used for \code{z}.}
+arguments can be either vectors or matrices depending on the
+type of data to be displayed.  See Details.}
 
-\item{z}{A numeric or logical matrix containing the values to be plotted (NAs are allowed). If multiple images are to be plotted, a numeric array can be provided instead.  The third dimension of the array indicates the number of images that should be plotted.  Note that \code{x} can be used instead of \code{z} for convenience.}
+\item{z}{A numeric or logical vector or matrix containing the 
+values to be plotted (NAs are allowed).}
 
-\item{legend}{A character string indicating where the color scale
-should be placed.  The default is \code{"horizontal"}.  The other
-valid options are \code{"none"} and \code{"vertical"}.}
+\item{legend}{A character string indicating where the color scale 
+should be placed.  The default is \code{'horizontal'}.  The other
+valid options are \code{'none'} and \code{'vertical'}.}
 
 \item{proj}{A character string indicating what projection should be
-used for the included \code{x} and \code{y} coordinates.  The
-default is \code{"none"}.  The other valid choices correspond to the
-\code{"projection"} argument in the \code{\link[mapproj]{mapproject}} 
-function, which is used for the projection.}
+used for the included \code{x} and \code{y} coordinates.  The 
+default is \code{'none'}.  The other valid choices correspond to
+the \code{'projection'} argument in the
+\code{\link[mapproj]{mapproject}} function, which is used for the
+projection.}
 
-\item{proj.args}{A named list with arguments \code{parameters} and
-\code{orientation} corresponding to the arguments of the same name
-in the \code{\link[mapproj]{mapproject}} function.}
+\item{proj.args}{A named list with arguments \code{parameters} and 
+\code{orientation} corresponding to the arguments of the same
+name in the \code{\link[mapproj]{mapproject}} function.}
 
-\item{lratio}{A numeric value indicating the ratio of the 
-smaller dimension of the legend scale to the width of 
-the image.  Default is \code{lratio = 0.2}.}
+\item{lratio}{A numeric value indicating the ratio of the smaller
+dimension of the legend scale to the width of the image.  Default
+is \code{lratio = 0.2}.}
 
-\item{common.legend}{A logical value indicating whether a common legend scale should be used for all images provided in the \code{z} array.  Default is \code{TRUE}.  If \code{FALSE}, a separate legend is used for each image.}
+\item{common.legend}{A logical value indicating whether a common 
+legend scale should be used for all images provided in the
+\code{z} array.  Default is \code{TRUE}.  If \code{FALSE}, a
+separate legend is used for each image.}
 
-\item{map}{The name of map to draw on the image.
-Default is \code{"none"}.  Other options include
-\code{"world"}, \code{"usa"}, \code{"state"}, \code{"county"}, 
-\code{"france"}, \code{"nz"} (New Zealand), and \code{"world2"}, 
-all from the \code{maps} package.}
+\item{map}{The name of the map to draw on the image. Default is
+\code{'none'}.  Other options include \code{'world'},
+\code{'usa'}, \code{'state'}, \code{'county'}, \code{'france'},
+\code{'nz'} (New Zealand), and \code{'world2'}, all from the
+\code{maps} package.}
 
-\item{size}{A vector of length two indicating the number of rows and columns that should be used for the series of image data in \code{z}.  Note that \code{prod(size)} must match the length of the third dimension of \code{z} (if it is an array), or \code{c(1, 1)} if \code{z} is a matrix.}
+\item{size}{A vector of length two indicating the number of rows 
+and columns that should be used for the series of image data in 
+\code{z}.  Note that \code{prod(size)} must match the length of 
+the third dimension of \code{z} (if it is an array), or 
+\code{c(1, 1)} if \code{z} is a matrix.}
 
 \item{outer.title}{A title related to all of the images that is plotted in the outer margin of the figure.}
 
@@ -64,7 +75,7 @@ on the context.
 }
 \details{
 The \code{\link[mapproj]{mapproject}} function is used to project 
-the \code{x} and \code{y} coordinates when \code{proj != "none"}.
+the \code{x} and \code{y} coordinates when \code{proj != 'none'}.
 
 If multiple images are to be plotted (i.e., if \code{z} is an array), 
 then the \code{main} argument can be a vector with length matching 
@@ -92,43 +103,65 @@ The multiple plots are constructed using the
 is incompatible with the \code{mfrow} and \code{mfcol} arguments 
 in the \code{\link[graphics]{par}} function and is also 
 incompatible with the \code{\link[graphics]{split.screen}} function.
+
+The \code{mtext.args} argument can be passed through \code{...} 
+in order to customize the outer title.  This should be a named
+list with elements match \code{\link[graphics]{mtext}}.
+
+Lines can be added to each image by passing the \code{lines}
+argument through \code{...}.  In that case, \code{lines}
+should be a list with components \code{x} and \code{y} 
+specifying the locations to draw the lines.  The appearance
+of the plotted lines can be customized by passing
+a named list called \code{lines.args} through \code{...}.
+The elements of \code{lines.args} should match the 
+elements of \code{\link[graphics]{lines}}.  See Examples.
+
+Points can be added to each image by passing the \code{points}
+argument through \code{...}.  In that case, \code{points}
+should be a list with components \code{x} and \code{y} 
+specifying the locations to draw the points.  The appearance
+of the plotted points can be customized by passing
+a named list called \code{points.args} through \code{...}.
+The elements of \code{points.args} should match the 
+elements of \code{\link[graphics]{points}}.  See Examples.
 }
 \examples{
 data(narccap)
 # restructure data for 2 images
-tasmax2 = tasmax[,,1:2]
+tasmax2 <- tasmax[,,1:2]
 
 # plot irregularly gridded images with separate legends
 # and usa border
-autoimage(lon, lat, tasmax2, common.legend = FALSE, map = "usa")
+autoimage(lon, lat, tasmax2, common.legend = FALSE, map = 'usa')
 
 # plot irregularly gridded images with common legend and world lines
 # customize world lines
 # add and customize title
-autoimage(lon, lat, tasmax2, map = "world", 
-          lines.args = list(col = "white", lwd = 2),
-          outer.title = "Maximum Daily Surface Air Temperature (K)",
-          mtext.args = list(col = "blue", cex = 2))
+autoimage(lon, lat, tasmax2, map = 'world', 
+          lines.args = list(col = 'white', lwd = 2),
+          outer.title = 'Maximum Daily Surface Air Temperature (K)',
+          mtext.args = list(col = 'blue', cex = 2))
 
 # plot irregularly-spaced responsed as images with separate legends
 # and county borders.  Add observed data locations with custom point
 # options
-data(co, package = "gear")
-autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE, 
-          map = "county", main = c("Aluminum", "Cadmium"),
+data(co, package = 'gear')
+autoimage(co$lon, co$lat, co[,c('Al', 'Ca')], common.legend = FALSE, 
+          map = 'county', main = c('Aluminum', 'Cadmium'),
           points = list(x = co$easting, y = co$northing),
-          points.args = list(pch = 20, col = "white"))
+          points.args = list(pch = 20, col = 'white'))
 
 # customize margins and lratio for large plot
 # also use projection
-# specify manual lines (though in this case it is the same as using map = "world")
-data(worldMapEnv, package = "maps")
-worldpoly <- maps::map("world", plot = FALSE)
+# specify manual lines (though in this case it is the same as using map = 'world')
+data(worldMapEnv, package = 'maps')
+worldpoly <- maps::map('world', plot = FALSE)
 par(mar = c(1.1, 4.1, 2.1, 1.1))
 autoimage(lon, lat, tasmax, lines = worldpoly, 
-          proj = "bonne", proj.args = list(parameters = 40),
-          main = c("day 1", "day 2", "day 3", "day 4", "day 5"),
-          ylab = "",
+          proj = 'bonne', proj.args = list(parameters = 40),
+          main = c('day 1', 'day 2', 'day 3', 'day 4', 'day 5'),
+          ylab = '',
           axes = FALSE,
           lratio = 0.5)
 }

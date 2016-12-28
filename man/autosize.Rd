@@ -11,12 +11,13 @@ autosize(n)
 }
 \value{
 A vector of length 2 with the number of rows and number of 
-columns for the plot matrix.
+  columns for the plot matrix.
 }
 \description{
-\code{autosize} automatically makes a sensible choice for the dimensions of a plot
-matrix based on \code{n}, the number of plots.  Only works for \code{n <= 36}. The
-dimensions are chosen to be as close to a square as possible.
+\code{autosize} automatically makes a sensible choice for the 
+dimensions of a plot matrix based on \code{n}, the number of plots.
+Only works for \code{n <= 36}. The dimensions are chosen to be as 
+close to a square as possible.
 }
 \examples{
 autosize(3)

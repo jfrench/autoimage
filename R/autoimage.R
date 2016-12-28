@@ -9,7 +9,7 @@
 #' on the context.
 #' 
 #' The \code{\link[mapproj]{mapproject}} function is used to project 
-#' the \code{x} and \code{y} coordinates when \code{proj != "none"}.
+#' the \code{x} and \code{y} coordinates when \code{proj != 'none'}.
 #'
 #' If multiple images are to be plotted (i.e., if \code{z} is an array), 
 #' then the \code{main} argument can be a vector with length matching 
@@ -37,7 +37,28 @@
 #' is incompatible with the \code{mfrow} and \code{mfcol} arguments 
 #' in the \code{\link[graphics]{par}} function and is also 
 #' incompatible with the \code{\link[graphics]{split.screen}} function.
-#'
+#' 
+#' The \code{mtext.args} argument can be passed through \code{...} 
+#' in order to customize the outer title.  This should be a named
+#' list with elements match \code{\link[graphics]{mtext}}.
+#' 
+#' Lines can be added to each image by passing the \code{lines}
+#' argument through \code{...}.  In that case, \code{lines}
+#' should be a list with components \code{x} and \code{y} 
+#' specifying the locations to draw the lines.  The appearance
+#' of the plotted lines can be customized by passing
+#' a named list called \code{lines.args} through \code{...}.
+#' The elements of \code{lines.args} should match the 
+#' elements of \code{\link[graphics]{lines}}.  See Examples.
+#' 
+#' Points can be added to each image by passing the \code{points}
+#' argument through \code{...}.  In that case, \code{points}
+#' should be a list with components \code{x} and \code{y} 
+#' specifying the locations to draw the points.  The appearance
+#' of the plotted points can be customized by passing
+#' a named list called \code{points.args} through \code{...}.
+#' The elements of \code{points.args} should match the 
+#' elements of \code{\link[graphics]{points}}.  See Examples.
 #' @inheritParams pimage
 #' @inheritParams autolayout
 #' @param outer.title A title related to all of the images that is plotted in the outer margin of the figure.
@@ -49,129 +70,157 @@
 #' @examples
 #' data(narccap)
 #' # restructure data for 2 images
-#' tasmax2 = tasmax[,,1:2]
+#' tasmax2 <- tasmax[,,1:2]
 #' 
 #' # plot irregularly gridded images with separate legends
 #' # and usa border
-#' autoimage(lon, lat, tasmax2, common.legend = FALSE, map = "usa")
+#' autoimage(lon, lat, tasmax2, common.legend = FALSE, map = 'usa')
 #' 
 #' # plot irregularly gridded images with common legend and world lines
 #' # customize world lines
 #' # add and customize title
-#' autoimage(lon, lat, tasmax2, map = "world", 
-#'           lines.args = list(col = "white", lwd = 2),
-#'           outer.title = "Maximum Daily Surface Air Temperature (K)",
-#'           mtext.args = list(col = "blue", cex = 2))
+#' autoimage(lon, lat, tasmax2, map = 'world', 
+#'           lines.args = list(col = 'white', lwd = 2),
+#'           outer.title = 'Maximum Daily Surface Air Temperature (K)',
+#'           mtext.args = list(col = 'blue', cex = 2))
 #' 
 #' # plot irregularly-spaced responsed as images with separate legends
 #' # and county borders.  Add observed data locations with custom point
 #' # options
-#' data(co, package = "gear")
-#' autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE, 
-#'           map = "county", main = c("Aluminum", "Cadmium"),
+#' data(co, package = 'gear')
+#' autoimage(co$lon, co$lat, co[,c('Al', 'Ca')], common.legend = FALSE, 
+#'           map = 'county', main = c('Aluminum', 'Cadmium'),
 #'           points = list(x = co$easting, y = co$northing),
-#'           points.args = list(pch = 20, col = "white"))
+#'           points.args = list(pch = 20, col = 'white'))
 #' 
 #' # customize margins and lratio for large plot
 #' # also use projection
-#' # specify manual lines (though in this case it is the same as using map = "world")
-#' data(worldMapEnv, package = "maps")
-#' worldpoly <- maps::map("world", plot = FALSE)
+#' # specify manual lines (though in this case it is the same as using map = 'world')
+#' data(worldMapEnv, package = 'maps')
+#' worldpoly <- maps::map('world', plot = FALSE)
 #' par(mar = c(1.1, 4.1, 2.1, 1.1))
 #' autoimage(lon, lat, tasmax, lines = worldpoly, 
-#'           proj = "bonne", proj.args = list(parameters = 40),
-#'           main = c("day 1", "day 2", "day 3", "day 4", "day 5"),
-#'           ylab = "",
+#'           proj = 'bonne', proj.args = list(parameters = 40),
+#'           main = c('day 1', 'day 2', 'day 3', 'day 4', 'day 5'),
+#'           ylab = '',
 #'           axes = FALSE,
 #'           lratio = 0.5)
 #' @export
-autoimage = function(x, y, z, legend = "horizontal", proj = "none", proj.args, 
-                     lratio = 0.2, common.legend = TRUE, map = "none", size, 
-                     outer.title, ...){
+autoimage <- function(x, y, z, legend = "horizontal", proj = "none",
+                      proj.args, lratio = 0.2, common.legend = TRUE,
+                      map = "none", size, outer.title, ...) {
   # obtain elements of ...
-  arglist = list(...)
+  arglist <- list(...)
   mtext.args <- arglist$mtext.args
   arglist$mtext.args <- NULL
-  if(missing(proj.args)) proj.args <- list()
-  legend <- match.arg(legend, c("none", "horizontal", "vertical"))
-  
+
+  if (missing(proj.args)) 
+    proj.args <- list()
+  # make compatible with old version
+  if (!is.logical(legend)) {
+    legend <- match.arg(legend, c("none", "horizontal", "vertical"))
+  } 
   # attempt to match deprecated arguments
-  argmatch <- autoimage.match.old.args(legend, proj, proj.args, lratio,
-                                       arglist)
+  argmatch <- autoimage.match.old.args(legend, proj, proj.args, 
+                                      lratio, arglist)
+  legend <- argmatch$legend
+  lratio <- argmatch$lratio
+  arglist <- argmatch$arglist
+  
   # set default for missing arguments
-  if(missing(x)) x <- NULL
-  if(missing(y)) y <- NULL
-  if(missing(z)) z <- NULL
-  if(missing(outer.title)) outer.title <- NULL
+  if (missing(x)) 
+    x <- NULL
+  if (missing(y)) 
+    y <- NULL
+  if (missing(z)) 
+    z <- NULL
+  if (missing(outer.title)) 
+    outer.title <- NULL
   # deparse label names
   tx <- ifelse(is.null(x), "", deparse(substitute(x)))
   ty <- ifelse(is.null(y), "", deparse(substitute(y)))
-
-  verbose <- FALSE # some debugging stuff
+  
+  verbose <- FALSE  # some debugging stuff
   # setup x, y, z information
-  xyz.list <- autoimage.xyz.setup(x, y, z, tx, ty, arglist, verbose, common.legend, legend)
-  ng <- length(xyz.list) # number of grids
+  xyz.list <- autoimage.xyz.setup(x, y, z, tx, ty, arglist, verbose, 
+                                  common.legend, legend)
+  ng <- length(xyz.list)  # number of grids
   # additional argument checking
-  if(missing(size)) size <- autosize(length(xyz.list))
+  if (missing(size)) 
+    size <- autosize(length(xyz.list))
   # change common.legend if zlim is a list
-  if(!is.null(arglist$zlim)){
-    if(is.list(arglist$zlim)) common.legend <- FALSE
+  if (!is.null(arglist$zlim)) {
+    if (is.list(arglist$zlim)) 
+      common.legend <- FALSE
   }
   # check other argument, specify outer arguments
   outer.args <- arg.check.autoimage(common.legend, size, outer.title, 
                                     ng, mtext.args)
-  # outer <- ifelse(!is.null(outer.title), TRUE, FALSE)
-  # if(is.null(mtext.args)) mtext.args <- list()
-  # if(!is.list(mtext.args)) stop("mtext.args should be a list")
-  
+
   curpar <- par(no.readonly = TRUE)
-  curmar <- curpar$mar # current mar values
-  autolayout(size, legend = legend, common.legend = common.legend,
-             lratio = lratio, outer = outer.args$outer, show = FALSE,
+  curmar <- curpar$mar  # current mar values
+  autolayout(size, legend = legend, common.legend = common.legend, 
+             lratio = lratio, outer = outer.args$outer, show = FALSE, 
              reverse = FALSE)
-  for(i in seq_along(xyz.list)){
+  for (i in seq_along(xyz.list)) {
     par(mar = curmar)
     arglisti <- xyz.list[[i]]
-    arglisti$legend = "none"
-    arglisti$proj = proj
-    arglisti$proj.args = proj.args
-    arglisti$map = map
+    arglisti$legend <- "none"
+    arglisti$proj <- proj
+    arglisti$proj.args <- proj.args
+    arglisti$map <- map
     do.call("pimage", arglisti)
-    if(!common.legend & legend != "none") {
+    if (!common.legend & legend != "none") {
       autolegend()
     }
   }
-    
+  
   deficit <- prod(size) - ng
-  if(!common.legend & legend != "none") deficit <- 2*deficit
-  for(i in seq_len(deficit)){ blank.plot() }
-  if(common.legend & legend != "none") autolegend() 
-
+  if (!common.legend & legend != "none") 
+    deficit <- 2 * deficit
+  for (i in seq_len(deficit)) {
+    blank.plot()
+  }
+  if (common.legend & legend != "none") 
+    autolegend()
+  
   # plot outer title, if necessary
-  if(outer.args$outer) do.call("mtext", outer.args$mtext.args)
+  if (outer.args$outer) 
+    do.call("mtext", outer.args$mtext.args)
   
   # restore previous par() settings
   on.exit(par(curpar))
 }
 
-arg.check.autoimage <- function(common.legend, size = c(1, 1), outer.title = NULL, ng = 1,
-                                mtext.args = NULL){
-  if(length(common.legend) != 1) stop("common.legend should be a logical value")
-  if(!is.logical(common.legend)) stop("common.legend should be a logical value")
-  if(length(size) != 2) stop("size should be a vector of length 2")
-  if(!is.numeric(size)) stop("size should be a numeric vector")
-  if(prod(size) < ng) stop("size is not large enough to hold all plots")
-  if(!is.null(outer.title)){
-    if(length(outer.title) != 1) stop("outer.title should have length 1")
-    if(!is.character(outer.title)) stop("outer.title should be a character string")
+arg.check.autoimage <- function(common.legend, size = c(1, 1), 
+                                outer.title = NULL, ng = 1, 
+                                mtext.args = NULL) {
+  if (length(common.legend) != 1) 
+    stop("common.legend should be a logical value")
+  if (!is.logical(common.legend)) 
+    stop("common.legend should be a logical value")
+  if (length(size) != 2) 
+    stop("size should be a vector of length 2")
+  if (!is.numeric(size)) 
+    stop("size should be a numeric vector")
+  if (prod(size) < ng) 
+    stop("size is not large enough to hold all plots")
+  if (!is.null(outer.title)) {
+    if (length(outer.title) != 1) 
+      stop("outer.title should have length 1")
+    if (!is.character(outer.title)) 
+      stop("outer.title should be a character string")
   }
-  if(is.null(mtext.args)) mtext.args <- list()
-  if(!is.list(mtext.args)) stop("mtext.args should be a list")
+  if (is.null(mtext.args)) 
+    mtext.args <- list()
+  if (!is.list(mtext.args)) 
+    stop("mtext.args should be a list")
   outer <- FALSE
-  if(!is.null(outer.title)){
+  if (!is.null(outer.title)) {
     outer <- TRUE
     mtext.args$text <- outer.title
     mtext.args$outer <- TRUE
   }
   return(list(outer = outer, mtext.args = mtext.args))
 }
+TRUE

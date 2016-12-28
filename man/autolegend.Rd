@@ -7,41 +7,45 @@
 autolegend()
 }
 \description{
-\code{autolegend} adds a color scale to the current device based on the
-information from the last calls to the \code{\link[autoimage]{autolayout}} 
-and \code{\link[autoimage]{pimage}} functions.
+\code{autolegend} adds a color scale to the current device based on
+the information from the last calls to the 
+\code{\link[autoimage]{autolayout}} and 
+\code{\link[autoimage]{pimage}} functions.
 }
 \details{
 Internally, \code{autolegend} calls the \code{.legend.scale.args}, 
-\code{.legend.horizontal},
-and \code{.legend.mar} functions to obtain the relevant information.
+\code{.legend.horizontal}, and \code{.legend.mar} functions to 
+obtain the relevant information.
 }
 \examples{
 curpar <- par(no.readonly = TRUE) # get default options
 data(narccap)
-autolayout(c(1, 1), legend = "h")
-pimage(lon, lat, tasmax[,,1], legend = "none")
+autolayout(c(1, 1), legend = 'h')
+pimage(lon, lat, tasmax[,,1], legend = 'none')
 autolegend()
 
 # common legend with distinct lines
-autolayout(c(1, 2), legend = "h")
-pimage(lon, lat, tasmax[,,1], legend = "none", map = "world")
-pimage(lon, lat, tasmax[,,2], legend = "none", map = "usa", 
-       proj = "bonne", proj.args = list(parameters = 40))
+autolayout(c(1, 2), legend = 'h')
+pimage(lon, lat, tasmax[,,1], legend = 'none', map = 'world')
+pimage(lon, lat, tasmax[,,2], legend = 'none', map = 'usa', 
+       proj = 'bonne', proj.args = list(parameters = 40))
 autolegend()
 
 # separate legends with distinct lines
-autolayout(c(1, 2), legend = "v", common.legend = FALSE)
-pimage(lon, lat, tasmax[,,1], legend = "none", map = "state",
-       proj = "bonne", proj.args = list(parameters = 40), 
+autolayout(c(1, 2), legend = 'v', common.legend = FALSE)
+pimage(lon, lat, tasmax[,,1], legend = 'none', map = 'state',
+       proj = 'bonne', proj.args = list(parameters = 40), 
        axes = FALSE)
 autolegend()
-pimage(lon, lat, tasmax[,,2], legend = "none", map = "usa", 
-       proj = "albers", proj.args = list(parameters = c(32, 45)), axes = FALSE)
+pimage(lon, lat, tasmax[,,2], legend = 'none', map = 'usa', 
+       proj = 'albers', proj.args = list(parameters = c(32, 45)), 
+       axes = FALSE)
 autolegend()
 par(curpar) # reset default options
 }
 \seealso{
-\code{\link[autoimage]{autolayout}}, \code{\link[autoimage]{pimage}}, \code{\link[autoimage]{legend.scale}}
+\code{\link[autoimage]{autolayout}}, 
+  \code{\link[autoimage]{pimage}}, 
+  \code{\link[autoimage]{legend.scale}}
 }
 

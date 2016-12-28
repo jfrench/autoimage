@@ -11,9 +11,10 @@ ptext(x, y = NULL, labels, proj, ...)
     \code{labels} should be written.  If the length of \code{x} and
     \code{y} differs, the shorter one is recycled.}
 
-\item{y}{Locations of grid points at which the values in \code{z} 
+\item{y}{Locations of grid points at which the values in \code{z}
 are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors, in which case the values must be in (strictly) ascending order.  If an irregular grid is to be used, then \code{x} and \code{y} should be numeric matrices having the same number of rows and columns as \code{z}.  If these arguments are not provided, equally spaced values from 0 to 1 are used by default. If \code{x} is a list, its components \code{x$x} and \code{x$y} are used for \code{x} and \code{y}, respectively. If the list has component \code{x$z}, this is used for \code{z}.}
+arguments can be either vectors or matrices depending on the
+type of data to be displayed.  See Details.}
 
 \item{labels}{a character vector or \link{expression} specifying
     the \emph{text} to be written.  An attempt is made to coerce other
@@ -23,42 +24,45 @@ arguments can be either vectors, in which case the values must be in (strictly) 
     \code{y}, the coordinates are recycled to the length of \code{labels}.}
 
 \item{proj}{A character string indicating what projection should be
-used for the included \code{x} and \code{y} coordinates.  The
-default is \code{"none"}.  The other valid choices correspond to the
-\code{"projection"} argument in the \code{\link[mapproj]{mapproject}} 
-function, which is used for the projection.}
+used for the included \code{x} and \code{y} coordinates.  The 
+default is \code{'none'}.  The other valid choices correspond to
+the \code{'projection'} argument in the
+\code{\link[mapproj]{mapproject}} function, which is used for the
+projection.}
 
 \item{...}{further \link{graphical parameters} (from \code{\link{par}}),
     such as \code{srt}, \code{family} and \code{xpd}.}
 }
 \description{
-\code{ptext} draws the character strings given in \code{labels}
-at the provided coordinates, possibly after projection.
+\code{ptext} draws the character strings given in \code{labels} at
+the provided coordinates, possibly after projection.
 }
 \details{
-The \code{\link[mapproj]{mapproject}} function is used for projection.
+The \code{\link[mapproj]{mapproject}} function is used for 
+projection.
 
-A non-character \code{labels} argument is automatically converted to a 
-\code{character} vector using \code{
-link[base]{as.character}}.
+A non-character \code{labels} argument is automatically converted 
+to a \code{character} vector using \code{link[base]{as.character}}.
 }
 \examples{
 data(narccap)
 # plot image using bonne projection (w/o grid lines)
-pimage(lon, lat, tasmax[,,1], proj = "bonne",
+pimage(lon, lat, tasmax[,,1], proj = 'bonne',
        proj.args = list(parameters = 40), 
        paxes.args = list(grid = FALSE))
 # get national boundaries
-data(worldMapEnv, package = "maps")
-worldpoly <- maps::map("world", plot = FALSE)
-plines(worldpoly, proj = "bonne")
+data(worldMapEnv, package = 'maps')
+worldpoly <- maps::map('world', plot = FALSE)
+plines(worldpoly, proj = 'bonne')
 # add U.S. city names to existing plot
-data(us.cities, package = "maps")
+data(us.cities, package = 'maps')
 citysmall <- head(us.cities)
 ptext(x = citysmall$lon, y = citysmall$lat, 
-      labels = citysmall$name, proj = "bonne")
+      labels = citysmall$name, proj = 'bonne')
 }
 \seealso{
-\code{\link[graphics]{text}}, \code{\link[mapproj]{mapproject}}, \code{\link[autoimage]{pimage}}
+\code{\link[graphics]{text}}, 
+  \code{\link[mapproj]{mapproject}},
+  \code{\link[autoimage]{pimage}}
 }
 

@@ -1,0 +1,9 @@
+# NEWS
+
+# 1.0 - Add pimage function to create individual projected images.  
+        Create autolegend to manually add legend to image created
+        by pimage.  Update autoimage to rely on pimage and autolegend.
+        Add plines, ppoints, etc., functions to add lines, points, 
+        etc., to existing images created by pimage.  Create helper
+        function to make plot similar to autoimage using ggplot2.
+        Introduce incompatibilities with version 0.3.1.

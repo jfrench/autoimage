@@ -18,9 +18,10 @@ test_that("sanity checks for arg.check.paxes arguments", {
   expect_error(arg.check.paxes("none", 1:2, 1:2, 1:4, NULL, TRUE))
   expect_error(arg.check.paxes("none", 1:2, 1:2, 1:3, 1:4, TRUE))
   # check grid argument
-  expect_error(arg.check.paxes("none", 1:2, 1:2, 1:3, 1:3, c(TRUE, TRUE)),
+  expect_error(arg.check.paxes("none", 1:2, 1:2, 1:3, 1:3, c(TRUE, TRUE)), 
                "grid should be a logical value")
-  expect_error(arg.check.paxes("none", 1:2, 1:2, 1:3, 1:3, 7),
+  expect_error(arg.check.paxes("none", 1:2, 1:2, 1:3, 1:3, 7), 
                "grid should be a logical value")
 })
 
+TRUE

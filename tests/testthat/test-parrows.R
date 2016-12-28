@@ -1,16 +1,16 @@
 # test <- TRUE
 test <- FALSE
 
-if(test){
+if (test) {
   setwd("~")
   pdf("test-parrows.pdf")
   data(narccap)
   # plot image using bonne projection (w/o grid lines)
-  pimage(lon, lat, tasmax[,,1], proj = "bonne",
-         proj.args = list(parameters = 40), 
+  pimage(lon, lat, tasmax[, , 1], proj = "bonne", 
+         proj.args = list(parameters = 40),
          paxes.args = list(grid = FALSE))
-  # some locations for u.s. cities
-  # taken from data(us.cities, package = "maps")
+  # some locations for u.s. cities taken from 
+  # data(us.cities, package = 'maps')
   boston <- c(-71.02, 42.34)
   la <- c(-118.41, 34.11)
   ny <- c(-73.94, 40.67)
@@ -22,11 +22,12 @@ if(test){
   y1 <- c(la[2], boston[2])
   parrows(x0, y0, x1, y1, proj = "bonne", lwd = 3)
   citycoords <- rbind(sf, la, ny, boston)
-  cityxy <- list(x = citycoords[,1], y = citycoords[,2])
-  citynames <- c("san francisco", "los angeles", "new york", "boston") 
+  cityxy <- list(x = citycoords[, 1], y = citycoords[, 2])
+  citynames <- c("san francisco", "los angeles", "new york", "boston")
   ptext(cityxy, labels = citynames, proj = "bonne")
   title("arrows b/w sf/la and ny/boston")
   dev.off()
 }
 
 
+TRUE

@@ -8,79 +8,98 @@ autolayout(size, legend = "none", common.legend = TRUE, lratio = 0.2,
   outer = FALSE, show = TRUE, reverse = FALSE, legend.mar)
 }
 \arguments{
-\item{size}{A vector of length two indicating the number of rows and columns that should be used for the series of image data in \code{z}.  Note that \code{prod(size)} must match the length of the third dimension of \code{z} (if it is an array), or \code{c(1, 1)} if \code{z} is a matrix.}
+\item{size}{A vector of length two indicating the number of rows 
+and columns that should be used for the series of image data in 
+\code{z}.  Note that \code{prod(size)} must match the length of 
+the third dimension of \code{z} (if it is an array), or 
+\code{c(1, 1)} if \code{z} is a matrix.}
 
-\item{legend}{A character string indicating where the color scale
-should be placed.  The default is \code{"horizontal"}.  The other
-valid options are \code{"none"} and \code{"vertical"}.}
+\item{legend}{A character string indicating where the color scale 
+should be placed.  The default is \code{'horizontal'}.  The other
+valid options are \code{'none'} and \code{'vertical'}.}
 
-\item{common.legend}{A logical value indicating whether a common legend scale should be used for all images provided in the \code{z} array.  Default is \code{TRUE}.  If \code{FALSE}, a separate legend is used for each image.}
+\item{common.legend}{A logical value indicating whether a common 
+legend scale should be used for all images provided in the
+\code{z} array.  Default is \code{TRUE}.  If \code{FALSE}, a
+separate legend is used for each image.}
 
 \item{lratio}{A numeric value indicating the ratio of the width of 
 the legend scale to the width of the each image.  Default is 
 \code{lratio = 0.2}.}
 
-\item{outer}{A logical value indicating whether the room should be left for an outer title that 
-is common for all plots.  Depends on setting the \code{oma} argument of the 
+\item{outer}{A logical value indicating whether the room should be 
+left for an outer title that is common for all plots.  Depends on
+setting the \code{oma} argument of the
 \code{\link[graphics]{par}} function.}
 
-\item{show}{A logical value indicating whether the \code{\link[graphics]{layout.show}} function 
-should be called after the layout is constructed.}
+\item{show}{A logical value indicating whether the 
+\code{\link[graphics]{layout.show}} function should be called
+after the layout is constructed.}
 
-\item{reverse}{A logical value indicating whether the legend scale should be
-plotted before the image.  Default is \code{FALSE}.}
+\item{reverse}{A logical value indicating whether the legend scale 
+should be plotted before the image.  Default is \code{FALSE}.}
 
 \item{legend.mar}{The margins for the legend.  (See the \code{mar} 
-argument of \code{\link[graphics]{par}}).  If not specified, then 
-sensible values are chosen based on the current vector \code{par("mar")}.}
+argument of \code{\link[graphics]{par}}).  If not specified, then
+sensible values are chosen based on the current vector 
+\code{par('mar')}.}
 }
 \description{
-\code{autolayout} divides the current device into equal-sized rows and equal-sized 
-columns based on the specified arguments.
+\code{autolayout} divides the current device into equal-sized rows 
+and equal-sized columns based on the specified arguments.
 }
 \details{
 The rows and columns are constructed using the 
-\code{\link[graphics]{layout}} function, which is incompatible with the 
-\code{mfrow} and \code{mfcol} arguments in the \code{\link[graphics]{par}} 
-function and is also incompatible with the 
-\code{\link[graphics]{split.screen}} function.
+\code{\link[graphics]{layout}} function, which is incompatible with
+the \code{mfrow} and \code{mfcol} arguments in the 
+\code{\link[graphics]{par}} function and is also incompatible with 
+the \code{\link[graphics]{split.screen}} function.
 
-Note \code{\link[graphics]{par}} parameters are NOT RESET after executing the 
-\code{\link[graphics]{layout}} function so the the user can use existing layout 
-for plots.
+Note \code{\link[graphics]{par}} parameters are NOT RESET after 
+executing the \code{\link[graphics]{layout}} function so the the 
+user can use existing layout for plots.
 
-If \code{legend = "horizontal"} or \code{legend = "vertical"}, 
-then a portion of the device is dedicated to a legend.
+If \code{legend = 'horizontal'} or \code{legend = 'vertical'}, then
+a portion of the device is dedicated to a legend.
 
-If \code{common.legend = TRUE}, then one legend region is created for the 
-entire set of plots.  
-If \code{common.legend = FALSE}, then a separate legend region is created for each 
-individual plot.
+If \code{common.legend = TRUE}, then one legend region is created 
+for the entire set of plots. If \code{common.legend = FALSE}, then
+a separate legend region is created for each individual plot.
 
-With respective to ordering of the plotting regions: A common legend is plotted after 
-all other plots, while individual legends are plotted after each respective plot.
+With respective to ordering of the plotting regions: A common 
+legend is plotted after all other plots, while individual legends 
+are plotted after each respective plot.
 }
 \examples{
 # basic 2x2 layout
 autolayout(c(2, 2))
 # 3x2 layout with space for legends
-autolayout(c(3, 2), legend = "h")
-autolayout(c(3, 2), legend = "v")
+autolayout(c(3, 2), legend = 'h')
+autolayout(c(3, 2), legend = 'v')
 # 3x2 layout with individuals legends
-autolayout(c(3, 2), legend = "h", common.legend = FALSE)
-autolayout(c(3, 2), legend = "v", common.legend = FALSE)
+autolayout(c(3, 2), legend = 'h', common.legend = FALSE)
+autolayout(c(3, 2), legend = 'v', common.legend = FALSE)
 # if outer title is desired
 autolayout(c(2, 2), outer = TRUE)
 # reset oma parameters
 par(oma = c(0, 0, 0, 0))
 # impact of lratio when legend used
-autolayout(c(2, 2), legend = "h", lratio = 0.5)
-autolayout(c(2, 2), legend = "h", lratio = 0.2)
+autolayout(c(2, 2), legend = 'h', lratio = 0.5)
+autolayout(c(2, 2), legend = 'h', lratio = 0.2)
 }
 \references{
-Portions of the code for this function is inspired by the internals of the \code{\link[fields]{image.plot}} function written by Doug Nychka and from the \code{image.scale.2} function written by Marc Taylor and discussed at \code{http://menugget.blogspot.com/2013/12/new-version-of-imagescale-function.html}.  For compatibility with the \code{\link[graphics]{image}} function, some of the sanity checking and data formatting are taken almost directly from the \code{\link[graphics]{image}} function.
+Portions of the code for this function is inspired by 
+  the internals of the \code{\link[fields]{image.plot}} function 
+  written by Doug Nychka and from the \code{image.scale.2} function
+  written by Marc Taylor and discussed at 
+  \code{http://menugget.blogspot.com/2013/12/new-version-of-imagescale-function.html}.
+   For compatibility with the \code{\link[graphics]{image}}
+  function, some of the sanity checking and data formatting are
+  taken almost directly from the \code{\link[graphics]{image}}
+  function.
 }
 \seealso{
-\code{\link[graphics]{image}}, \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
+\code{\link[graphics]{image}}, 
+  \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
 }
 

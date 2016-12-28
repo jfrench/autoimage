@@ -11,11 +11,12 @@ rotate(coords, theta, pivot = c(0, 0))
 
 \item{theta}{The angle (in radians) to rotate the coordinates.}
 
-\item{pivot}{The pivot point around which the coordinates are rotated.
-Default is c(0, 0), i.e., the origin.}
+\item{pivot}{The pivot point around which the coordinates are 
+rotated. Default is c(0, 0), i.e., the origin.}
 }
 \description{
-\code{rotate} rotates the coordinates by angle theta around a pivot point.
+\code{rotate} rotates the coordinates by angle theta around a pivot
+point.
 }
 \examples{
 # coordinates to rotate

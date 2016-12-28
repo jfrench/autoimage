@@ -10,37 +10,42 @@ ppolygon(x, y = NULL, proj, ...)
 \item{x}{vectors containing the coordinates of the vertices
     of the polygon.}
 
-\item{y}{Locations of grid points at which the values in \code{z} 
+\item{y}{Locations of grid points at which the values in \code{z}
 are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors, in which case the values must be in (strictly) ascending order.  If an irregular grid is to be used, then \code{x} and \code{y} should be numeric matrices having the same number of rows and columns as \code{z}.  If these arguments are not provided, equally spaced values from 0 to 1 are used by default. If \code{x} is a list, its components \code{x$x} and \code{x$y} are used for \code{x} and \code{y}, respectively. If the list has component \code{x$z}, this is used for \code{z}.}
+arguments can be either vectors or matrices depending on the
+type of data to be displayed.  See Details.}
 
 \item{proj}{A character string indicating what projection should be
-used for the included \code{x} and \code{y} coordinates.  The
-default is \code{"none"}.  The other valid choices correspond to the
-\code{"projection"} argument in the \code{\link[mapproj]{mapproject}} 
-function, which is used for the projection.}
+used for the included \code{x} and \code{y} coordinates.  The 
+default is \code{'none'}.  The other valid choices correspond to
+the \code{'projection'} argument in the
+\code{\link[mapproj]{mapproject}} function, which is used for the
+projection.}
 
 \item{...}{graphical parameters such as \code{xpd}, \code{lend},
     \code{ljoin} and \code{lmitre} can be given as arguments.}
 }
 \description{
-\code{ptext} draws polygons using the vertices given in \code{x} and
-\code{y}, possibly with projected coordinates.
+\code{ptext} draws polygons using the vertices given in \code{x} 
+and \code{y}, possibly with projected coordinates.
 }
 \details{
-The \code{\link[mapproj]{mapproject}} function is used for projection.
+The \code{\link[mapproj]{mapproject}} function is used for 
+projection.
 }
 \examples{
 data(narccap)
 # plot image using bonne projection (w/o grid lines)
-pimage(lon, lat, tasmax[,,1], proj = "bonne",
+pimage(lon, lat, tasmax[,,1], proj = 'bonne',
        proj.args = list(parameters = 40), 
-       paxes.args = list(col = "grey"))
+       paxes.args = list(col = 'grey'))
 # filled polygon for Colorado border
 data(copoly)
-ppolygon(copoly, proj = "bonne", col = "orange")
+ppolygon(copoly, proj = 'bonne', col = 'orange')
 }
 \seealso{
-\code{\link[graphics]{polygon}}, \code{\link[mapproj]{mapproject}}, \code{\link[autoimage]{pimage}}
+\code{\link[graphics]{polygon}}, 
+  \code{\link[mapproj]{mapproject}}, 
+  \code{\link[autoimage]{pimage}}
 }
 
