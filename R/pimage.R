@@ -125,7 +125,16 @@
 #'   mtext
 #' @examples
 #' # image plot for data on an irregular grid
+#' pimage(lon, lat, tasmax[,,1], legend = 'h', map = 'world')
+#' # same plot but with projection and vertical legend
+#' pimage(lon, lat, tasmax[,,1], legend = 'v', map = 'world', 
+#'        proj = 'bonne', parameters = 45)
+#' # different projection
+#' pimage(lon, lat, tasmax[,,1], proj = 'albers',
+#'        parameters = c(33, 45), map = 'world')
+#' 
 #' reset.par() # reset graphics device
+#' # image plot for non-gridded data
 #' data(co, package = 'gear')
 #' pimage(co$longitude, co$latitude, co$Al)
 #' 
@@ -145,8 +154,7 @@
 #' # notice the poor axis labeling
 #' data(narccap)
 #' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-#'        parameters = 45,
-#'        map = 'world')
+#'        parameters = 45, map = 'world')
 #' # same plot but customize axis labeling 
 #' # need to extend horizontally-running axis lines
 #' # farther to the west and east
@@ -155,32 +163,22 @@
 #' # will need manual adjusting depending on size
 #' # of current device 
 #' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-#'        parameters = 45,
-#'        map = 'world', axes = FALSE)
-#' paxes(proj = 'bonne', 
-#'       xlim = range(lon), ylim = range(lat), 
-#'       xaxp = c(-200, 0, 10), 
-#'       yaxp = c(-10, 80, 9))
-#'       
+#'        parameters = 45, map = 'world', 
+#'        xaxp = c(-200, 0, 10), yaxp = c(-10, 80, 9))
+#' 
+#' # the same effect can be acheived by specifying axis.args
+#' # we also modify the color and size of the axis labels
 #' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-#'        parameters = 45,
-#'        map = 'world', axes = FALSE)       
-#' paxes(proj = 'bonne', 
-#'       xlim = range(lon), ylim = range(lat), 
-#'       axis.args = list(xat = seq(-200, 0, by = 20),
-#'                        yat = seq(0, 70, by = 10),
-#'                        col = "blue", col.axis = "blue", 
-#'                        cex.axis = 0.5))       
-#'       
-#' # slightly different projection
-#' pimage(lon, lat, tasmax[,,1], proj = 'albers',
-#'        parameters = c(33, 45), map = 'world')
-#'        
-#' # same image with different arguments
+#'        parameters = 45, map = 'world', 
+#'        axis.args = list(xat = seq(-200, 0, by = 20),
+#'                         yat = seq(0, 70, by = 10),
+#'                         col.axis = "blue", 
+#'                         cex.axis = 0.5))
+#' 
+#' # modify colors of legend, map, line type for grid lines
+#' # and customize axis
 #' pimage(lon, lat, tasmax[,,1], 
-#'        legend = 'vertical',
-#'        proj = 'bonne',
-#'        parameters = 45,
+#'        legend = 'v', proj = 'bonne', parameters = 45,
 #'        map = 'state',
 #'        paxes.args = list(lty = 3),
 #'        legend.axis.args = list(col = 'blue', col.axis = 'blue'),

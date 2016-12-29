@@ -116,7 +116,8 @@
 #' 
 #' # customize margins and lratio for large plot
 #' # also use projection
-#' # specify manual lines (though in this case it is the same as using map = 'world')
+#' # specify manual lines (though in this case it is the same as using 
+#' # map = 'world')
 #' data(worldMapEnv, package = 'maps')
 #' worldpoly <- maps::map('world', plot = FALSE)
 #' par(mar = c(1.1, 4.1, 2.1, 1.1))
