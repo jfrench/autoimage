@@ -1,3 +1,5 @@
+context("plines tests")
+
 test <- FALSE
 
 if (test) {

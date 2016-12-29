@@ -1,4 +1,11 @@
-pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none") {
+# Setup relevant arguments for plotting using the pimage function
+# Check arguments
+# Set various defaults
+# Project if necessary
+# Determine whether lines or points should be added
+pimage.setup <- function(xyz, legend = "none", proj = "none", 
+                         parameters = NULL, orientation = NULL,
+                         lratio = 0.2, map = "none") {
   x <- xyz$x
   y <- xyz$y
   z <- xyz$z
@@ -39,6 +46,8 @@ pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none") {
     }
   }
   
+  
+  
   # setup arguments for legend.scale function
   legend.scale.args <- list()
   # if(legend != 'none'){
@@ -52,9 +61,9 @@ pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none") {
   if (!is.null(arglist$breaks)) {
     legend.scale.args$breaks <- arglist$breaks
   }
-  legend.scale.args$axis.args <- arglist$axis.args
+  legend.scale.args$axis.args <- arglist$legend.axis.args
   # remove non-graphical argument from arglist
-  arglist$axis.args <- NULL
+  arglist$legend.axis.args <- NULL
   
   legend.mar <- arglist$legend.mar
   # remove non-graphical argument from arglist
@@ -90,10 +99,10 @@ pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none") {
   }
   if (!is.element(map, 
                   c("none", "county", "france", "nz", "state", 
-                    "usa", "world", "world2"))
+                    "usa", "world", "world2", "italy", "lakes"))
       ) {
-    # future maps to add 'china', 'japan', 'nzHires', 'rivers', 'world2Hires',
-    # 'worldHires'
+    # future maps to add 'china', 'japan', 'nzHires', 'rivers', 
+    # 'world2Hires', # 'worldHires'
     stop("invalid map choice")
   } else {
     if (map == "county") {
@@ -117,6 +126,12 @@ pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none") {
     } else if (map == "world2") {
         utils::data("world2MapEnv", package = "maps")
         arglist$lines <- maps::map("world2", plot = FALSE)
+    } else if (map == "italy") {
+      utils::data("italyMapEnv", package = "maps")
+      arglist$lines <- maps::map("italy", plot = FALSE)
+    } else if (map == "lakes") {
+      utils::data("lakesMapEnv", package = "maps")
+      arglist$lines <- maps::map("lakes", plot = FALSE)
     }
   }
   
@@ -176,6 +191,8 @@ pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none") {
   paxes.args$xaxp <- arglist$xaxp
   paxes.args$yaxp <- arglist$yaxp
   paxes.args$proj <- proj
+  paxes.args$axis.args <- arglist$axis.args
+  arglist$axis.args <- NULL
   
   if (is.null(arglist$axes)) {
     axes <- TRUE
@@ -186,8 +203,9 @@ pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none") {
   arglist$axes <- FALSE
   
   if (proj != "none") {
-    if (!is.list(proj.args)) 
-      stop("proj.args should be a list")
+    # if (!is.list(proj.args)) 
+    # stop("proj.args should be a list")
+    arglist$asp <- 1
     if (!is.matrix(x)) {
       x <- matrix(x, nrow = dim(z)[1], ncol = dim(z)[2])
     }
@@ -207,8 +225,10 @@ pimage.setup <- function(xyz, legend, proj, proj.args, lratio, map = "none") {
         c(x),
         c(y),
         projection = proj,
-        parameters = proj.args$parameters,
-        orientation = proj.args$orientation
+        parameters = parameters,
+        orientation = orientation
+        # parameters = proj.args$parameters,
+        # orientation = proj.args$orientation
       )
     x <- matrix(projectxy$x, nrow = nrow(x))
     y <- matrix(projectxy$y, nrow = nrow(y))

@@ -1,3 +1,5 @@
+context("arg.check.autoimage tests")
+
 tx <- ""
 ty <- ""
 arglist <- list()

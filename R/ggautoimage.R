@@ -17,8 +17,10 @@
 #' In that case, \code{proj} must correspond to one of the choices for
 #' the \code{projection} argument in the 
 #' \code{\link[mapproj]{mapproject}} function.  Necessary arguments
-#' for \code{\link[mapproj]{mapproject}} should be provided as a named
-#' list to the \code{proj.args} argument. See Examples.
+#' for \code{\link[mapproj]{mapproject}} should be provided through
+#' the \code{parameters} and \code{orientation} arguments. 
+#' See Examples or \code{\link[mapproj]{mapproject}} for more 
+#' details.
 #' 
 #' Lines can be added to each image by providing the \code{lines}
 #' argument.  In that case, \code{lines}
@@ -36,21 +38,13 @@
 #' should be a list with components \code{x} and \code{y} 
 #' specifying the locations to draw the points.
 #' 
+#' @inheritParams pimage
 #' @param x A numeric vector specifying the x coordinate locations.
 #' @param y A numeric vector specifying the y coordinate locations.
 #' @param z A numeric vector specifying the response for each (x,y)
 #' location.  
 #' @param f A factor variable distinguishing between different facets,
 #' i.e., the different images to be constructed.
-#' @param proj A character string indicating what projection should be
-#'   used for the included \code{x} and \code{y} coordinates.  The 
-#'   default is \code{'none'}.  The other valid choices correspond to
-#'   the \code{'projection'} argument in the
-#'   \code{\link[mapproj]{mapproject}} function, which is used for the
-#'   projection.
-#' @param proj.args A named list with arguments \code{parameters} and 
-#'   \code{orientation} corresponding to the arguments of the same
-#'   name in the \code{\link[mapproj]{mapproject}} function.
 #' @param lines A named list with components \code{x} and \code{y}
 #' specifiying the locations to be connected by lines.  Distinct
 #' lines should be separated by \code{NA} values.  See Details.
@@ -89,26 +83,27 @@
 #' ggautoimage(x, y, z, f, lines = lines, points = points)
 #' # project coordinates with national borders and U.S. capitals
 #' ggautoimage(x, y, z, f, lines = lines, points = points,
-#'             proj = "bonne", proj.args = list(parameters = 40))
+#'             proj = "bonne", parameters = 40)
 #' # finer interpolation grid
 #' ggautoimage(x, y, z, f, lines = lines, points = points,
 #'             interp.args = list(nx = 100, ny = 100))
 #' }
 #' @export
-ggautoimage <- function(x, y, z, f, proj = "none", proj.args,
-                        lines, points, interp.args) {
+ggautoimage <- function(x, y, z, f, proj = "none", parameters,
+                        orientation, lines, points, interp.args) {
   if (missing(f))
     factor(rep(1, length(x)))
-  if (missing(proj.args))
-    proj.args <- list()
+  if (missing(parameters))
+    parameters <- NULL
+  if (missing(orientation))
+    orientation <- NULL
   if (missing(interp.args))
     interp.args <- list()
   if (missing(lines))
     lines <- NULL
   if (missing(points))
     points <- NULL
-  arg.check.ggautoimage(x, y, z, f, proj, proj.args, lines, points,
-                        interp.args)
+  arg.check.ggautoimage(x, y, z, f, proj, lines, points, interp.args)
   df <- ggautoimage.xyz.setup(x, y, z, f, interp.args)
   p <- ggplot2::ggplot(df) + 
     ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = z)) +
@@ -129,8 +124,8 @@ ggautoimage <- function(x, y, z, f, proj = "none", proj.args,
   
   if (proj != "none") {
     p <- p + ggplot2::coord_map(project = proj, 
-                                parameters = proj.args$parameters, 
-                                orientation = proj.args$orientation)
+                                parameters = parameters, 
+                                orientation = orientation)
   }
   p
 }
@@ -147,11 +142,11 @@ ggautoimage.lines.setup <- function(x) {
 ggautoimage.points.setup <- function(x) {
   y <- x$y
   x <- x$x
-  pdf <- data.frame(x = x, y = y)
-  stats::na.omit(pdf)
+  pointsdf <- data.frame(x = x, y = y)
+  stats::na.omit(pointsdf)
 }
 
-arg.check.ggautoimage <- function(x, y, z, f, proj, proj.args, 
+arg.check.ggautoimage <- function(x, y, z, f, proj,  
                                   lines, points, interp.args) {
   if (!is.vector(x) | !is.vector(y) | !is.vector(z)) {
     stop("x, y, and z must be vectors")
@@ -173,9 +168,6 @@ arg.check.ggautoimage <- function(x, y, z, f, proj, proj.args,
   }
   if (!is.character(proj)) {
     stop("proj must be a single character string")
-  }
-  if (!is.list(proj.args)) {
-    stop("proj.args must be a list")
   }
   if (!is.list(interp.args)) {
     stop("interp.args must be a list")

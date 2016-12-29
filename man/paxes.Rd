@@ -4,7 +4,7 @@
 \alias{paxes}
 \title{Display axes for projected coordinates}
 \usage{
-paxes(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, ...)
+paxes(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, axis.args, ...)
 }
 \arguments{
 \item{proj}{A character string indicating what projection should be
@@ -31,6 +31,10 @@ between tick marks.  Overrides \code{ylim}.}
 \item{grid}{A logical value indicating whether grid lines should be
 displayed with the axes.  Default is \code{TRUE}.}
 
+\item{axis.args}{A named list with components matching the
+arguments of \code{\link[graphics]{axis}}.  See Details and 
+Examples.}
+
 \item{...}{Other arguments passed to the \code{[graphics]{lines}} 
 function used to plot the grid lines.}
 }
@@ -41,13 +45,23 @@ coordinates.
 \details{
 The \code{\link[mapproj]{mapproject}} function is used for
 projection.
+
+\code{axis.args} should be a named list matching the arguments
+of \code{\link[graphics]{axis}}.  The exception is that
+\code{xat} and \code{yat} can be specified to induce
+different spacing of the ticks on the x and y axes.  Thus,
+the \code{at} argument is ignored and replaced by \code{xat} and
+\code{yat}, as appropriate.
 }
 \examples{
 data(narccap)
 # plot image using mercator projection (w/o axes)
 pimage(lon, lat, tasmax[,,1], proj = 'mercator', axes = FALSE)
-# add axes with grey grid lines
-paxes('mercator', xlim = range(lon), ylim = range(lat), col = 'grey')
+# add axes with grey grid lines, blue text, and custom spacing
+paxes('mercator', xlim = range(lon), ylim = range(lat), 
+      col = 'grey', 
+      axis.args = list(col.axis = 'blue', 
+                       xat = c(-160, -100, -90, -80, -20)))
 }
 \seealso{
 \code{\link[graphics]{image}},

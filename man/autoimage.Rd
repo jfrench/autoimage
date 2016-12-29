@@ -4,9 +4,9 @@
 \alias{autoimage}
 \title{Automatic facetting of multiple projected images}
 \usage{
-autoimage(x, y, z, legend = "horizontal", proj = "none", proj.args,
-  lratio = 0.2, common.legend = TRUE, map = "none", size, outer.title,
-  ...)
+autoimage(x, y, z, legend = "horizontal", proj = "none", parameters,
+  orientation, lratio = 0.2, common.legend = TRUE, map = "none", size,
+  outer.title, ...)
 }
 \arguments{
 \item{x}{Locations of grid points at which the values in \code{z}
@@ -33,9 +33,15 @@ the \code{'projection'} argument in the
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
-\item{proj.args}{A named list with arguments \code{parameters} and 
-\code{orientation} corresponding to the arguments of the same
-name in the \code{\link[mapproj]{mapproject}} function.}
+\item{parameters}{A numeric vector specifying the values of the
+\code{parameters} argument in the 
+\code{\link[mapproj]{mapproject}}.  This may be necessary
+when \code{proj != "none"}.}
+
+\item{orientation}{A vector \code{c(latitude,longitude,rotation)}
+which describes where the "North Pole" should be when computing 
+the projection.  See \code{\link[mapproj]{mapproject}} for
+more details.}
 
 \item{lratio}{A numeric value indicating the ratio of the smaller
 dimension of the legend scale to the width of the image.  Default
@@ -49,8 +55,8 @@ separate legend is used for each image.}
 \item{map}{The name of the map to draw on the image. Default is
 \code{'none'}.  Other options include \code{'world'},
 \code{'usa'}, \code{'state'}, \code{'county'}, \code{'france'},
-\code{'nz'} (New Zealand), and \code{'world2'}, all from the
-\code{maps} package.}
+\code{'nz'} (New Zealand), \code{'italy'}, \code{'lakes'}, 
+and \code{'world2'}, all from the \code{maps} package.}
 
 \item{size}{A vector of length two indicating the number of rows 
 and columns that should be used for the series of image data in 
@@ -125,6 +131,26 @@ of the plotted points can be customized by passing
 a named list called \code{points.args} through \code{...}.
 The elements of \code{points.args} should match the 
 elements of \code{\link[graphics]{points}}.  See Examples.
+
+#' The legend scale can be modified by passing \code{legend.axis.args}
+through \code{...}.  The argument should be a named list
+corresponding to the arguments of the \code{\link[graphics]{axis}}
+function.  See Examples.
+
+The image axes can be modified by passing \code{axis.args}
+through \code{...}.  The argument should be a named list
+corresponding to the arguments of the \code{\link[graphics]{axis}}
+function.  The exception to this is that arguments \code{xat} 
+and \code{yat} can be specified (instead of \code{at}) to specify
+the location of the x and y ticks.  If \code{xat} or \code{yat}
+are specified, then this overrides the \code{xaxt} and \code{yaxt}
+arguments, respectively.  See the \code{\link[autoimage]{paxes}}
+function to see how \code{axis.args can be used.}
+
+The legend margin can be customized by passing \code{legend.mar}
+to \code{pimage} through \code{...}.  This should be a numeric
+vector indicating the margins of the legend, identical to how 
+\code{par('mar')} is specified.
 }
 \examples{
 data(narccap)
@@ -159,7 +185,7 @@ data(worldMapEnv, package = 'maps')
 worldpoly <- maps::map('world', plot = FALSE)
 par(mar = c(1.1, 4.1, 2.1, 1.1))
 autoimage(lon, lat, tasmax, lines = worldpoly, 
-          proj = 'bonne', proj.args = list(parameters = 40),
+          proj = 'bonne', parameters = 40,
           main = c('day 1', 'day 2', 'day 3', 'day 4', 'day 5'),
           ylab = '',
           axes = FALSE,

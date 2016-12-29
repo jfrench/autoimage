@@ -5,6 +5,14 @@
 #' 
 #' The \code{\link[mapproj]{mapproject}} function is used for
 #' projection.
+#' 
+#' \code{axis.args} should be a named list matching the arguments
+#' of \code{\link[graphics]{axis}}.  The exception is that
+#' \code{xat} and \code{yat} can be specified to induce
+#' different spacing of the ticks on the x and y axes.  Thus,
+#' the \code{at} argument is ignored and replaced by \code{xat} and
+#' \code{yat}, as appropriate.
+#' 
 #' @inheritParams pimage
 #' @param xlim A vector with the minimum and maximum value of the x
 #'   coordinates.  Taken from \code{par('usr')} if not provided.
@@ -18,6 +26,9 @@
 #'   between tick marks.  Overrides \code{ylim}.
 #' @param grid A logical value indicating whether grid lines should be
 #'   displayed with the axes.  Default is \code{TRUE}.
+#' @param axis.args A named list with components matching the
+#'   arguments of \code{\link[graphics]{axis}}.  See Details and 
+#'   Examples.
 #' @param ... Other arguments passed to the \code{[graphics]{lines}} 
 #'   function used to plot the grid lines.
 #' @seealso \code{\link[graphics]{image}},
@@ -27,10 +38,14 @@
 #' data(narccap)
 #' # plot image using mercator projection (w/o axes)
 #' pimage(lon, lat, tasmax[,,1], proj = 'mercator', axes = FALSE)
-#' # add axes with grey grid lines
-#' paxes('mercator', xlim = range(lon), ylim = range(lat), col = 'grey')
+#' # add axes with grey grid lines, blue text, and custom spacing
+#' paxes('mercator', xlim = range(lon), ylim = range(lat), 
+#'       col = 'grey', 
+#'       axis.args = list(col.axis = 'blue', 
+#'                        xat = c(-160, -100, -90, -80, -20)))
 #' @export
-paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, ...) {
+paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, 
+                  axis.args, ...) {
   if (missing(xlim)) 
     xlim <- par("usr")[1:2]
   if (missing(ylim)) 
@@ -39,6 +54,8 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, ...) {
     xaxp <- NULL
   if (missing(yaxp)) 
     yaxp <- NULL
+  if (missing(axis.args))
+    axis.args <- list()
   arg.check.paxes(proj, xlim, ylim, xaxp, yaxp, grid)
   
   # create axis ticks, pre projection
@@ -53,9 +70,26 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, ...) {
     yat <- base::pretty(ylim)
   }
   
+  if (!is.null(axis.args$xat)) {
+    xat <- axis.args$xat
+    axis.args$xat <- NULL
+  }
+  if (!is.null(axis.args$yat)) {
+    yat <- axis.args$yat
+    axis.args$yat <- NULL
+  }
+  
+  # function to call in do.call  
+  f <- graphics::axis
   if (proj == "none") {
-    graphics::axis(1, at = xat)
-    graphics::axis(2, at = yat)
+    axis.args$side = 1
+    axis.args$at <- xat
+    do.call(f, axis.args)
+    axis.args$side = 2
+    axis.args$at <- yat
+    do.call(f, axis.args)
+    # graphics::axis(1, at = xat)
+    # graphics::axis(2, at = yat)
   } else {
     # convert axis coordinates add grid lines, if desired
     xe <- numeric(length(xat))
@@ -79,8 +113,16 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, ...) {
       }
       ye[j] <- stats::spline(pyl$x, pyl$y, xout = par("usr")[1])$y
     }
-    graphics::axis(1, at = xe, labels = xat)
-    graphics::axis(2, at = ye, labels = yat)
+    axis.args$side = 1
+    axis.args$at <- xe
+    axis.args$labels <- xat 
+    do.call(f, axis.args)
+    axis.args$side = 2
+    axis.args$at <- ye
+    axis.args$labels <- yat
+    do.call(f, axis.args)
+    # graphics::axis(1, at = xe, labels = xat)
+    # graphics::axis(2, at = ye, labels = yat)
   }
   # add box to make things look normal
   box()

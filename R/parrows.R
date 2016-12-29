@@ -19,8 +19,7 @@
 #' data(narccap)
 #' # plot image using bonne projection (w/o grid lines)
 #' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-#'        proj.args = list(parameters = 40), 
-#'        paxes.args = list(grid = FALSE))
+#'        parameters = 40, paxes.args = list(grid = FALSE))
 #' # load some data for larger U.S. cities
 #' data(us.cities, package = 'maps')
 #' cityxy <- list(x = us.cities$long[1:5], y = us.cities$lat[1:5])

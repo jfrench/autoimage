@@ -31,8 +31,9 @@
 #' In that case, \code{proj} must correspond to one of the choices for
 #' the \code{projection} argument in the 
 #' \code{\link[mapproj]{mapproject}} function.  Necessary arguments
-#' for \code{\link[mapproj]{mapproject}} should be provided as a named
-#' list to the \code{proj.args} argument. See Examples.
+#' for \code{\link[mapproj]{mapproject}} should be provided via the
+#' \code{parameters} and \code{orientation} arguments. See Examples 
+#' and the \code{\link[mapproj]{mapproject}} function.
 #' 
 #' Valid options for \code{legend} are \code{'none'},
 #' \code{'horizontal'}, and \code{'vertical'}.  If \code{legend =
@@ -41,7 +42,7 @@
 #' \code{legend = 'vertical'}, then a color scale is added to the
 #' right of the image.
 #' 
-#' #' Lines can be added to each image by passing the \code{lines}
+#' Lines can be added to each image by passing the \code{lines}
 #' argument through \code{...}.  In that case, \code{lines}
 #' should be a list with components \code{x} and \code{y} 
 #' specifying the locations to draw the lines.  The appearance
@@ -59,6 +60,26 @@
 #' The elements of \code{points.args} should match the 
 #' elements of \code{\link[graphics]{points}}.  See Examples.
 #' 
+#' The legend scale can be modified by passing \code{legend.axis.args}
+#' through \code{...}.  The argument should be a named list
+#' corresponding to the arguments of the \code{\link[graphics]{axis}}
+#' function.  See Examples.
+#' 
+#' The image axes can be modified by passing \code{axis.args}
+#' through \code{...}.  The argument should be a named list
+#' corresponding to the arguments of the \code{\link[graphics]{axis}}
+#' function.  The exception to this is that arguments \code{xat} 
+#' and \code{yat} can be specified (instead of \code{at}) to specify
+#' the location of the x and y ticks.  If \code{xat} or \code{yat}
+#' are specified, then this overrides the \code{xaxt} and \code{yaxt}
+#' arguments, respectively.  See the \code{\link[autoimage]{paxes}}
+#' function to see how \code{axis.args can be used.}
+#' 
+#' The legend margin can be customized by passing \code{legend.mar}
+#' to \code{pimage} through \code{...}.  This should be a numeric
+#' vector indicating the margins of the legend, identical to how 
+#' \code{par('mar')} is specified.
+#' 
 #' @param x,y Locations of grid points at which the values in \code{z}
 #'   are measured.  The values must be finite and non-missing.  These 
 #'   arguments can be either vectors or matrices depending on the
@@ -74,17 +95,22 @@
 #'   the \code{'projection'} argument in the
 #'   \code{\link[mapproj]{mapproject}} function, which is used for the
 #'   projection.
-#' @param proj.args A named list with arguments \code{parameters} and 
-#'   \code{orientation} corresponding to the arguments of the same
-#'   name in the \code{\link[mapproj]{mapproject}} function.
+#' @param parameters A numeric vector specifying the values of the
+#'   \code{parameters} argument in the 
+#'   \code{\link[mapproj]{mapproject}}.  This may be necessary
+#'   when \code{proj != "none"}.
+#' @param orientation A vector \code{c(latitude,longitude,rotation)}
+#'   which describes where the "North Pole" should be when computing 
+#'   the projection.  See \code{\link[mapproj]{mapproject}} for
+#'   more details.
 #' @param lratio A numeric value indicating the ratio of the smaller
 #'   dimension of the legend scale to the width of the image.  Default
 #'   is \code{lratio = 0.2}.
 #' @param map The name of the map to draw on the image. Default is
 #'   \code{'none'}.  Other options include \code{'world'},
 #'   \code{'usa'}, \code{'state'}, \code{'county'}, \code{'france'},
-#'   \code{'nz'} (New Zealand), and \code{'world2'}, all from the
-#'   \code{maps} package.
+#'   \code{'nz'} (New Zealand), \code{'italy'}, \code{'lakes'}, 
+#'   and \code{'world2'}, all from the \code{maps} package.
 #' @param ... Additional arguments passed to the 
 #'   \code{\link[graphics]{image}} or \code{\link[fields]{poly.image}}
 #'   functions.  e.g., \code{xlab}, \code{ylab}, \code{xlim},
@@ -98,9 +124,8 @@
 #' @importFrom graphics axTicks axis box image layout par points lines
 #'   mtext
 #' @examples
-#' curpar <- par(no.readonly = TRUE)
 #' # image plot for data on an irregular grid
-#' par(curpar) # reset graphics device
+#' reset.par() # reset graphics device
 #' data(co, package = 'gear')
 #' pimage(co$longitude, co$latitude, co$Al)
 #' 
@@ -108,7 +133,6 @@
 #' # along with Colorado border
 #' data(copoly)
 #' copoints <- list(x = co$lon, y = co$lat)
-#' par(curpar) # reset graphics device
 #' pimage(co$longitude, co$latitude, co$Al, 
 #'        lines = copoly, 
 #'        lines.args = list(lwd = 2, col = 'grey'),
@@ -119,10 +143,9 @@
 #' 
 #' # image plot for data on irregular grid
 #' # notice the poor axis labeling
-#' par(curpar)
 #' data(narccap)
 #' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-#'        proj.args = list(parameters = 45),
+#'        parameters = 45,
 #'        map = 'world')
 #' # same plot but customize axis labeling 
 #' # need to extend horizontally-running axis lines
@@ -132,26 +155,35 @@
 #' # will need manual adjusting depending on size
 #' # of current device 
 #' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-#'        proj.args = list(parameters = 45),
+#'        parameters = 45,
 #'        map = 'world', axes = FALSE)
 #' paxes(proj = 'bonne', 
 #'       xlim = range(lon), ylim = range(lat), 
 #'       xaxp = c(-200, 0, 10), 
 #'       yaxp = c(-10, 80, 9))
-#' 
+#'       
+#' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
+#'        parameters = 45,
+#'        map = 'world', axes = FALSE)       
+#' paxes(proj = 'bonne', 
+#'       xlim = range(lon), ylim = range(lat), 
+#'       axis.args = list(xat = seq(-200, 0, by = 20),
+#'                        yat = seq(0, 70, by = 10),
+#'                        col = "blue", col.axis = "blue", 
+#'                        cex.axis = 0.5))       
+#'       
 #' # slightly different projection
 #' pimage(lon, lat, tasmax[,,1], proj = 'albers',
-#'        proj.args = list(parameters = c(33, 45)),
-#'        map = 'world')
+#'        parameters = c(33, 45), map = 'world')
 #'        
 #' # same image with different arguments
 #' pimage(lon, lat, tasmax[,,1], 
 #'        legend = 'vertical',
 #'        proj = 'bonne',
-#'        proj.args = list(parameters = 45),
+#'        parameters = 45,
 #'        map = 'state',
 #'        paxes.args = list(lty = 3),
-#'        axis.args = list(col = 'blue', col.axis = 'blue'),
+#'        legend.axis.args = list(col = 'blue', col.axis = 'blue'),
 #'        col = fields::tim.colors(64),
 #'        xlab = 'longitude',
 #'        ylab = 'latitude',
@@ -159,27 +191,26 @@
 #' reset.par() # reset graphics device
 #' @export
 pimage <- function(x, y, z, legend = "horizontal", proj = "none", 
-                   proj.args, lratio = 0.2, map = "none", ...) {
+                   parameters, orientation, lratio = 0.2, 
+                   map = "none", ...) {
   # determine current par values to restore later
-  if (missing(x)) 
-    x <- NULL
-  if (missing(y)) 
-    y <- NULL
-  if (missing(z)) 
-    z <- NULL
+  if (missing(x)) x <- NULL
+  if (missing(y)) y <- NULL
+  if (missing(z)) z <- NULL
+  if (missing(parameters)) parameters <- NULL
+  if (missing(orientation)) orientation <- NULL
   # obtain elements of ...
   arglist <- list(...)
-  tx <- ifelse(is.null(x), "", deparse(substitute(x)))
-  ty <- ifelse(is.null(y), "", deparse(substitute(y)))
-  if (proj != "none") 
-    arglist$asp <- 1
-  xyz <- pimage.xyz.setup(x, y, z, tx, ty, arglist)
-  # default proj.args
-  if (missing(proj.args)) 
-    proj.args <- list()
-  
+
+  # setup x, y, z for plotting
+  xyz <- pimage.xyz.setup(x = x, y = y, z = z, 
+                          tx = deparse(substitute(x)), 
+                          ty = deparse(substitute(y)), 
+                          arglist)
+
   # check/setup arguments for pimage
-  object <- pimage.setup(xyz, legend, proj, proj.args, lratio, map)
+  object <- pimage.setup(xyz, legend, proj, parameters, orientation, 
+                         lratio, map)
   if (legend != "none") {
     .legend.mar(object$legend.mar)
   }
@@ -188,8 +219,8 @@ pimage <- function(x, y, z, legend = "horizontal", proj = "none",
   if (legend == "none") {
     do.call(object$plotf, object$arglist)
   } else {
-    autolayout(size = c(1, 1), legend = legend, lratio = lratio, show = FALSE, 
-      reverse = TRUE)
+    autolayout(size = c(1, 1), legend = legend, lratio = lratio, 
+               show = FALSE, reverse = TRUE)
     autolegend()
     do.call(object$plotf, object$arglist)
   }

@@ -16,8 +16,7 @@
 #' data(narccap)
 #' # plot image using bonne projection (w/o grid lines)
 #' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-#'        proj.args = list(parameters = 40), 
-#'        paxes.args = list(col = 'grey'))
+#'        parameters = 40, paxes.args = list(col = 'grey'))
 #' # filled polygon for Colorado border
 #' data(copoly)
 #' ppolygon(copoly, proj = 'bonne', col = 'orange')

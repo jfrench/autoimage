@@ -1,3 +1,5 @@
+context("arg.check.autolayout tests")
+
 test_that("sanity checks for arg.check.autolayout arguments", {
   # checking size has proper dimensions
   expect_error(arg.check.autolayout(1, "none", TRUE, TRUE, 

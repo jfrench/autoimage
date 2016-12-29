@@ -1,8 +1,10 @@
+context("ppolygon tests")
+
 test <- FALSE
 
 if (test) {
   setwd("~")
-  pdf("test-polygon.pdf")
+  pdf("test-ppolygon.pdf")
   data(narccap)
   data(copoly)
   data(us.cities, package = "maps")

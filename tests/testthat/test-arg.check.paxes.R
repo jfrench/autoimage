@@ -1,3 +1,5 @@
+context("arg.check.paxes tests")
+
 test_that("sanity checks for arg.check.paxes arguments", {
   # check proj argument
   expect_error(arg.check.paxes(1:2, 1:2, 1:2, NULL, NULL, TRUE), 

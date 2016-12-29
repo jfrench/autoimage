@@ -2,6 +2,9 @@
 pimage.xyz.setup <- function(x, y, z, tx, ty, arglist) {
   # sort out x, y, z, labels, etc.  This is a revision of the beginning of
   # graphics::image
+  if(is.null(x)) tx <- ""
+  if(is.null(y)) ty <- ""
+  
   if (is.null(arglist$xlab)) {
     if (is.null(z)) {
       arglist$xlab <- ""

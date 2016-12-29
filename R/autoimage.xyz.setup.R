@@ -4,6 +4,9 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose,
                                 legend = "none") {
   # sort out x, y, z, labels, etc.  Part of this is a revision of the 
   # beginning of graphics::image
+  if(is.null(x)) tx <- ""
+  if(is.null(y)) ty <- ""
+  arglist$mtext.args <- NULL
   
   # sanity checiking
   if (length(verbose) != 1) {

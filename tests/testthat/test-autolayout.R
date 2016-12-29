@@ -1,3 +1,5 @@
+context("autolayout tests")
+
 # change test to TRUE to generate pdf in home directory pdf shows examples of
 # autolayout to ensure accuracy
 test <- FALSE
@@ -42,8 +44,4 @@ if (test) {
   autolayout(c(2, 2), legend = "h", lratio = 0.2, reverse = TRUE)
   dev.off()
 }
-
-# test_that('autolayout check',{ expect_warning(autolayout(c(2, 2), outer = TRUE))
-# par(oma = c(0, 0, 0, 0)) expect_warning(autolayout(c(2, 2), outer = TRUE, reverse
-# = TRUE)) par(oma = c(0, 0, 0, 0)) })
 TRUE

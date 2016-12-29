@@ -1,3 +1,5 @@
+context("rotate tests")
+
 # number of points to rotate
 n <- 20
 # random angle rotations

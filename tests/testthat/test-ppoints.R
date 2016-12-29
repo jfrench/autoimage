@@ -1,8 +1,10 @@
+context("ppolygon tests")
+
 test <- FALSE
 
 if (test) {
   setwd("~")
-  pdf("test-points.pdf")
+  pdf("test-ppoints.pdf")
   data(narccap)
   data(worldMapEnv, package = "maps")
   worldpoly <- maps::map("world", plot = FALSE)

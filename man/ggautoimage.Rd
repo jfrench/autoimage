@@ -4,7 +4,8 @@
 \alias{ggautoimage}
 \title{Display images using ggplot2}
 \usage{
-ggautoimage(x, y, z, f, proj = "none", proj.args, lines, points, interp.args)
+ggautoimage(x, y, z, f, proj = "none", parameters, orientation, lines, points,
+  interp.args)
 }
 \arguments{
 \item{x}{A numeric vector specifying the x coordinate locations.}
@@ -24,9 +25,15 @@ the \code{'projection'} argument in the
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
-\item{proj.args}{A named list with arguments \code{parameters} and 
-\code{orientation} corresponding to the arguments of the same
-name in the \code{\link[mapproj]{mapproject}} function.}
+\item{parameters}{A numeric vector specifying the values of the
+\code{parameters} argument in the 
+\code{\link[mapproj]{mapproject}}.  This may be necessary
+when \code{proj != "none"}.}
+
+\item{orientation}{A vector \code{c(latitude,longitude,rotation)}
+which describes where the "North Pole" should be when computing 
+the projection.  See \code{\link[mapproj]{mapproject}} for
+more details.}
 
 \item{lines}{A named list with components \code{x} and \code{y}
 specifiying the locations to be connected by lines.  Distinct
@@ -59,8 +66,10 @@ function is used to project the \code{x} and \code{y} coordinates.
 In that case, \code{proj} must correspond to one of the choices for
 the \code{projection} argument in the 
 \code{\link[mapproj]{mapproject}} function.  Necessary arguments
-for \code{\link[mapproj]{mapproject}} should be provided as a named
-list to the \code{proj.args} argument. See Examples.
+for \code{\link[mapproj]{mapproject}} should be provided through
+the \code{parameters} and \code{orientation} arguments. 
+See Examples or \code{\link[mapproj]{mapproject}} for more 
+details.
 
 Lines can be added to each image by providing the \code{lines}
 argument.  In that case, \code{lines}
@@ -101,7 +110,7 @@ ggautoimage(x, y, z, f)
 ggautoimage(x, y, z, f, lines = lines, points = points)
 # project coordinates with national borders and U.S. capitals
 ggautoimage(x, y, z, f, lines = lines, points = points,
-            proj = "bonne", proj.args = list(parameters = 40))
+            proj = "bonne", parameters = 40)
 # finer interpolation grid
 ggautoimage(x, y, z, f, lines = lines, points = points,
             interp.args = list(nx = 100, ny = 100))

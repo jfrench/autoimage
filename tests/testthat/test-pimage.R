@@ -1,3 +1,5 @@
+context("pimage tests")
+
 test <- FALSE
 
 if (test) {
@@ -31,17 +33,17 @@ if (test) {
          proj = "mercator", main = "with mercator proj")
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "bonne", 
-         proj.args = list(parameters = 45), 
+         parameters = 45, 
          main = "with bonne projection and lines")
   plines(worldpoly, proj = "bonne")
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "bonne",
-         proj.args = list(parameters = 45), 
+         parameters = 45, 
          main = "with bonne projection no grid", 
          paxes.args = list(grid = FALSE))
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "bonne", 
-         proj.args = list(parameters = 45), 
+         parameters = 45, 
          main = "with bonne projection dashed grey grid", 
          paxes.args = list(col = "grey", lty = 2))
   par(curpar)
@@ -62,11 +64,11 @@ if (test) {
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", 
          lratio = 0.5, main = "blue legend text", 
-         axis.args = list(col = "blue", col.axis = "blue", 
+         legend.axis.args = list(col = "blue", col.axis = "blue", 
                           at = seq(280, 320, 20)))
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", 
-         proj = "bonne", proj.args = list(parameters = 45), 
+         proj = "bonne", parameters = 45, 
          xlim = c(-130, -60), ylim = c(23, 50))
   plines(worldpoly, proj = "bonne")
   title("USA")
@@ -98,6 +100,31 @@ if (test) {
   par(curpar)
   pimage(lon + 300, lat - 80, z = tasmax[, , 1], map = "nz")
   title("narccap with new zealand borders")
+
+  par(curpar)
+  pimage(lon, lat, z = tasmax[, , 1], map = "lakes")
+  title("narccap with lakes")
+  
+  par(curpar)
+  pimage(lon + 100, lat, z = tasmax[, , 1], map = "italy")
+  title("narccap with italy")
+  
+  par(curpar)
+  pimage(lon, lat, z = tasmax[, , 1], 
+         axis.args = list(col.axis = "orange", cex.axis = 0.5))
+  title("orange, small axis")
+  
+  reset.par()
+  pimage(lon, lat, z = tasmax[, , 1], proj = "mercator", 
+         axis.args = list(xat = c(-160, -110, -80, -60, -40)))
+  title("custom spaced x axis")
+  
+  reset.par()
+  pimage(lon, lat, z = tasmax[, , 1], proj = "mercator", 
+         axis.args = list(yat = c(20, 40, 45, 70)), 
+         legend.axis.args = list(col = "blue", col.axis = "blue", 
+                                 at = seq(280, 320, 20)))
+  title("custom spaced y axis, legend axis")
   dev.off()
 }
 

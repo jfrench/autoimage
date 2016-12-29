@@ -25,18 +25,16 @@
 #' autolayout(c(1, 2), legend = 'h')
 #' pimage(lon, lat, tasmax[,,1], legend = 'none', map = 'world')
 #' pimage(lon, lat, tasmax[,,2], legend = 'none', map = 'usa', 
-#'        proj = 'bonne', proj.args = list(parameters = 40))
+#'        proj = 'bonne', parameters = 40)
 #' autolegend()
 #' 
 #' # separate legends with distinct lines
 #' autolayout(c(1, 2), legend = 'v', common.legend = FALSE)
 #' pimage(lon, lat, tasmax[,,1], legend = 'none', map = 'state',
-#'        proj = 'bonne', proj.args = list(parameters = 40), 
-#'        axes = FALSE)
+#'        proj = 'bonne', parameters = 40, axes = FALSE)
 #' autolegend()
 #' pimage(lon, lat, tasmax[,,2], legend = 'none', map = 'usa', 
-#'        proj = 'albers', proj.args = list(parameters = c(32, 45)), 
-#'        axes = FALSE)
+#'        proj = 'albers', parameters = c(32, 45), axes = FALSE)
 #' autolegend()
 #' par(curpar) # reset default options
 autolegend <- function() {

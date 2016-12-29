@@ -59,6 +59,27 @@
 #' a named list called \code{points.args} through \code{...}.
 #' The elements of \code{points.args} should match the 
 #' elements of \code{\link[graphics]{points}}.  See Examples.
+#' 
+#' #' The legend scale can be modified by passing \code{legend.axis.args}
+#' through \code{...}.  The argument should be a named list
+#' corresponding to the arguments of the \code{\link[graphics]{axis}}
+#' function.  See Examples.
+#' 
+#' The image axes can be modified by passing \code{axis.args}
+#' through \code{...}.  The argument should be a named list
+#' corresponding to the arguments of the \code{\link[graphics]{axis}}
+#' function.  The exception to this is that arguments \code{xat} 
+#' and \code{yat} can be specified (instead of \code{at}) to specify
+#' the location of the x and y ticks.  If \code{xat} or \code{yat}
+#' are specified, then this overrides the \code{xaxt} and \code{yaxt}
+#' arguments, respectively.  See the \code{\link[autoimage]{paxes}}
+#' function to see how \code{axis.args can be used.}
+#' 
+#' The legend margin can be customized by passing \code{legend.mar}
+#' to \code{pimage} through \code{...}.  This should be a numeric
+#' vector indicating the margins of the legend, identical to how 
+#' \code{par('mar')} is specified.
+#' 
 #' @inheritParams pimage
 #' @inheritParams autolayout
 #' @param outer.title A title related to all of the images that is plotted in the outer margin of the figure.
@@ -100,28 +121,26 @@
 #' worldpoly <- maps::map('world', plot = FALSE)
 #' par(mar = c(1.1, 4.1, 2.1, 1.1))
 #' autoimage(lon, lat, tasmax, lines = worldpoly, 
-#'           proj = 'bonne', proj.args = list(parameters = 40),
+#'           proj = 'bonne', parameters = 40,
 #'           main = c('day 1', 'day 2', 'day 3', 'day 4', 'day 5'),
 #'           ylab = '',
 #'           axes = FALSE,
 #'           lratio = 0.5)
 #' @export
 autoimage <- function(x, y, z, legend = "horizontal", proj = "none",
-                      proj.args, lratio = 0.2, common.legend = TRUE,
+                      parameters, orientation, lratio = 0.2, 
+                      common.legend = TRUE,
                       map = "none", size, outer.title, ...) {
   # obtain elements of ...
   arglist <- list(...)
   mtext.args <- arglist$mtext.args
-  arglist$mtext.args <- NULL
 
-  if (missing(proj.args)) 
-    proj.args <- list()
   # make compatible with old version
   if (!is.logical(legend)) {
     legend <- match.arg(legend, c("none", "horizontal", "vertical"))
   } 
   # attempt to match deprecated arguments
-  argmatch <- autoimage.match.old.args(legend, proj, proj.args, 
+  argmatch <- autoimage.match.old.args(legend, proj, list(), 
                                       lratio, arglist)
   legend <- argmatch$legend
   lratio <- argmatch$lratio
@@ -136,13 +155,18 @@ autoimage <- function(x, y, z, legend = "horizontal", proj = "none",
     z <- NULL
   if (missing(outer.title)) 
     outer.title <- NULL
+  if (missing(parameters)) parameters <- NULL
+  if (missing(orientation)) orientation <- NULL
   # deparse label names
-  tx <- ifelse(is.null(x), "", deparse(substitute(x)))
-  ty <- ifelse(is.null(y), "", deparse(substitute(y)))
+  # tx <- ifelse(is.null(x), "", deparse(substitute(x)))
+  # ty <- ifelse(is.null(y), "", deparse(substitute(y)))
   
   verbose <- FALSE  # some debugging stuff
   # setup x, y, z information
-  xyz.list <- autoimage.xyz.setup(x, y, z, tx, ty, arglist, verbose, 
+  xyz.list <- autoimage.xyz.setup(x, y, z, 
+                                  deparse(substitute(x)), 
+                                  deparse(substitute(x)), 
+                                  arglist, verbose, 
                                   common.legend, legend)
   ng <- length(xyz.list)  # number of grids
   # additional argument checking
@@ -167,7 +191,8 @@ autoimage <- function(x, y, z, legend = "horizontal", proj = "none",
     arglisti <- xyz.list[[i]]
     arglisti$legend <- "none"
     arglisti$proj <- proj
-    arglisti$proj.args <- proj.args
+    arglisti$parameters <- parameters
+    arglisti$orientation <- orientation
     arglisti$map <- map
     do.call("pimage", arglisti)
     if (!common.legend & legend != "none") {

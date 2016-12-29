@@ -42,8 +42,7 @@ projection.
 data(narccap)
 # plot image using bonne projection (w/o grid lines)
 pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-       proj.args = list(parameters = 40), 
-       paxes.args = list(grid = FALSE))
+       parameters = 40, paxes.args = list(grid = FALSE))
 # get national boundaries
 data(worldMapEnv, package = 'maps')
 worldpoly <- maps::map('world', plot = FALSE)

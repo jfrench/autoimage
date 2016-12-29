@@ -1,3 +1,5 @@
+context("arg.check.plines tests")
+
 test_that("sanity checks for arg.check.plines arguments", {
   # checking size has proper dimensions
   expect_error(arg.check.plines(list(x = 1), NULL, type = "l", 

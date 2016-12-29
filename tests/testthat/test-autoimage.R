@@ -1,23 +1,25 @@
-test <- TRUE
+context("autoimage tests")
+
+test <- FALSE
 
 if (test) {
   setwd("~")
   pdf("test-autoimage.pdf")
   data(narccap)
-  curpar <- par(no.readonly = TRUE)
   
-  data(narccap)
   # restructure data for 2 images
   tasmax2 <- tasmax[, , 1:2]
   
   # plot irregularly gridded images with separate legends and usa 
   # border
+  reset.par()
   autoimage(lon, lat, tasmax2, common.legend = FALSE, map = "usa", 
             main = "usa, h leg")
   
   # plot irregularly gridded images with common legend and world lines
   # customize
   # world lines add and customize title
+  reset.par()
   autoimage(lon, lat, tasmax2, map = "world", 
             lines.args = list(col = "white", lwd = 2), 
             outer.title = "with world white lines, v leg, big blue title", 
@@ -43,7 +45,7 @@ if (test) {
   worldpoly <- maps::map("world", plot = FALSE)
   par(mar = c(1.1, 4.1, 2.1, 1.1))
   autoimage(lon, lat, tasmax, lines = worldpoly, proj = "bonne", 
-            proj.args = list(parameters = 40), 
+            parameters = 40, 
             main = c("day 1", "day 2", "day 3", "day 4", "day 5"), 
             ylab = "", axes = FALSE, lratio = 0.5, 
             outer.title = "multiday, title, w/ proj, no axes, big legend")
@@ -53,10 +55,18 @@ if (test) {
   worldpoly <- maps::map("world", plot = FALSE)
   autoimage(lon, lat, tasmax, outer.title = "custom legend, color", 
             col = fields::tim.colors(64), 
-            axis.args = list(col.ticks = "blue", las = 2), 
+            legend.axis.args = list(col.axis = "blue", las = 2), 
             legend = "v", lratio = 0.3)
+  
+  reset.par()
+  data(worldMapEnv, package = "maps")
+  worldpoly <- maps::map("world", plot = FALSE)
+  autoimage(lon, lat, tasmax, outer.title = "custom axis color spacing", 
+            col = fields::tim.colors(64), 
+            axis.args = list(col.axis = "orange", 
+                             xat = c(-160, -80, -40)), 
+            legend = "v", lratio = 0.3)
+  reset.par()
   dev.off()
 }
-
-
 TRUE

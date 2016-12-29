@@ -1,3 +1,5 @@
+context("arg.check.ppolygon tests")
+
 test_that("sanity checks for arg.check.ppolygon arguments", {
   # checking size has proper dimensions
   expect_error(arg.check.ppolygon(list(x = 1), NULL, proj = "none"), 

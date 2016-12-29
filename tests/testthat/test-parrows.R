@@ -1,4 +1,5 @@
-# test <- TRUE
+context("parrows tests")
+
 test <- FALSE
 
 if (test) {
@@ -7,7 +8,7 @@ if (test) {
   data(narccap)
   # plot image using bonne projection (w/o grid lines)
   pimage(lon, lat, tasmax[, , 1], proj = "bonne", 
-         proj.args = list(parameters = 40),
+         parameters = 40,
          paxes.args = list(grid = FALSE))
   # some locations for u.s. cities taken from 
   # data(us.cities, package = 'maps')

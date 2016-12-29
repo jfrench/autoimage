@@ -1,0 +1,82 @@
+---
+title: "How to Use the **autoimage** package"
+author: "Joshua P. French"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to Use the **autoimage** package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The goal of the **autoimage** package is to easily plot a sequence of 
+images with corresponding color scales, i.e., a sequence of heatmaps, 
+with straightforward, native options for projection of geographical 
+coordinates.
+
+The package makes it simple to add lines and points
+to these image plots, even when the coordinates are projected. 
+
+The package allows for seamless plotting of gridded 
+data on a non-regular grid or even data that is not on a grid.
+
+## Examples
+
+The most important functions for the user are the `pimage` and 
+`autoimage` functions.  The `autoimage` function is a generalization
+of the `pimage` function, so we discuss the `pimage` function first.
+
+The most important arguments of the `pimage` function are `x`, 
+`y`, and `z`.  `z` is typically be a matrix-like object (i.e., an object
+with dimensions) like a matrix or a data frame and contains the
+values to be plotted.  `x` and `y` specify the coordinates at which `z`
+is measured.  If `z` is observed on a regular grid then `x` and `y`
+should be increasing sequences of values specifying the locations
+of grid lines at which the values of `z` are measured.  If `z` is observed
+on an irregular (i.e., rotated or projected grid) then `x` and `y`
+should be matrices with the `[i,j]` element of `x` and `y` specifying
+the location at which `z[i,j]` is observed.  If the values of `z`
+are not observed on a grid, then `x`, `y`, and `z` should be numeric
+vectors.  In this last case, the `akima::interp` function is used to
+interpolate the non-gridded data onto a grid before plotting.
+
+We begin illustrating the basic usage of the `pimage` function using data
+from the North American Regional Climate Change Assessment Program
+(NARCCAP, http://www.narccap.ucar.edu/).  Specifically, the data 
+are the maximum daily surface air temperature (K) (abbreviated tasmax) 
+for the five consecutive days of May 15, 2041 to May 19, 2041 simulated by the Weather Research and Forecasting model (WRFG) regional climate model forced by the Canadian Climate Centre (CGCM3) atmosphere-ocean general circular model.  The data set contains `lon`, a 140 $\times$ 115 matrix of longitude coordinates, `lat`, a 140 $\times$ 115 matrix of latitude coordinates, 
+and `tasmax`, a 140 $\times$ 115 $\times$ 5 array where each element 
+of the third dimension of the array corresponds to the `tasmax` measurements
+of the respective day.
+
+We create a basic image plot by providing `x`, `y`, and `z` to the `pimage` 
+function.
+
+```{r, include=FALSE}
+library(autoimage)
+```
+
+```{r, fig.height=5, fig.width=5}
+data(narccap)
+pimage(x = lon, y = lat, z = tasmax[,,1])
+```
+
+The orientation of the color scale can be changed by changing the
+`legend` argument.  The default is `legend = "horizontal"`.  The 
+color scale can be removed by specifying `legend = "none"` or rotated
+to a vertical orientation by specifying `legend = "vertical"`.
+
+```{r, fig.height=5, fig.width=5}
+pimage(x = lon, y = lat, z = tasmax[,,1], legend = "vertical")
+```
+
+The longitude and latitude coordinates can be projected before plotting
+by specifying the `proj` and `proj.args` arguments of `pimage`.  Prior
+to plotting, the coordinates are projected using the `mapproject` function in the
+**mapproj** package.  `proj` specifies the name of the projection to 
+utilize (the default is `'none'`) while `proj.args` is a named list
+with the relevant arguments of the `mapproj` function.  
+
+
+
+Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
