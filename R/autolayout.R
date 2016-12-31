@@ -81,27 +81,26 @@
 #' autolayout(c(2, 2), legend = 'h', lratio = 0.5)
 #' autolayout(c(2, 2), legend = 'h', lratio = 0.2)
 #' @export
-autolayout <- function(size, legend = "none", common.legend = TRUE, 
-                       lratio = 0.2, outer = FALSE, show = TRUE, 
-                       reverse = FALSE, legend.mar) {
+autolayout <- function(size, legend = "none", common.legend = TRUE, lratio = 0.2, 
+  outer = FALSE, show = TRUE, reverse = FALSE, legend.mar) {
   # match legend argument
   legend <- try(match.arg(legend, c("none", "horizontal", "vertical")), 
-                silent = TRUE)
+    silent = TRUE)
   # set legend margin values, if not specified
   if (missing(legend.mar)) 
     legend.mar <- automar(legend)
   # sanity check
-  arg.check.autolayout(size, legend, common.legend, outer, show, 
-                       lratio, reverse, legend.mar)
+  arg.check.autolayout(size, legend, common.legend, outer, show, lratio, 
+    reverse, legend.mar)
   # number of rows and columns desired
   ng <- prod(size)
   nr <- size[1]
   nc <- size[2]
-  # choose layout depending on whether a legend is required, and if
-  # so, whether the legend should be horizontal or vertical and
-  # whether the legend is common.  A common legend is plotted after
-  # all other plots, while individual legends are plotted after each
-  # respective plot.  setup if there is no legend
+  # choose layout depending on whether a legend is required, and if so,
+  # whether the legend should be horizontal or vertical and whether the
+  # legend is common.  A common legend is plotted after all other plots,
+  # while individual legends are plotted after each respective plot.
+  # setup if there is no legend
   if (legend == "none") {
     mat <- matrix(seq_len(ng), nrow = nr, byrow = TRUE)
     lheight <- rep(1, nr)  # common height for all panes
@@ -118,7 +117,7 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
           # first position make sure legend is in first position
           mat <- rbind(mat + 1, matrix(1, ncol = nc))
         }
-        lheight <- c(rep(1 / lratio, nr), 1)
+        lheight <- c(rep(1/lratio, nr), 1)
         lwidth <- c(rep(1, nc))
       } else {
         if (!reverse) {
@@ -129,7 +128,7 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
           mat <- cbind(mat + 1, matrix(1, nrow = nr))
         }
         lheight <- rep(1, nr)
-        lwidth <- c(rep(1 / lratio, nc), 1)
+        lwidth <- c(rep(1/lratio, nc), 1)
       }
     } else {
       # setup if the legend is not common horizontal legend
@@ -138,28 +137,28 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
         for (i in seq_len(nr)) {
           crow <- (i - 1) * 2 + 1
           if (!reverse) {
-          mat[crow, ] <- (i - 1) * nc * 2 + seq_len(nc) * 2 - 1
-          mat[crow + 1, ] <- (i - 1) * nc * 2 + seq_len(nc) * 2
+          mat[crow, ] <- (i - 1) * nc * 2 + seq_len(nc) * 2 - 
+            1
+          mat[crow + 1, ] <- (i - 1) * nc * 2 + seq_len(nc) * 
+            2
           } else {
           mat[crow, ] <- (i - 1) * nc * 2 + seq_len(nc) * 2
-          mat[crow + 1, ] <- (i - 1) * nc * 2 + seq_len(nc) * 2 - 1
+          mat[crow + 1, ] <- (i - 1) * nc * 2 + seq_len(nc) * 
+            2 - 1
           }
         }
-        lheight <- c(rep(c(1 / lratio, 1), nr))
+        lheight <- c(rep(c(1/lratio, 1), nr))
         lwidth <- c(rep(1, nc))
       } else {
         # vertical legend
         mat <- matrix(1:(2 * ng), nrow = nr, ncol = 2 * nc, byrow = TRUE)
         if (reverse) {
-          mat <-
-            matrix(1:(2 * ng), nrow = nr, ncol = 2 * nc, byrow = TRUE) +
-            matrix(
-              rep(c(1, -1), length = ng), nrow = nr, ncol = 2 * nc,
-              byrow = TRUE
-            )
+          mat <- matrix(1:(2 * ng), nrow = nr, ncol = 2 * nc, byrow = TRUE) + 
+          matrix(rep(c(1, -1), length = ng), nrow = nr, ncol = 2 * 
+            nc, byrow = TRUE)
         }
         lheight <- rep(1, nr)
-        lwidth <- c(rep(c(1 / lratio, 1), nc))
+        lwidth <- c(rep(c(1/lratio, 1), nc))
       }
     }
   }
@@ -169,7 +168,7 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
     # make sure there's room for outer title
     if (max(oma) == 0) {
       warning("There is no room in the outer margin for an outer title.
-              Setting par(oma = c(0, 0, 3, 0)).")
+  Setting par(oma = c(0, 0, 3, 0)).")
       graphics::par(oma = c(0, 0, 3, 0))
     }
   }
@@ -183,9 +182,8 @@ autolayout <- function(size, legend = "none", common.legend = TRUE,
   }
 }
 
-arg.check.autolayout <- function(size, legend, common.legend, outer, 
-                                 show, lratio, reverse, 
-                                 legend.mar = graphics::par("mar")) {
+arg.check.autolayout <- function(size, legend, common.legend, outer, show, 
+  lratio, reverse, legend.mar = graphics::par("mar")) {
   if (length(size) != 2) {
     stop("size should be a vector of length 2")
   }

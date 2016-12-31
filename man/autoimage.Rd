@@ -11,13 +11,13 @@ autoimage(x, y, z, legend = "horizontal", proj = "none", parameters,
 \arguments{
 \item{x}{Locations of grid points at which the values in \code{z}
 are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors or matrices depending on the
-type of data to be displayed.  See Details.}
+arguments can be either vectors or matrices depending on the type
+of data to be displayed.  See Details.}
 
 \item{y}{Locations of grid points at which the values in \code{z}
 are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors or matrices depending on the
-type of data to be displayed.  See Details.}
+arguments can be either vectors or matrices depending on the type
+of data to be displayed.  See Details.}
 
 \item{z}{A numeric or logical vector or matrix containing the 
 values to be plotted (NAs are allowed).}
@@ -28,22 +28,22 @@ valid options are \code{'none'} and \code{'vertical'}.}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to
-the \code{'projection'} argument in the
+default is \code{'none'}.  The other valid choices correspond to 
+the \code{'projection'} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
-\item{parameters}{A numeric vector specifying the values of the
+\item{parameters}{A numeric vector specifying the values of the 
 \code{parameters} argument in the 
-\code{\link[mapproj]{mapproject}}.  This may be necessary
-when \code{proj != "none"}.}
+\code{\link[mapproj]{mapproject}}.  This may be necessary when
+\code{proj != 'none'}.}
 
-\item{orientation}{A vector \code{c(latitude,longitude,rotation)}
-which describes where the "North Pole" should be when computing 
-the projection.  See \code{\link[mapproj]{mapproject}} for
-more details.}
+\item{orientation}{A vector \code{c(latitude,longitude,rotation)} 
+which describes where the 'North Pole' should be when computing 
+the projection.  See \code{\link[mapproj]{mapproject}} for more
+details.}
 
-\item{lratio}{A numeric value indicating the ratio of the smaller
+\item{lratio}{A numeric value indicating the ratio of the smaller 
 dimension of the legend scale to the width of the image.  Default
 is \code{lratio = 0.2}.}
 
@@ -52,11 +52,11 @@ legend scale should be used for all images provided in the
 \code{z} array.  Default is \code{TRUE}.  If \code{FALSE}, a
 separate legend is used for each image.}
 
-\item{map}{The name of the map to draw on the image. Default is
-\code{'none'}.  Other options include \code{'world'},
-\code{'usa'}, \code{'state'}, \code{'county'}, \code{'france'},
-\code{'nz'} (New Zealand), \code{'italy'}, \code{'lakes'}, 
-and \code{'world2'}, all from the \code{maps} package.}
+\item{map}{The name of the map to draw on the image. Default is 
+\code{'none'}.  Other options include \code{'world'}, 
+\code{'usa'}, \code{'state'}, \code{'county'}, \code{'france'}, 
+\code{'nz'} (New Zealand), \code{'italy'}, \code{'lakes'}, and
+\code{'world2'}, all from the \code{maps} package.}
 
 \item{size}{A vector of length two indicating the number of rows 
 and columns that should be used for the series of image data in 
@@ -180,7 +180,8 @@ autoimage(co$lon, co$lat, co[,c('Al', 'Ca')], common.legend = FALSE,
 
 # customize margins and lratio for large plot
 # also use projection
-# specify manual lines (though in this case it is the same as using map = 'world')
+# specify manual lines (though in this case it is the same as using 
+# map = 'world')
 data(worldMapEnv, package = 'maps')
 worldpoly <- maps::map('world', plot = FALSE)
 par(mar = c(1.1, 4.1, 2.1, 1.1))

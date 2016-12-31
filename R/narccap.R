@@ -28,4 +28,3 @@
 #'   assessment program for North America. EOS, Vol. 90, No. 36, 8
 #'   September 2009, pp. 311-312.
 NULL
-TRUE

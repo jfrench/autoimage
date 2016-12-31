@@ -66,12 +66,12 @@
 #' x <- rep(c(lon), 2)
 #' y <- rep(c(lat), 2)
 #' z <- c(tasmax[, , 1:2])
-#' f <- factor(rep(c("day 1", "day 2"), each = length(lon)))
+#' f <- factor(rep(c('day 1', 'day 2'), each = length(lon)))
 #' # load national borders
-#' data("worldMapEnv", package = "maps")
-#' lines <- maps::map("world", plot = FALSE)
+#' data('worldMapEnv', package = 'maps')
+#' lines <- maps::map('world', plot = FALSE)
 #' # obtain us captial cities
-#' data(us.cities, package = "maps")
+#' data(us.cities, package = 'maps')
 #' cap <- us.cities[us.cities$capital == 2, ]
 #' # convert to list format
 #' points <- list(x = cap$lon, y = cap$lat)
@@ -83,49 +83,45 @@
 #' ggautoimage(x, y, z, f, lines = lines, points = points)
 #' # project coordinates with national borders and U.S. capitals
 #' ggautoimage(x, y, z, f, lines = lines, points = points,
-#'             proj = "bonne", parameters = 40)
+#'             proj = 'bonne', parameters = 40)
 #' # finer interpolation grid
 #' ggautoimage(x, y, z, f, lines = lines, points = points,
 #'             interp.args = list(nx = 100, ny = 100))
 #' }
 #' @export
-ggautoimage <- function(x, y, z, f, proj = "none", parameters,
-                        orientation, lines, points, interp.args) {
-  if (missing(f))
+ggautoimage <- function(x, y, z, f, proj = "none", parameters, orientation, 
+  lines, points, interp.args) {
+  if (missing(f)) 
     factor(rep(1, length(x)))
-  if (missing(parameters))
+  if (missing(parameters)) 
     parameters <- NULL
-  if (missing(orientation))
+  if (missing(orientation)) 
     orientation <- NULL
-  if (missing(interp.args))
+  if (missing(interp.args)) 
     interp.args <- list()
-  if (missing(lines))
+  if (missing(lines)) 
     lines <- NULL
-  if (missing(points))
+  if (missing(points)) 
     points <- NULL
   arg.check.ggautoimage(x, y, z, f, proj, lines, points, interp.args)
   df <- ggautoimage.xyz.setup(x, y, z, f, interp.args)
-  p <- ggplot2::ggplot(df) + 
-    ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = z)) +
-    ggplot2::facet_wrap( ~ f) + ggplot2::xlim(min(df$x), max(df$x)) +
-    ggplot2::ylim(min(df$y), max(df$y))
+  p <- ggplot2::ggplot(df) + ggplot2::geom_tile(ggplot2::aes(x = x, y = y, 
+    fill = z)) + ggplot2::facet_wrap(~f) + ggplot2::xlim(min(df$x), 
+    max(df$x)) + ggplot2::ylim(min(df$y), max(df$y))
   
   if (!is.null(lines)) {
     linesdf <- ggautoimage.lines.setup(lines)
-    p <- p + ggplot2::geom_path(ggplot2::aes(x = x, y = y), 
-                                 data = linesdf)
+    p <- p + ggplot2::geom_path(ggplot2::aes(x = x, y = y), data = linesdf)
   }
   
   if (!is.null(points)) {
     pointsdf <- ggautoimage.points.setup(points)
-    p <- p + ggplot2::geom_point(ggplot2::aes(x = x, y = y), 
-                                 data = pointsdf)
+    p <- p + ggplot2::geom_point(ggplot2::aes(x = x, y = y), data = pointsdf)
   }
   
   if (proj != "none") {
-    p <- p + ggplot2::coord_map(project = proj, 
-                                parameters = parameters, 
-                                orientation = orientation)
+    p <- p + ggplot2::coord_map(project = proj, parameters = parameters, 
+      orientation = orientation)
   }
   p
 }
@@ -146,8 +142,7 @@ ggautoimage.points.setup <- function(x) {
   stats::na.omit(pointsdf)
 }
 
-arg.check.ggautoimage <- function(x, y, z, f, proj,  
-                                  lines, points, interp.args) {
+arg.check.ggautoimage <- function(x, y, z, f, proj, lines, points, interp.args) {
   if (!is.vector(x) | !is.vector(y) | !is.vector(z)) {
     stop("x, y, and z must be vectors")
   }

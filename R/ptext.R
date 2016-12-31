@@ -18,17 +18,17 @@
 #' @examples
 #' data(narccap)
 #' # plot image using bonne projection (w/o grid lines)
-#' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
+#' pimage(lon, lat, tasmax[,,1], proj = "bonne",
 #'        parameters = 40, paxes.args = list(grid = FALSE))
 #' # get national boundaries
-#' data(worldMapEnv, package = 'maps')
-#' worldpoly <- maps::map('world', plot = FALSE)
-#' plines(worldpoly, proj = 'bonne')
+#' data(worldMapEnv, package = "maps")
+#' worldpoly <- maps::map("world", plot = FALSE)
+#' plines(worldpoly, proj = "bonne")
 #' # add U.S. city names to existing plot
-#' data(us.cities, package = 'maps')
+#' data(us.cities, package = "maps")
 #' citysmall <- head(us.cities)
 #' ptext(x = citysmall$lon, y = citysmall$lat, 
-#'       labels = citysmall$name, proj = 'bonne')
+#'       labels = citysmall$name, proj = "bonne")
 #' @export
 ptext <- function(x, y = NULL, labels, proj, ...) {
   labels <- as.character(labels)
@@ -85,7 +85,7 @@ arg.check.ptext <- function(x, y, labels, proj, arglist) {
     p <- try(mapproj::.Last.projection(), silent = TRUE)
     if (class(p) == "try-error") {
       stop("No projection has been used in current plot.
-           Specify 'proj' in pimage or autoimage function.")
+   Specify \"proj\" in pimage or autoimage function.")
     } else {
       if (p$projection != proj) {
         stop("proj and last projection used do not match")

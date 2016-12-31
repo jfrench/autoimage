@@ -1,11 +1,8 @@
-# Setup relevant arguments for plotting using the pimage function
-# Check arguments
-# Set various defaults
-# Project if necessary
-# Determine whether lines or points should be added
-pimage.setup <- function(xyz, legend = "none", proj = "none", 
-                         parameters = NULL, orientation = NULL,
-                         lratio = 0.2, map = "none") {
+# Setup relevant arguments for plotting using the pimage function Check
+# arguments Set various defaults Project if necessary Determine whether
+# lines or points should be added
+pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL, 
+  orientation = NULL, lratio = 0.2, map = "none") {
   x <- xyz$x
   y <- xyz$y
   z <- xyz$z
@@ -18,13 +15,13 @@ pimage.setup <- function(xyz, legend = "none", proj = "none",
   }
   # match legend argument
   legend <- try(match.arg(legend, c("none", "horizontal", "vertical")), 
-                silent = TRUE)
+    silent = TRUE)
   if (length(legend) != 1) {
     stop("legend should be a single logical value")
   }
   if (class(legend) == "try-error") {
     stop("invalid legend argument.  
-         legend should be \"none\", \"horizontal\", or \"vertical\".")
+   legend should be \"none\", \"horizontal\", or \"vertical\".")
   }
   if (length(lratio) != 1) {
     stop("lratio should be a positive number")
@@ -50,7 +47,7 @@ pimage.setup <- function(xyz, legend = "none", proj = "none",
   
   # setup arguments for legend.scale function
   legend.scale.args <- list()
-  # if(legend != 'none'){
+  # if(legend != "none"){
   legend.scale.args$zlim <- arglist$zlim
   if (is.null(arglist$zlim)) {
     arglist$zlim <- range(z, na.rm = TRUE)
@@ -97,12 +94,10 @@ pimage.setup <- function(xyz, legend = "none", proj = "none",
   if (!is.character(map)) {
     stop("map should be a single character string")
   }
-  if (!is.element(map, 
-                  c("none", "county", "france", "nz", "state", 
-                    "usa", "world", "world2", "italy", "lakes"))
-      ) {
-    # future maps to add 'china', 'japan', 'nzHires', 'rivers', 
-    # 'world2Hires', # 'worldHires'
+  if (!is.element(map, c("none", "county", "france", "nz", "state", "usa", 
+    "world", "world2", "italy", "lakes"))) {
+    # future maps to add "china", "japan", "nzHires", "rivers",
+    # "world2Hires", # "worldHires"
     stop("invalid map choice")
   } else {
     if (map == "county") {
@@ -124,8 +119,8 @@ pimage.setup <- function(xyz, legend = "none", proj = "none",
       utils::data("worldMapEnv", package = "maps")
       arglist$lines <- maps::map("world", plot = FALSE)
     } else if (map == "world2") {
-        utils::data("world2MapEnv", package = "maps")
-        arglist$lines <- maps::map("world2", plot = FALSE)
+      utils::data("world2MapEnv", package = "maps")
+      arglist$lines <- maps::map("world2", plot = FALSE)
     } else if (map == "italy") {
       utils::data("italyMapEnv", package = "maps")
       arglist$lines <- maps::map("italy", plot = FALSE)
@@ -203,8 +198,7 @@ pimage.setup <- function(xyz, legend = "none", proj = "none",
   arglist$axes <- FALSE
   
   if (proj != "none") {
-    # if (!is.list(proj.args)) 
-    # stop("proj.args should be a list")
+    # if (!is.list(proj.args)) stop("proj.args should be a list")
     arglist$asp <- 1
     if (!is.matrix(x)) {
       x <- matrix(x, nrow = dim(z)[1], ncol = dim(z)[2])
@@ -215,21 +209,11 @@ pimage.setup <- function(xyz, legend = "none", proj = "none",
     xv <- c(x)
     yv <- c(y)
     
-    which.in <-
-      which(xv >= arglist$xlim[1] &
-              xv <= arglist$xlim[2] & yv >= arglist$ylim[1] &
-              yv <= arglist$ylim[2])
+    which.in <- which(xv >= arglist$xlim[1] & xv <= arglist$xlim[2] & 
+      yv >= arglist$ylim[1] & yv <= arglist$ylim[2])
     
-    projectxy <-
-      mapproj::mapproject(
-        c(x),
-        c(y),
-        projection = proj,
-        parameters = parameters,
-        orientation = orientation
-        # parameters = proj.args$parameters,
-        # orientation = proj.args$orientation
-      )
+    projectxy <- mapproj::mapproject(c(x), c(y), projection = proj, 
+      parameters = parameters, orientation = orientation)
     x <- matrix(projectxy$x, nrow = nrow(x))
     y <- matrix(projectxy$y, nrow = nrow(y))
     arglist$xlim <- range(x[which.in])
@@ -247,21 +231,9 @@ pimage.setup <- function(xyz, legend = "none", proj = "none",
   arglist$y <- y
   arglist$z <- z
   
-  object <-
-    list(
-      plotf = plotf,
-      arglist = arglist,
-      legend = legend,
-      legend.scale.args = legend.scale.args,
-      legend.mar = legend.mar,
-      proj = proj,
-      points = points,
-      points.args = points.args,
-      lines = lines,
-      lines.args = lines.args,
-      axes = axes,
-      paxes.args = paxes.args
-    )
+  object <- list(plotf = plotf, arglist = arglist, legend = legend, legend.scale.args = legend.scale.args, 
+    legend.mar = legend.mar, proj = proj, points = points, points.args = points.args, 
+    lines = lines, lines.args = lines.args, axes = axes, paxes.args = paxes.args)
   return(object)
 }
 TRUE

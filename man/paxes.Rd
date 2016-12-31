@@ -9,16 +9,16 @@ paxes(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, axis.args, ...)
 \arguments{
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to
-the \code{'projection'} argument in the
+default is \code{'none'}.  The other valid choices correspond to 
+the \code{'projection'} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
 \item{xlim}{A vector with the minimum and maximum value of the x
-coordinates.  Taken from \code{par('usr')} if not provided.}
+coordinates.  Taken from \code{par("usr")} if not provided.}
 
 \item{ylim}{A vector with the minimum and maximum value of the y
-coordinates.  Taken from \code{par('usr')} if not provided.}
+coordinates.  Taken from \code{par("usr")} if not provided.}
 
 \item{xaxp}{A vector of the form \code{c(x1, x2, n)} giving the 
 coordinates of the extreme tick marks and the number of intervals
@@ -56,11 +56,11 @@ the \code{at} argument is ignored and replaced by \code{xat} and
 \examples{
 data(narccap)
 # plot image using mercator projection (w/o axes)
-pimage(lon, lat, tasmax[,,1], proj = 'mercator', axes = FALSE)
+pimage(lon, lat, tasmax[,,1], proj = "mercator", axes = FALSE)
 # add axes with grey grid lines, blue text, and custom spacing
-paxes('mercator', xlim = range(lon), ylim = range(lat), 
-      col = 'grey', 
-      axis.args = list(col.axis = 'blue', 
+paxes("mercator", xlim = range(lon), ylim = range(lat), 
+      col = "grey", 
+      axis.args = list(col.axis = "blue", 
                        xat = c(-160, -100, -90, -80, -20)))
 }
 \seealso{

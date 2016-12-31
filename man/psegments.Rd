@@ -13,8 +13,8 @@ psegments(x0, y0, x1 = x0, y1 = y0, proj, ...)
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to
-the \code{'projection'} argument in the
+default is \code{'none'}.  The other valid choices correspond to 
+the \code{'projection'} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 

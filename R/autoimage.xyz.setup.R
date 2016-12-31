@@ -1,11 +1,12 @@
 # sorts out x, y, and z for autoimage function
-autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose, 
-                                common.legend = FALSE, 
-                                legend = "none") {
-  # sort out x, y, z, labels, etc.  Part of this is a revision of the 
+autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose, common.legend = FALSE, 
+  legend = "none") {
+  # sort out x, y, z, labels, etc.  Part of this is a revision of the
   # beginning of graphics::image
-  if(is.null(x)) tx <- ""
-  if(is.null(y)) ty <- ""
+  if (is.null(x)) 
+    tx <- ""
+  if (is.null(y)) 
+    ty <- ""
   arglist$mtext.args <- NULL
   
   # sanity checiking
@@ -55,7 +56,7 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose,
         if (is.null(y)) 
           y <- seq.int(0, 1, length.out = ncol(z))
       }
-    } else stop("no 'z' matrix specified")
+    } else stop("no \"z\" matrix specified")
   } else if (is.list(x)) {
     y <- x$y
     x <- x$x
@@ -99,9 +100,9 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose,
     if (is.null(y)) 
       y <- seq.int(0, 1, length.out = ncol(z))
     
-    # if z is matrix or array, make sure x is a matrix of same
-    # dimension or has correct spacing for regular grid or has
-    # irregularly spaced coordinates of proper dimension
+    # if z is matrix or array, make sure x is a matrix of same dimension or
+    # has correct spacing for regular grid or has irregularly spaced
+    # coordinates of proper dimension
     
     if (!is.matrix(x)) {
       if (length(x) != nrow(z)) {
@@ -126,7 +127,8 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose,
     }
   }
   
-  # determine third dimension of z and the type of plot that will be constructed
+  # determine third dimension of z and the type of plot that will be
+  # constructed
   if (is.matrix(z)) {
     if (is.matrix(x)) {
       xyz.list <- vector("list", 1)
@@ -151,8 +153,9 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose,
       # set main and zlim
       main <- rep(NULL, ncol(z))
       if (!is.null(arglist$main)) {
-        if (ncol(z) != length(arglist$main) & length(arglist$main) != 1) {
-          stop("length of main doesn't match number of images to construct")
+        if (ncol(z) != length(arglist$main) & length(arglist$main) != 
+          1) {
+          stop("length of main doesn not match number of images to construct")
         }
         if (length(arglist$main) == 1) {
           main <- rep(arglist$main, ncol(z))
@@ -164,7 +167,7 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose,
       if (!is.null(arglist$zlim)) {
         if (is.list(arglist$zlim)) {
           if (ncol(z) != length(arglist$zlim)) {
-          stop("length of zlim doesn't match number of images to construct")
+          stop("length of zlim does not match number of images to construct")
           }
           zlim <- arglist$zlim
         } else {
@@ -192,7 +195,7 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose,
     main <- rep(NULL, n3)
     if (!is.null(arglist$main)) {
       if (n3 != length(arglist$main) & length(arglist$main) != 1) {
-        stop("length of main doesn't match number of images to construct")
+        stop("length of main does not match number of images to construct")
       }
       if (length(arglist$main) == 1) {
         main <- rep(arglist$main, ncol(z))
@@ -204,7 +207,7 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose,
     if (!is.null(arglist$zlim)) {
       if (is.list(arglist$zlim)) {
         if (n3 != length(arglist$zlim)) {
-          stop("length of zlim doesn't match number of images to construct")
+          stop("length of zlim does not match number of images to construct")
         }
         zlim <- arglist$zlim
       } else {

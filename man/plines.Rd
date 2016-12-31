@@ -11,16 +11,16 @@ plines(x, y = NULL, type = "l", proj, ...)
 
 \item{y}{Locations of grid points at which the values in \code{z}
 are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors or matrices depending on the
-type of data to be displayed.  See Details.}
+arguments can be either vectors or matrices depending on the type
+of data to be displayed.  See Details.}
 
 \item{type}{character indicating the type of plotting; actually any of
     the \code{type}s as in \code{\link{plot.default}}.}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to
-the \code{'projection'} argument in the
+default is \code{'none'}.  The other valid choices correspond to 
+the \code{'projection'} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 

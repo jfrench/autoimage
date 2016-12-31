@@ -7,9 +7,7 @@ if (test) {
   pdf("test-psegments.pdf")
   data(narccap)
   # plot image using bonne projection (w/o grid lines)
-  pimage(lon, lat, tasmax[, , 1], proj = "bonne",
-         parameters = 40,
-         paxes.args = list(grid = FALSE))
+  pimage(lon, lat, tasmax[, , 1], proj = "bonne", parameters = 40, paxes.args = list(grid = FALSE))
   # some locations for u.s. cities taken from
   boston <- c(-71.02, 42.34)
   la <- c(-118.41, 34.11)

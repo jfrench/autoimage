@@ -27,7 +27,6 @@
 #'   written by Marc Taylor and discussed at 
 #'   \url{http://menugget.blogspot.com/2013/12/new-version-of-imagescale-function.html}.
 #'   
-#'   
 #' @seealso \code{\link[graphics]{image}}, 
 #'   \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
 #' @importFrom graphics axis
@@ -64,8 +63,8 @@
 #' log.axis <- list(at = 0:6, labels = 10^(0:6), las = 2)
 #' legend.scale(c(0, 6), col = heat.colors(6), axis.args = log.axis)
 #' @export
-legend.scale <- function(zlim, col = viridis::viridis(12), 
-                         horizontal = TRUE, breaks, axis.args) {
+legend.scale <- function(zlim, col = viridis::viridis(12), horizontal = TRUE, 
+  breaks, axis.args) {
   if (missing(axis.args)) 
     axis.args <- list()
   if (missing(breaks)) 
@@ -88,8 +87,7 @@ legend.scale <- function(zlim, col = viridis::viridis(12),
   ncol <- length(col)
   
   # middle of breaks
-  z <- matrix( (utils::head(breaks, ncol) + 
-                utils::tail(breaks, ncol)) / 2)
+  z <- matrix((utils::head(breaks, ncol) + utils::tail(breaks, ncol))/2)
   
   if (horizontal) {
     x <- breaks
@@ -100,8 +98,8 @@ legend.scale <- function(zlim, col = viridis::viridis(12),
     z <- t(z)
   }
   
-  graphics::image(x, y, z, xaxt = "n", yaxt = "n", xlab = "", 
-                  ylab = "", col = col, breaks = breaks)
+  graphics::image(x, y, z, xaxt = "n", yaxt = "n", xlab = "", ylab = "", 
+    col = col, breaks = breaks)
   graphics::box()
   do.call("axis", axis.args)
 }

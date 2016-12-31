@@ -1,9 +1,11 @@
 # setup x, y, and z for pimage function
 pimage.xyz.setup <- function(x, y, z, tx, ty, arglist) {
-  # sort out x, y, z, labels, etc.  This is a revision of the beginning of
-  # graphics::image
-  if(is.null(x)) tx <- ""
-  if(is.null(y)) ty <- ""
+  # sort out x, y, z, labels, etc.  This is a revision of the beginning
+  # of graphics::image
+  if (is.null(x)) 
+    tx <- ""
+  if (is.null(y)) 
+    ty <- ""
   
   if (is.null(arglist$xlab)) {
     if (is.null(z)) {
@@ -31,10 +33,10 @@ pimage.xyz.setup <- function(x, y, z, tx, ty, arglist) {
           stop("argument must be matrix-like")
         z <- x
         x <- seq.int(0, 1, length.out = nrow(z))
-        if (is.null(y))
+        if (is.null(y)) 
           y <- seq.int(0, 1, length.out = ncol(z))
       }
-    } else stop("no 'z' matrix specified")
+    } else stop("no \"z\" matrix specified")
   } else if (is.list(x)) {
     y <- x$y
     x <- x$x
@@ -47,9 +49,9 @@ pimage.xyz.setup <- function(x, y, z, tx, ty, arglist) {
       stop("x and y do not have the same length and/or dimensions")
     }
   } else {
-    if (is.null(x))
+    if (is.null(x)) 
       x <- seq.int(0, 1, length.out = nrow(z))
-    if (is.null(y))
+    if (is.null(y)) 
       y <- seq.int(0, 1, length.out = ncol(z))
     if (!is.matrix(x)) {
       if (length(x) != nrow(z)) {

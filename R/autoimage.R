@@ -128,21 +128,20 @@
 #'           axes = FALSE,
 #'           lratio = 0.5)
 #' @export
-autoimage <- function(x, y, z, legend = "horizontal", proj = "none",
-                      parameters, orientation, lratio = 0.2, 
-                      common.legend = TRUE,
-                      map = "none", size, outer.title, ...) {
+autoimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters, 
+  orientation, lratio = 0.2, common.legend = TRUE, map = "none", size, 
+  outer.title, ...) {
   # obtain elements of ...
   arglist <- list(...)
   mtext.args <- arglist$mtext.args
-
+  
   # make compatible with old version
   if (!is.logical(legend)) {
     legend <- match.arg(legend, c("none", "horizontal", "vertical"))
-  } 
+  }
   # attempt to match deprecated arguments
-  argmatch <- autoimage.match.old.args(legend, proj, list(), 
-                                      lratio, arglist)
+  argmatch <- autoimage.match.old.args(legend, proj, list(), lratio, 
+    arglist)
   legend <- argmatch$legend
   lratio <- argmatch$lratio
   arglist <- argmatch$arglist
@@ -156,19 +155,18 @@ autoimage <- function(x, y, z, legend = "horizontal", proj = "none",
     z <- NULL
   if (missing(outer.title)) 
     outer.title <- NULL
-  if (missing(parameters)) parameters <- NULL
-  if (missing(orientation)) orientation <- NULL
-  # deparse label names
-  # tx <- ifelse(is.null(x), "", deparse(substitute(x)))
-  # ty <- ifelse(is.null(y), "", deparse(substitute(y)))
+  if (missing(parameters)) 
+    parameters <- NULL
+  if (missing(orientation)) 
+    orientation <- NULL
+  # deparse label names tx <- ifelse(is.null(x), '',
+  # deparse(substitute(x))) ty <- ifelse(is.null(y), '',
+  # deparse(substitute(y)))
   
   verbose <- FALSE  # some debugging stuff
   # setup x, y, z information
-  xyz.list <- autoimage.xyz.setup(x, y, z, 
-                                  deparse(substitute(x)), 
-                                  deparse(substitute(x)), 
-                                  arglist, verbose, 
-                                  common.legend, legend)
+  xyz.list <- autoimage.xyz.setup(x, y, z, deparse(substitute(x)), deparse(substitute(x)), 
+    arglist, verbose, common.legend, legend)
   ng <- length(xyz.list)  # number of grids
   # additional argument checking
   if (missing(size)) 
@@ -180,13 +178,12 @@ autoimage <- function(x, y, z, legend = "horizontal", proj = "none",
   }
   # check other argument, specify outer arguments
   outer.args <- arg.check.autoimage(common.legend, size, outer.title, 
-                                    ng, mtext.args)
-
+    ng, mtext.args)
+  
   curpar <- par(no.readonly = TRUE)
   curmar <- curpar$mar  # current mar values
-  autolayout(size, legend = legend, common.legend = common.legend, 
-             lratio = lratio, outer = outer.args$outer, show = FALSE, 
-             reverse = FALSE)
+  autolayout(size, legend = legend, common.legend = common.legend, lratio = lratio, 
+    outer = outer.args$outer, show = FALSE, reverse = FALSE)
   for (i in seq_along(xyz.list)) {
     par(mar = curmar)
     arglisti <- xyz.list[[i]]
@@ -218,9 +215,8 @@ autoimage <- function(x, y, z, legend = "horizontal", proj = "none",
   on.exit(par(curpar))
 }
 
-arg.check.autoimage <- function(common.legend, size = c(1, 1), 
-                                outer.title = NULL, ng = 1, 
-                                mtext.args = NULL) {
+arg.check.autoimage <- function(common.legend, size = c(1, 1), outer.title = NULL, 
+  ng = 1, mtext.args = NULL) {
   if (length(common.legend) != 1) 
     stop("common.legend should be a logical value")
   if (!is.logical(common.legend)) 

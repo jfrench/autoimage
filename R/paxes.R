@@ -15,9 +15,9 @@
 #' 
 #' @inheritParams pimage
 #' @param xlim A vector with the minimum and maximum value of the x
-#'   coordinates.  Taken from \code{par('usr')} if not provided.
+#'   coordinates.  Taken from \code{par("usr")} if not provided.
 #' @param ylim A vector with the minimum and maximum value of the y
-#'   coordinates.  Taken from \code{par('usr')} if not provided.
+#'   coordinates.  Taken from \code{par("usr")} if not provided.
 #' @param xaxp A vector of the form \code{c(x1, x2, n)} giving the 
 #'   coordinates of the extreme tick marks and the number of intervals
 #'   between tick marks.  Overrides \code{xlim}.
@@ -37,15 +37,15 @@
 #' @examples
 #' data(narccap)
 #' # plot image using mercator projection (w/o axes)
-#' pimage(lon, lat, tasmax[,,1], proj = 'mercator', axes = FALSE)
+#' pimage(lon, lat, tasmax[,,1], proj = "mercator", axes = FALSE)
 #' # add axes with grey grid lines, blue text, and custom spacing
-#' paxes('mercator', xlim = range(lon), ylim = range(lat), 
-#'       col = 'grey', 
-#'       axis.args = list(col.axis = 'blue', 
+#' paxes("mercator", xlim = range(lon), ylim = range(lat), 
+#'       col = "grey", 
+#'       axis.args = list(col.axis = "blue", 
 #'                        xat = c(-160, -100, -90, -80, -20)))
 #' @export
-paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, 
-                  axis.args, ...) {
+paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, axis.args, 
+  ...) {
   if (missing(xlim)) 
     xlim <- par("usr")[1:2]
   if (missing(ylim)) 
@@ -54,7 +54,7 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE,
     xaxp <- NULL
   if (missing(yaxp)) 
     yaxp <- NULL
-  if (missing(axis.args))
+  if (missing(axis.args)) 
     axis.args <- list()
   arg.check.paxes(proj, xlim, ylim, xaxp, yaxp, grid)
   
@@ -62,12 +62,12 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE,
   if (!is.null(xaxp)) {
     xat <- graphics::axTicks(1, axp = xaxp)
   } else {
-    xat <- base::pretty(xlim)
+    xat <- pretty(xlim)
   }
   if (!is.null(yaxp)) {
     yat <- graphics::axTicks(2, axp = yaxp)
   } else {
-    yat <- base::pretty(ylim)
+    yat <- pretty(ylim)
   }
   
   if (!is.null(axis.args$xat)) {
@@ -79,7 +79,7 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE,
     axis.args$yat <- NULL
   }
   
-  # function to call in do.call  
+  # function to call in do.call
   f <- graphics::axis
   if (proj == "none") {
     axis.args$side = 1
@@ -88,8 +88,7 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE,
     axis.args$side = 2
     axis.args$at <- yat
     do.call(f, axis.args)
-    # graphics::axis(1, at = xat)
-    # graphics::axis(2, at = yat)
+    # graphics::axis(1, at = xat) graphics::axis(2, at = yat)
   } else {
     # convert axis coordinates add grid lines, if desired
     xe <- numeric(length(xat))
@@ -115,14 +114,14 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE,
     }
     axis.args$side = 1
     axis.args$at <- xe
-    axis.args$labels <- xat 
+    axis.args$labels <- xat
     do.call(f, axis.args)
     axis.args$side = 2
     axis.args$at <- ye
     axis.args$labels <- yat
     do.call(f, axis.args)
-    # graphics::axis(1, at = xe, labels = xat)
-    # graphics::axis(2, at = ye, labels = yat)
+    # graphics::axis(1, at = xe, labels = xat) graphics::axis(2, at = ye,
+    # labels = yat)
   }
   # add box to make things look normal
   box()
@@ -139,7 +138,7 @@ arg.check.paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid) {
     p <- try(mapproj::.Last.projection(), silent = TRUE)
     if (class(p) == "try-error") {
       stop("No projection has been used in current plot.
-           Set 'proj' in pimage or autoimage functions.")
+           Set \"proj\" in pimage or autoimage functions.")
     } else {
       if (p$projection != proj) {
         stop("proj and last projection used do not match")

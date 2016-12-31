@@ -13,8 +13,8 @@ ptext(x, y = NULL, labels, proj, ...)
 
 \item{y}{Locations of grid points at which the values in \code{z}
 are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors or matrices depending on the
-type of data to be displayed.  See Details.}
+arguments can be either vectors or matrices depending on the type
+of data to be displayed.  See Details.}
 
 \item{labels}{a character vector or \link{expression} specifying
     the \emph{text} to be written.  An attempt is made to coerce other
@@ -25,8 +25,8 @@ type of data to be displayed.  See Details.}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to
-the \code{'projection'} argument in the
+default is \code{'none'}.  The other valid choices correspond to 
+the \code{'projection'} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
@@ -47,17 +47,17 @@ to a \code{character} vector using \code{link[base]{as.character}}.
 \examples{
 data(narccap)
 # plot image using bonne projection (w/o grid lines)
-pimage(lon, lat, tasmax[,,1], proj = 'bonne',
+pimage(lon, lat, tasmax[,,1], proj = "bonne",
        parameters = 40, paxes.args = list(grid = FALSE))
 # get national boundaries
-data(worldMapEnv, package = 'maps')
-worldpoly <- maps::map('world', plot = FALSE)
-plines(worldpoly, proj = 'bonne')
+data(worldMapEnv, package = "maps")
+worldpoly <- maps::map("world", plot = FALSE)
+plines(worldpoly, proj = "bonne")
 # add U.S. city names to existing plot
-data(us.cities, package = 'maps')
+data(us.cities, package = "maps")
 citysmall <- head(us.cities)
 ptext(x = citysmall$lon, y = citysmall$lat, 
-      labels = citysmall$name, proj = 'bonne')
+      labels = citysmall$name, proj = "bonne")
 }
 \seealso{
 \code{\link[graphics]{text}}, 

@@ -1,7 +1,7 @@
 context("autolayout tests")
 
-# change test to TRUE to generate pdf in home directory pdf shows examples of
-# autolayout to ensure accuracy
+# change test to TRUE to generate pdf in home directory pdf shows
+# examples of autolayout to ensure accuracy
 test <- FALSE
 
 if (test) {

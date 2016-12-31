@@ -21,7 +21,7 @@ rotate <- function(coords, theta, pivot = c(0, 0)) {
   arg.check.rotate(coords, theta, pivot)
   # rotation matrix
   rmat <- matrix(c(cos(theta), -sin(theta), sin(theta), cos(theta)), 
-                 byrow = TRUE, ncol = 2)
+    byrow = TRUE, ncol = 2)
   # rotate coordinates around pivot
   t(pivot + rmat %*% (t(coords) - pivot))
 }

@@ -11,65 +11,55 @@ if (test) {
   par(curpar)
   pimage(z = tasmax[, , 1], main = "no axis labels")
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], legend = "none", 
-         main = "no legend, lon/lat labels")
+  pimage(lon, lat, z = tasmax[, , 1], legend = "none", main = "no legend, lon/lat labels")
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], 
-         main = "hor legend, lon/lat labels")
+  pimage(lon, lat, z = tasmax[, , 1], main = "hor legend, lon/lat labels")
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", 
-         main = "vert legend, lon/lat labels")
+  pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", main = "vert legend, lon/lat labels")
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], main = "custom labels", 
-         xlab = "my xlab", ylab = "my ylab")
+  pimage(lon, lat, z = tasmax[, , 1], main = "custom labels", xlab = "my xlab", 
+    ylab = "my ylab")
   
   data(worldMapEnv, package = "maps")
   worldpoly <- maps::map("world", plot = FALSE)
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], legend = "none", 
-         lines = worldpoly, main = "with world poly")
+  pimage(lon, lat, z = tasmax[, , 1], legend = "none", lines = worldpoly, 
+    main = "with world poly")
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], legend = "none", 
-         proj = "mercator", main = "with mercator proj")
+  pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "mercator", 
+    main = "with mercator proj")
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "bonne", 
-         parameters = 45, 
-         main = "with bonne projection and lines")
+    parameters = 45, main = "with bonne projection and lines")
   plines(worldpoly, proj = "bonne")
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "bonne",
-         parameters = 45, 
-         main = "with bonne projection no grid", 
-         paxes.args = list(grid = FALSE))
+  pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "bonne", 
+    parameters = 45, main = "with bonne projection no grid", paxes.args = list(grid = FALSE))
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "bonne", 
-         parameters = 45, 
-         main = "with bonne projection dashed grey grid", 
-         paxes.args = list(col = "grey", lty = 2))
+    parameters = 45, main = "with bonne projection dashed grey grid", 
+    paxes.args = list(col = "grey", lty = 2))
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], legend = "none", 
-         proj = "mercator", main = "bonne projection, thick grey lines", 
-         paxes.args = list(grid = FALSE), lines = worldpoly, 
-         lines.args = list(col = "grey", lwd = 3))
+  pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "mercator", 
+    main = "bonne projection, thick grey lines", paxes.args = list(grid = FALSE), 
+    lines = worldpoly, lines.args = list(col = "grey", lwd = 3))
   par(curpar)
   data(us.cities, package = "maps")
   usm <- head(us.cities)
   cityxy <- list(x = usm$long, y = usm$lat)
-  pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "mercator", main = "mercator projection, solid orange points", 
-    paxes.args = list(grid = FALSE), points = cityxy, points.args = list(col = "orange", 
-      pch = 20))
+  pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "mercator", 
+    main = "mercator projection, solid orange points", paxes.args = list(grid = FALSE), 
+    points = cityxy, points.args = list(col = "orange", pch = 20))
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", 
-         lratio = 0.5, main = "wide vertical bar")
+  pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", lratio = 0.5, 
+    main = "wide vertical bar")
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", 
-         lratio = 0.5, main = "blue legend text", 
-         legend.axis.args = list(col = "blue", col.axis = "blue", 
-                          at = seq(280, 320, 20)))
+  pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", lratio = 0.5, 
+    main = "blue legend text", legend.axis.args = list(col = "blue", 
+      col.axis = "blue", at = seq(280, 320, 20)))
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", 
-         proj = "bonne", parameters = 45, 
-         xlim = c(-130, -60), ylim = c(23, 50))
+  pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", proj = "bonne", 
+    parameters = 45, xlim = c(-130, -60), ylim = c(23, 50))
   plines(worldpoly, proj = "bonne")
   title("USA")
   
@@ -100,7 +90,7 @@ if (test) {
   par(curpar)
   pimage(lon + 300, lat - 80, z = tasmax[, , 1], map = "nz")
   title("narccap with new zealand borders")
-
+  
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], map = "lakes")
   title("narccap with lakes")
@@ -110,20 +100,19 @@ if (test) {
   title("narccap with italy")
   
   par(curpar)
-  pimage(lon, lat, z = tasmax[, , 1], 
-         axis.args = list(col.axis = "orange", cex.axis = 0.5))
+  pimage(lon, lat, z = tasmax[, , 1], axis.args = list(col.axis = "orange", 
+    cex.axis = 0.5))
   title("orange, small axis")
   
   reset.par()
-  pimage(lon, lat, z = tasmax[, , 1], proj = "mercator", 
-         axis.args = list(xat = c(-160, -110, -80, -60, -40)))
+  pimage(lon, lat, z = tasmax[, , 1], proj = "mercator", axis.args = list(xat = c(-160, 
+    -110, -80, -60, -40)))
   title("custom spaced x axis")
   
   reset.par()
-  pimage(lon, lat, z = tasmax[, , 1], proj = "mercator", 
-         axis.args = list(yat = c(20, 40, 45, 70)), 
-         legend.axis.args = list(col = "blue", col.axis = "blue", 
-                                 at = seq(280, 320, 20)))
+  pimage(lon, lat, z = tasmax[, , 1], proj = "mercator", axis.args = list(yat = c(20, 
+    40, 45, 70)), legend.axis.args = list(col = "blue", col.axis = "blue", 
+    at = seq(280, 320, 20)))
   title("custom spaced y axis, legend axis")
   dev.off()
 }

@@ -1,6 +1,5 @@
-autoimage.match.old.args <- function(legend = "horizontal",
-                                     proj = "none", proj.args,
-                                     lratio = 0.2, arglist) {
+autoimage.match.old.args <- function(legend = "horizontal", proj = "none", 
+  proj.args, lratio = 0.2, arglist) {
   if (length(legend) != 1) {
     stop("legend should have length 1")
   }
@@ -32,14 +31,14 @@ autoimage.match.old.args <- function(legend = "horizontal",
     }
   }
   if (!is.null(arglist$map.grid)) {
-    warning("map.grid has been deprecated.  Consider specificying paxes.args")
+    warning("map.grid has been deprecated.  Consider specifying paxes.args")
     arglist$map.grid <- NULL
   }
   if (!is.null(arglist$map.poly)) {
     warning("map.poly has been deprecated.
-    The argument has been renamed 'lines'.
-    poly.args has been renamed 'lines.args'.
-    Attempting to translate deprecated arguments.")
+  The argument has been renamed \"lines\".
+  poly.args has been renamed \"lines.args\".
+  Attempting to translate deprecated arguments.")
     arglist$lines <- arglist$map.poly
     arglist$lines.args <- arglist$poly.args
     arglist$map.poly <- NULL
@@ -47,8 +46,8 @@ autoimage.match.old.args <- function(legend = "horizontal",
   }
   if (!is.null(arglist$map.points)) {
     warning("map.points has been deprecated.
-    The argument has been renamed 'points'.
-    Attempting to translate deprecated argument.")
+  The argument has been renamed \"points\".
+  Attempting to translate deprecated argument.")
     arglist$points <- arglist$map.points
     arglist$map.points <- NULL
   }
@@ -58,15 +57,15 @@ autoimage.match.old.args <- function(legend = "horizontal",
   
   if (!is.null(arglist$mratio)) {
     warning("mratio has been deprecated.  lratio should be used.
-    lratio is the inverse of mratio.
-    Attempting to translate deprecated argument.")
-    lratio <- 1 / arglist$mratio
+             lratio is the inverse of mratio.
+            Attempting to translate deprecated argument.")
+    lratio <- 1/arglist$mratio
     arglist$mratio <- NULL
   }
   if (!is.list(proj.args)) {
     stop("proj.args should be a list")
   }
-  return(list(legend = legend, proj = proj, proj.args = proj.args,
-              lratio = lratio, arglist = arglist))
+  return(list(legend = legend, proj = proj, proj.args = proj.args, lratio = lratio, 
+    arglist = arglist))
 }
 TRUE

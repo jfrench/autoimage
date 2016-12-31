@@ -18,8 +18,8 @@ ggautoimage.xyz.setup <- function(x, y, z, f, interp.args) {
       # interpoluation output
       iout <- do.call(fun, temp.interp.args)
       xy <- expand.grid(iout$x, iout$y)
-      split_df[[i]] <- data.frame(x = xy[,1], y = xy[,2], 
-                                  z = c(iout$z), f = fi)
+      split_df[[i]] <- data.frame(x = xy[, 1], y = xy[, 2], z = c(iout$z), 
+        f = fi)
     }
   }
   return(do.call("rbind", split_df))
