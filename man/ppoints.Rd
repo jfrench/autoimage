@@ -19,8 +19,8 @@ of data to be displayed.  See Details.}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to 
-the \code{'projection'} argument in the 
+default is \code{"none"}.  The other valid choices correspond to 
+the \code{"projection"} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
@@ -38,12 +38,12 @@ projection.
 \examples{
 data(narccap)
 # plot image using bonne projection (w/o grid lines)
-pimage(lon, lat, tasmax[,,1], proj = 'bonne',
+pimage(lon, lat, tasmax[,,1], proj = "bonne",
        parameters = 40, paxes.args = list(grid = FALSE))
 # get U.S. cities with population of about 40k or more
-data(us.cities, package = 'maps')
+data(us.cities, package = "maps")
 # add cities to existing plot
-ppoints(us.cities$long, us.cities$lat, proj = 'bonne')
+ppoints(us.cities$long, us.cities$lat, proj = "bonne")
 }
 \seealso{
 \code{\link[graphics]{points}}, 

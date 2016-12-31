@@ -55,7 +55,7 @@
 #' legend.scale(c(0, 1), axis.args = list(cex.axis = 2))
 #' 
 #' # change color of axis labels and ticks
-#' blue.axes <- list(col.axis = 'blue', col.ticks = 'blue')
+#' blue.axes <- list(col.axis = "blue", col.ticks = "blue")
 #' legend.scale(c(0, 1), axis.args = blue.axes)
 #' 
 #' # log base 10 values with colors labeled on original scale

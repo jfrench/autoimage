@@ -23,23 +23,23 @@ of data to be displayed.  See Details.}
 values to be plotted (NAs are allowed).}
 
 \item{legend}{A character string indicating where the color scale 
-should be placed.  The default is \code{'horizontal'}.  The other
-valid options are \code{'none'} and \code{'vertical'}.}
+should be placed.  The default is \code{"horizontal"}.  The other
+valid options are \code{"none"} and \code{"vertical"}.}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to 
-the \code{'projection'} argument in the 
+default is \code{"none"}.  The other valid choices correspond to 
+the \code{"projection"} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
 \item{parameters}{A numeric vector specifying the values of the 
 \code{parameters} argument in the 
 \code{\link[mapproj]{mapproject}}.  This may be necessary when
-\code{proj != 'none'}.}
+\code{proj != "none"}.}
 
 \item{orientation}{A vector \code{c(latitude,longitude,rotation)} 
-which describes where the 'North Pole' should be when computing 
+which describes where the "North Pole" should be when computing 
 the projection.  See \code{\link[mapproj]{mapproject}} for more
 details.}
 
@@ -53,10 +53,10 @@ legend scale should be used for all images provided in the
 separate legend is used for each image.}
 
 \item{map}{The name of the map to draw on the image. Default is 
-\code{'none'}.  Other options include \code{'world'}, 
-\code{'usa'}, \code{'state'}, \code{'county'}, \code{'france'}, 
-\code{'nz'} (New Zealand), \code{'italy'}, \code{'lakes'}, and
-\code{'world2'}, all from the \code{maps} package.}
+\code{"none"}.  Other options include \code{"world"}, 
+\code{"usa"}, \code{"state"}, \code{"county"}, \code{"france"}, 
+\code{"nz"} (New Zealand), \code{"italy"}, \code{"lakes"}, and
+\code{"world2"}, all from the \code{maps} package.}
 
 \item{size}{A vector of length two indicating the number of rows 
 and columns that should be used for the series of image data in 
@@ -81,7 +81,7 @@ on the context.
 }
 \details{
 The \code{\link[mapproj]{mapproject}} function is used to project 
-the \code{x} and \code{y} coordinates when \code{proj != 'none'}.
+the \code{x} and \code{y} coordinates when \code{proj != "none"}.
 
 If multiple images are to be plotted (i.e., if \code{z} is an array), 
 then the \code{main} argument can be a vector with length matching 
@@ -150,7 +150,7 @@ function to see how \code{axis.args can be used.}
 The legend margin can be customized by passing \code{legend.mar}
 to \code{pimage} through \code{...}.  This should be a numeric
 vector indicating the margins of the legend, identical to how 
-\code{par('mar')} is specified.
+\code{par("mar")} is specified.
 }
 \examples{
 data(narccap)
@@ -159,36 +159,36 @@ tasmax2 <- tasmax[,,1:2]
 
 # plot irregularly gridded images with separate legends
 # and usa border
-autoimage(lon, lat, tasmax2, common.legend = FALSE, map = 'usa')
+autoimage(lon, lat, tasmax2, common.legend = FALSE, map = "usa")
 
 # plot irregularly gridded images with common legend and world lines
 # customize world lines
 # add and customize title
-autoimage(lon, lat, tasmax2, map = 'world', 
-          lines.args = list(col = 'white', lwd = 2),
-          outer.title = 'Maximum Daily Surface Air Temperature (K)',
-          mtext.args = list(col = 'blue', cex = 2))
+autoimage(lon, lat, tasmax2, map = "world", 
+          lines.args = list(col = "white", lwd = 2),
+          outer.title = "Maximum Daily Surface Air Temperature (K)",
+          mtext.args = list(col = "blue", cex = 2))
 
 # plot irregularly-spaced responsed as images with separate legends
 # and county borders.  Add observed data locations with custom point
 # options
-data(co, package = 'gear')
-autoimage(co$lon, co$lat, co[,c('Al', 'Ca')], common.legend = FALSE, 
-          map = 'county', main = c('Aluminum', 'Cadmium'),
+data(co, package = "gear")
+autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE, 
+          map = "county", main = c("Aluminum", "Cadmium"),
           points = list(x = co$easting, y = co$northing),
-          points.args = list(pch = 20, col = 'white'))
+          points.args = list(pch = 20, col = "white"))
 
 # customize margins and lratio for large plot
 # also use projection
 # specify manual lines (though in this case it is the same as using 
-# map = 'world')
-data(worldMapEnv, package = 'maps')
-worldpoly <- maps::map('world', plot = FALSE)
+# map = "world")
+data(worldMapEnv, package = "maps")
+worldpoly <- maps::map("world", plot = FALSE)
 par(mar = c(1.1, 4.1, 2.1, 1.1))
 autoimage(lon, lat, tasmax, lines = worldpoly, 
-          proj = 'bonne', parameters = 40,
-          main = c('day 1', 'day 2', 'day 3', 'day 4', 'day 5'),
-          ylab = '',
+          proj = "bonne", parameters = 40,
+          main = c("day 1", "day 2", "day 3", "day 4", "day 5"),
+          ylab = "",
           axes = FALSE,
           lratio = 0.5)
 }

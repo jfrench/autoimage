@@ -9,7 +9,7 @@
 #' on the context.
 #' 
 #' The \code{\link[mapproj]{mapproject}} function is used to project 
-#' the \code{x} and \code{y} coordinates when \code{proj != 'none'}.
+#' the \code{x} and \code{y} coordinates when \code{proj != "none"}.
 #'
 #' If multiple images are to be plotted (i.e., if \code{z} is an array), 
 #' then the \code{main} argument can be a vector with length matching 
@@ -78,7 +78,7 @@
 #' The legend margin can be customized by passing \code{legend.mar}
 #' to \code{pimage} through \code{...}.  This should be a numeric
 #' vector indicating the margins of the legend, identical to how 
-#' \code{par('mar')} is specified.
+#' \code{par("mar")} is specified.
 #' 
 #' @inheritParams pimage
 #' @inheritParams autolayout
@@ -95,36 +95,36 @@
 #' 
 #' # plot irregularly gridded images with separate legends
 #' # and usa border
-#' autoimage(lon, lat, tasmax2, common.legend = FALSE, map = 'usa')
+#' autoimage(lon, lat, tasmax2, common.legend = FALSE, map = "usa")
 #' 
 #' # plot irregularly gridded images with common legend and world lines
 #' # customize world lines
 #' # add and customize title
-#' autoimage(lon, lat, tasmax2, map = 'world', 
-#'           lines.args = list(col = 'white', lwd = 2),
-#'           outer.title = 'Maximum Daily Surface Air Temperature (K)',
-#'           mtext.args = list(col = 'blue', cex = 2))
+#' autoimage(lon, lat, tasmax2, map = "world", 
+#'           lines.args = list(col = "white", lwd = 2),
+#'           outer.title = "Maximum Daily Surface Air Temperature (K)",
+#'           mtext.args = list(col = "blue", cex = 2))
 #' 
 #' # plot irregularly-spaced responsed as images with separate legends
 #' # and county borders.  Add observed data locations with custom point
 #' # options
-#' data(co, package = 'gear')
-#' autoimage(co$lon, co$lat, co[,c('Al', 'Ca')], common.legend = FALSE, 
-#'           map = 'county', main = c('Aluminum', 'Cadmium'),
+#' data(co, package = "gear")
+#' autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE, 
+#'           map = "county", main = c("Aluminum", "Cadmium"),
 #'           points = list(x = co$easting, y = co$northing),
-#'           points.args = list(pch = 20, col = 'white'))
+#'           points.args = list(pch = 20, col = "white"))
 #' 
 #' # customize margins and lratio for large plot
 #' # also use projection
 #' # specify manual lines (though in this case it is the same as using 
-#' # map = 'world')
-#' data(worldMapEnv, package = 'maps')
-#' worldpoly <- maps::map('world', plot = FALSE)
+#' # map = "world")
+#' data(worldMapEnv, package = "maps")
+#' worldpoly <- maps::map("world", plot = FALSE)
 #' par(mar = c(1.1, 4.1, 2.1, 1.1))
 #' autoimage(lon, lat, tasmax, lines = worldpoly, 
-#'           proj = 'bonne', parameters = 40,
-#'           main = c('day 1', 'day 2', 'day 3', 'day 4', 'day 5'),
-#'           ylab = '',
+#'           proj = "bonne", parameters = 40,
+#'           main = c("day 1", "day 2", "day 3", "day 4", "day 5"),
+#'           ylab = "",
 #'           axes = FALSE,
 #'           lratio = 0.5)
 #' @export
@@ -159,8 +159,8 @@ autoimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters,
     parameters <- NULL
   if (missing(orientation)) 
     orientation <- NULL
-  # deparse label names tx <- ifelse(is.null(x), '',
-  # deparse(substitute(x))) ty <- ifelse(is.null(y), '',
+  # deparse label names tx <- ifelse(is.null(x), "",
+  # deparse(substitute(x))) ty <- ifelse(is.null(y), "",
   # deparse(substitute(y)))
   
   verbose <- FALSE  # some debugging stuff

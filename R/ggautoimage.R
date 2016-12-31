@@ -12,7 +12,7 @@
 #' be a named list with component matching the non \code{x}, \code{y},
 #' and \code{z} arguments of the \code{\link[akima]{interp}} function.
 #' 
-#' When \code{proj != 'none'}, the \code{\link[mapproj]{mapproject}} 
+#' When \code{proj != "none"}, the \code{\link[mapproj]{mapproject}} 
 #' function is used to project the \code{x} and \code{y} coordinates. 
 #' In that case, \code{proj} must correspond to one of the choices for
 #' the \code{projection} argument in the 
@@ -66,12 +66,12 @@
 #' x <- rep(c(lon), 2)
 #' y <- rep(c(lat), 2)
 #' z <- c(tasmax[, , 1:2])
-#' f <- factor(rep(c('day 1', 'day 2'), each = length(lon)))
+#' f <- factor(rep(c("day 1", "day 2"), each = length(lon)))
 #' # load national borders
-#' data('worldMapEnv', package = 'maps')
-#' lines <- maps::map('world', plot = FALSE)
+#' data("worldMapEnv", package = "maps")
+#' lines <- maps::map("world", plot = FALSE)
 #' # obtain us captial cities
-#' data(us.cities, package = 'maps')
+#' data(us.cities, package = "maps")
 #' cap <- us.cities[us.cities$capital == 2, ]
 #' # convert to list format
 #' points <- list(x = cap$lon, y = cap$lat)
@@ -83,7 +83,7 @@
 #' ggautoimage(x, y, z, f, lines = lines, points = points)
 #' # project coordinates with national borders and U.S. capitals
 #' ggautoimage(x, y, z, f, lines = lines, points = points,
-#'             proj = 'bonne', parameters = 40)
+#'             proj = "bonne", parameters = 40)
 #' # finer interpolation grid
 #' ggautoimage(x, y, z, f, lines = lines, points = points,
 #'             interp.args = list(nx = 100, ny = 100))

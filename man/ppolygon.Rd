@@ -17,8 +17,8 @@ of data to be displayed.  See Details.}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to 
-the \code{'projection'} argument in the 
+default is \code{"none"}.  The other valid choices correspond to 
+the \code{"projection"} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
@@ -36,11 +36,11 @@ projection.
 \examples{
 data(narccap)
 # plot image using bonne projection (w/o grid lines)
-pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-       parameters = 40, paxes.args = list(col = 'grey'))
+pimage(lon, lat, tasmax[,,1], proj = "bonne",
+       parameters = 40, paxes.args = list(col = "grey"))
 # filled polygon for Colorado border
 data(copoly)
-ppolygon(copoly, proj = 'bonne', col = 'orange')
+ppolygon(copoly, proj = "bonne", col = "orange")
 }
 \seealso{
 \code{\link[graphics]{polygon}}, 

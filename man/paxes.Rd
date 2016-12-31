@@ -9,8 +9,8 @@ paxes(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, axis.args, ...)
 \arguments{
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to 
-the \code{'projection'} argument in the 
+default is \code{"none"}.  The other valid choices correspond to 
+the \code{"projection"} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 

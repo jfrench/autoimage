@@ -15,8 +15,8 @@ the third dimension of \code{z} (if it is an array), or
 \code{c(1, 1)} if \code{z} is a matrix.}
 
 \item{legend}{A character string indicating where the color scale 
-should be placed.  The default is \code{'horizontal'}.  The other
-valid options are \code{'none'} and \code{'vertical'}.}
+should be placed.  The default is \code{"horizontal"}.  The other
+valid options are \code{"none"} and \code{"vertical"}.}
 
 \item{common.legend}{A logical value indicating whether a common 
 legend scale should be used for all images provided in the
@@ -42,7 +42,7 @@ should be plotted before the image.  Default is \code{FALSE}.}
 \item{legend.mar}{The margins for the legend.  (See the \code{mar} 
 argument of \code{\link[graphics]{par}}).  If not specified, then
 sensible values are chosen based on the current vector 
-\code{par('mar')}.}
+\code{par("mar")}.}
 }
 \description{
 \code{autolayout} divides the current device into equal-sized rows 
@@ -59,7 +59,7 @@ Note \code{\link[graphics]{par}} parameters are NOT RESET after
 executing the \code{\link[graphics]{layout}} function so the the 
 user can use existing layout for plots.
 
-If \code{legend = 'horizontal'} or \code{legend = 'vertical'}, then
+If \code{legend = "horizontal"} or \code{legend = "vertical"}, then
 a portion of the device is dedicated to a legend.
 
 If \code{common.legend = TRUE}, then one legend region is created 
@@ -74,18 +74,18 @@ are plotted after each respective plot.
 # basic 2x2 layout
 autolayout(c(2, 2))
 # 3x2 layout with space for legends
-autolayout(c(3, 2), legend = 'h')
-autolayout(c(3, 2), legend = 'v')
+autolayout(c(3, 2), legend = "h")
+autolayout(c(3, 2), legend = "v")
 # 3x2 layout with individuals legends
-autolayout(c(3, 2), legend = 'h', common.legend = FALSE)
-autolayout(c(3, 2), legend = 'v', common.legend = FALSE)
+autolayout(c(3, 2), legend = "h", common.legend = FALSE)
+autolayout(c(3, 2), legend = "v", common.legend = FALSE)
 # if outer title is desired
 autolayout(c(2, 2), outer = TRUE)
 # reset oma parameters
 par(oma = c(0, 0, 0, 0))
 # impact of lratio when legend used
-autolayout(c(2, 2), legend = 'h', lratio = 0.5)
-autolayout(c(2, 2), legend = 'h', lratio = 0.2)
+autolayout(c(2, 2), legend = "h", lratio = 0.5)
+autolayout(c(2, 2), legend = "h", lratio = 0.2)
 }
 \references{
 Portions of the code for this function is inspired by 

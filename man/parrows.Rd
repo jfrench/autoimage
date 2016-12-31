@@ -13,8 +13,8 @@ parrows(x0, y0, x1 = x0, y1 = y0, proj, ...)
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to 
-the \code{'projection'} argument in the 
+default is \code{"none"}.  The other valid choices correspond to 
+the \code{"projection"} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
@@ -32,13 +32,13 @@ projection.
 \examples{
 data(narccap)
 # plot image using bonne projection (w/o grid lines)
-pimage(lon, lat, tasmax[,,1], proj = 'bonne',
+pimage(lon, lat, tasmax[,,1], proj = "bonne",
        parameters = 40, paxes.args = list(grid = FALSE))
 # load some data for larger U.S. cities
-data(us.cities, package = 'maps')
+data(us.cities, package = "maps")
 cityxy <- list(x = us.cities$long[1:5], y = us.cities$lat[1:5])
 parrows(cityxy$x[1:4], cityxy$y[1:4], cityxy$x[2:5], cityxy$y[2:5], 
-        proj = 'bonne', col = 'orange')
+        proj = "bonne", col = "orange")
 }
 \seealso{
 \code{\link[graphics]{arrows}}, 

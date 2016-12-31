@@ -1,7 +1,7 @@
 ---
-title: 'How to Use the **autoimage** package'
-author: 'Joshua P. French'
-date: '`r Sys.Date()`'
+title: "How to Use the **autoimage** package"
+author: "Joshua P. French"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{How to Use the **autoimage** package}
@@ -42,32 +42,32 @@ pimage(x = lon, y = lat, z = tasmax[,,1])
 We create a heat map using the non-gridded Aluminum measurements for the state of Colorado.
 
 ```{r, fig.height=5, fig.width=5}
-data(co, package = 'gear')
+data(co, package = "gear")
 pimage(co$longitude, co$latitude, co$Al)
 ```
 
 We now discuss the basic options of the `pimage` function.
 
-The color scheme used for an image plot can be of great importance.  The `viridis` color scheme from the **viridis** package is used by default as it is, '... designed in such a way that [it] will analytically be perfectly perceptually-uniform, both in regular form and also when converted to black-and-white. [It is] also designed to be perceived by readers with the most common form of color blindness.'  The colors of the color scale can be modified by passing a vector of colors to the `col` argument through `...`, as in the `image` function in **graphics**.  We use 6 colors from the `magma` color pallete in the **viridis** package in the next example.
+The color scheme used for an image plot can be of great importance.  The `viridis` color scheme from the **viridis** package is used by default as it is, "... designed in such a way that [it] will analytically be perfectly perceptually-uniform, both in regular form and also when converted to black-and-white. [It is] also designed to be perceived by readers with the most common form of color blindness."  The colors of the color scale can be modified by passing a vector of colors to the `col` argument through `...`, as in the `image` function in **graphics**.  We use 6 colors from the `magma` color pallete in the **viridis** package in the next example.
 
 ```{r, fig.height = 5, fig.width = 5}
 pimage(lon, lat, tasmax[,,1], col = viridis::magma(6))
 ```
 
-The orientation of the color scale can be changed by changing the `legend` argument.  The default is `legend = 'horizontal'`.  The color scale can be removed by specifying `legend = 'none'` or rotated to a vertical orientation by specifying `legend = 'vertical'`.
+The orientation of the color scale can be changed by changing the `legend` argument.  The default is `legend = "horizontal"`.  The color scale can be removed by specifying `legend = "none"` or rotated to a vertical orientation by specifying `legend = "vertical"`.
 
 The following code creates a heat map with a vertical color scale. 
 
 ```{r, fig.height=5, fig.width=5}
-pimage(x = lon, y = lat, z = tasmax[,,1], legend = 'vertical')
+pimage(x = lon, y = lat, z = tasmax[,,1], legend = "vertical")
 ```
 
-The longitude and latitude coordinates can be projected before plotting by specifying the `proj`, `parameters`, and `orientation` arguments of `pimage`.  Prior to plotting, the coordinates are projected using the `mapproject` function in the **mapproj** package.  `proj` specifies the name of the projection to utilize (the default is `'none'`).  The `parameters` argument specifies the parameter values of the chosen projection and `orientation` can be used to change the orientation of the projection.  See the `mapproject` function in the **mapproj** function for more details regarding these arguments.
+The longitude and latitude coordinates can be projected before plotting by specifying the `proj`, `parameters`, and `orientation` arguments of `pimage`.  Prior to plotting, the coordinates are projected using the `mapproject` function in the **mapproj** package.  `proj` specifies the name of the projection to utilize (the default is `"none"`).  The `parameters` argument specifies the parameter values of the chosen projection and `orientation` can be used to change the orientation of the projection.  See the `mapproject` function in the **mapproj** function for more details regarding these arguments.
 
 We now create a heat map with projected coordinates.  We will utilize the Bonne projection using 45 degrees as the standard parallel. A grid is automatically added to projected images because latitude and longitude parallels are not straight for most projections.
 
 ```{r, fig.height=5, fig.width=5}
-pimage(x = lon, y = lat, z = tasmax[,,1], proj = 'bonne', 
+pimage(x = lon, y = lat, z = tasmax[,,1], proj = "bonne", 
        parameters = 45)
 ```
 
@@ -75,8 +75,8 @@ Several maps can be automatically added to the image by specifying the `map` arg
 
 We add national boundaries to our previous map.  
 ```{r, fig.height=5, fig.width=5}
-pimage(x = lon, y = lat, z = tasmax[,,1], proj = 'bonne', 
-       parameters = 45, map = 'world')
+pimage(x = lon, y = lat, z = tasmax[,,1], proj = "bonne", 
+       parameters = 45, map = "world")
 ```
 
 The last major argument to the `pimage` function is the `lratio` argument.  This argument controls the relative height or width of the color scale in comparison with the main plotting area.  Increasing `lratio` increases the thickness of the color scale, while decreasing `lratio` decreases the thickness of the color scale.
@@ -98,19 +98,19 @@ autoimage(lon, lat, tasmax, lratio = 0.25)
 Passing a two-dimensional matrix for `z` (where the number of rows matches the length of `x` and `y`) constructs a sequence of images for non-gridded data with a common legend.  Note titles are added to each image using the `main` argument by providing a character vector whose length matches the number of plotted images.
 
 ```{r, fig.height=5, fig.width=5}
-autoimage(co$longitude, co$latitude, co[,c('Al', 'Ca', 'Fe', 'K')],
+autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
            lratio = 0.25, 
-           main = c('(a) Aluminum %', '(b) Calcium %', 
-                    '(c) Iron %', '(d) Potassium %'))
+           main = c("(a) Aluminum %", "(b) Calcium %", 
+                    "(c) Iron %", "(d) Potassium %"))
 ```
 
 Separate color scales will be used for each image when `common.legend = FALSE`.
 
 ```{r, fig.height=5, fig.width=5}
-autoimage(co$longitude, co$latitude, co[,c('Al', 'Ca', 'Fe', 'K')],
+autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
           common.legend = FALSE, lratio = 0.25,
-          main = c('(a) Aluminum %', '(b) Calcium %', 
-                   '(c) Iron %', '(d) Potassium %'))
+          main = c("(a) Aluminum %", "(b) Calcium %", 
+                   "(c) Iron %", "(d) Potassium %"))
 ```
 
 The dimensions of the plotting matrix can be changed by specifying the `size` argument.  If not provided, then a sensible choice is automatically chosen via the `autosize` function.  The `size` argument should be a two-dimensional vector where the first element corresponds to the number of rows of images and the second dimension corresponds to the number of columns.
@@ -126,7 +126,7 @@ A common title is sometimes desired for a sequence of images.  This can easily b
 We add a common title to the NARCCAP data.
 
 ```{r, fig.height = 5, fig.width = 5}
-autoimage(lon, lat, tasmax, outer.title = 'tasmax for 5 days')
+autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days")
 ```
 
 ### Richer plots using `autolayout` and `autolegend`
@@ -136,25 +136,25 @@ Suppose we want to add custom features to a sequences of images, with each image
 The `autolayout` function partitions the graphic device into the sections needed to create a sequence of images.  The most important function arguments include `size`, `legend`, `common.legend`, and `lratio`, which correspond to the same arguments in the `autoimage` function.  The `outer` argument specifies whether an `outer.title` is desired.  The default is `FALSE`.  By default, numbers identify the plotting order of the sections, though these can be hidden by setting `show = FALSE`.  As an initial example, we create a 2 $\times$ 3 grid of images with a common vertical legend.
 
 ```{r}
-autolayout(c(2, 3), legend = 'v')
+autolayout(c(2, 3), legend = "v")
 ```
 
-The images should be created using the `pimage` function while specifying `legend = 'none'`.  After the desired image or set of images is created, one can automatically add the appropriate legend by calling `autolegend`.  The `autolegend` function recovers relevant legend parameters from the most recent `pimage` call.  Consequently, if a common legend is desired, then it is important to specify a common `zlim` argument among all relevant `pimage` calls.
+The images should be created using the `pimage` function while specifying `legend = "none"`.  After the desired image or set of images is created, one can automatically add the appropriate legend by calling `autolegend`.  The `autolegend` function recovers relevant legend parameters from the most recent `pimage` call.  Consequently, if a common legend is desired, then it is important to specify a common `zlim` argument among all relevant `pimage` calls.
 
 Various features can be added to the images using the `ppoints`, `plines`, `ptext`, `psegments`, `parrows`, and `ppolygon` functions.  These are analogues of the `points`, `lines`, `text`, `segments`, `arrows`, and `polygon` functions in the **graphics** package, to be used with images containing projected coordinates.
 
-We now create a complicated (though unrealistic) example of this.  We first extract the borders of Hawaii and Alaska from the `'world'` map in the **maps** package and store it as the `hiak` list.  We then select a small subset of cities in Colorado from the `us.cities` dataset in the **maps** package and store this in the `codf` data frame.  Lastly, we select the U.S. capitals from the `us.cities` dataset and store this in the `capdf` data frame.  
+We now create a complicated (though unrealistic) example of this.  We first extract the borders of Hawaii and Alaska from the `"world"` map in the **maps** package and store it as the `hiak` list.  We then select a small subset of cities in Colorado from the `us.cities` dataset in the **maps** package and store this in the `codf` data frame.  Lastly, we select the U.S. capitals from the `us.cities` dataset and store this in the `capdf` data frame.  
 
 ```{r}
 # load world map
-data(worldMapEnv, package = 'maps')
+data(worldMapEnv, package = "maps")
 # extract hawaii and alaskan borders
-hiak <- maps::map('world', c('USA:Hawaii', 'USA:Alaska'), 
+hiak <- maps::map("world", c("USA:Hawaii", "USA:Alaska"), 
                   plot = FALSE)
 # load us city information
-data(us.cities, package = 'maps')
+data(us.cities, package = "maps")
 # extract colorado cities from us.cities
-codf <- us.cities[us.cities$country.etc == 'CO', ]
+codf <- us.cities[us.cities$country.etc == "CO", ]
 # select smaller subset of colorado cities
 codf <- codf[c(3, 5, 7:11, 15, 18), ]
 # extract capitals from us.cities
@@ -165,43 +165,43 @@ Having obtained the relevant information, we setup a 1 $\times$ 2 matrix of imag
 
 ```{r, fig.width=7, fig.height=5, hold=TRUE}
 # setup plotting area
-autolayout(c(1, 2), legend = 'h', common.legend = FALSE, outer = TRUE)
+autolayout(c(1, 2), legend = "h", common.legend = FALSE, outer = TRUE)
 # create image of NARCCAP data.
 # xlim is chosen so to include alaska and hawaii
 # add grey state borders
-pimage(lon, lat, tasmax[,,1], legend = 'none', proj = 'mercator',
-       map = 'state', xlim = c(-180, 20), 
-       lines.args = list(col = 'grey'))
+pimage(lon, lat, tasmax[,,1], legend = "none", proj = "mercator",
+       map = "state", xlim = c(-180, 20), 
+       lines.args = list(col = "grey"))
 # add hawaii and alaskan borders
-plines(hiak, proj = 'mercator', col = 'grey')
+plines(hiak, proj = "mercator", col = "grey")
 # add state captials to image
-ppoints(capdf$lon, capdf$lat, proj = 'mercator', pch = 16)
+ppoints(capdf$lon, capdf$lat, proj = "mercator", pch = 16)
 # title image
-title('tasmax for North America')
+title("tasmax for North America")
 # add legend for plot
 autolegend()
 # load colorado geochemical data
-data(co, package = 'gear')
+data(co, package = "gear")
 # create image for colorado aluminum measurements
 # use bonne projection
 # customize legend colors
 # add grey county borders
 # exclude grid
-pimage(co$lon, co$lat, co$Al, map = 'county', legend = 'none',
-       proj = 'bonne', parameters = 39, 
+pimage(co$lon, co$lat, co$Al, map = "county", legend = "none",
+       proj = "bonne", parameters = 39, 
        paxes.args = list(grid = FALSE),
        col = fields::tim.colors(64),
-       lines.args = list(col = 'grey'))
+       lines.args = list(col = "grey"))
 # add colorado city points to image
-ppoints(codf$lon, codf$lat, pch = 16, proj = 'bonne')
+ppoints(codf$lon, codf$lat, pch = 16, proj = "bonne")
 # add names of colorado cities to image
-ptext(codf$lon, codf$lat, labels = codf$name, proj = 'bonne', pos = 4)
+ptext(codf$lon, codf$lat, labels = codf$name, proj = "bonne", pos = 4)
 # title plot
-title('Colorado Aluminum levels (%)')
+title("Colorado Aluminum levels (%)")
 # add legend to current image
 autolegend()
 # add common title for plots
-mtext('Two complicated maps', col = 'purple', outer = TRUE, cex = 2)
+mtext("Two complicated maps", col = "purple", outer = TRUE, cex = 2)
 ```
 
 ### More advanced options in the `pimage` and `autoimage` functions
@@ -213,8 +213,8 @@ Lines or points can be added to each image by passing the `lines` and `points` a
 To illustrate usage of these arguments, we extract United States state boundaries from the **maps** package and reformat the `us.cities` dataset from the **maps** package.  Note that `statepoly` is automatically a list with `x` and `y` components, while this must be created manually for the `us.cities` dataset.
 
 ```{r}
-data(stateMapEnv, package = 'maps')
-statepoly <- maps::map('world', plot = FALSE)
+data(stateMapEnv, package = "maps")
+statepoly <- maps::map("world", plot = FALSE)
 citylist <- list(x = us.cities$long, y = us.cities$lat)
 ```
 
@@ -230,8 +230,8 @@ We change the appearance of the lines and points in the previous plot by specify
 
 ```{r, fig.height = 5, fig.width = 5}
 pimage(lon, lat, tasmax[,,1], lines = statepoly, points = citylist, 
-       lines.args = list(lwd = 2, lty = 3, col = 'white'),
-       points.args = list(pch = 20, col = 'blue'))
+       lines.args = list(lwd = 2, lty = 3, col = "white"),
+       points.args = list(pch = 20, col = "blue"))
 ```
 
 When projections are used, the grid lines do not always go as far as they should.  Thus, axis customization is desired.  Additionally, the appearance of the grid lines might need improving.  The appears of the axis (and the locations of the grid lines) can be changed by passing `axis.args` through `...`.  `axis.args` should be a named list with components matching the arguments of the `axis` function in **graphics**.  The exception is that `xat` and `yat` arguments are used instead of `at` so that ticks on the x and y axes can be specified separately.  The appearance of the grid lines can be changed by passing the desired changes through the `paxes.args` argument.  This is a named list with options matching those in the `lines` function.
@@ -239,17 +239,17 @@ When projections are used, the grid lines do not always go as far as they should
 Consider the following poor graphic.
 
 ```{r, fig.height = 4, fig.width = 5}
-pimage(lon, lat, tasmax[,,1], proj = 'bonne', parameters = 40)
+pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40)
 ```
 
 The grid lines do not extend nearly far enough.  Additionally, there are numerous missing grid lines on the y axis.  We can add the desired grid lines by specifying `xat` and `yat` in `axis.args`.  We can also further change the appearance of the axes via other components of `axis.args`.  We change the appearance of the grid lines by specifying choices in `paxes.args`.
 
 ```{r, fig.height = 4, fig.width = 5}
-pimage(lon, lat, tasmax[,,1], proj = 'bonne', parameters = 40,
+pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
        axis.args = list(yat = seq(0, 70, by = 10), 
                         xat = seq(-220, 20, by = 20),
-                        col.axis = 'darkgrey', cex.axis = 0.9),
-       paxes.args = list(col = 'grey', lty = 2))
+                        col.axis = "darkgrey", cex.axis = 0.9),
+       paxes.args = list(col = "grey", lty = 2))
 ```
 
 The breaks and colors of the scale can be modified by specifying the `breaks` and `col` arguments, as in the `image` function in **graphics**.  Additional changes can be made by specifying `legend.axis.args`, a named list with components matching the elements of the `axis` function, which is used in creating the legend.  
@@ -257,7 +257,7 @@ The breaks and colors of the scale can be modified by specifying the `breaks` an
 ```{r, fig.height = 5, fig.width = 5}
 pimage(lon, lat, tasmax[,,1], col = viridis::magma(6), 
        breaks = c(0, 275, 285, 295, 305, 315, 325),
-       legend.axis.args = list(col.axis = 'blue', las = 2, cex.axis = 0.75))
+       legend.axis.args = list(col.axis = "blue", las = 2, cex.axis = 0.75))
 ```
 
 When non-gridded are used, the interpolation settings can be passed through `...` by specifying `interp.args`, a named list with components matching those of the `interp` function in the **akima** package.  We project the Colorado Aluminum measurements onto a finer grid in the following plot.
@@ -269,8 +269,8 @@ pimage(co$lon, co$lat, co$Al, interp.args = list(nx = 100, ny = 100))
 The appearance of `outer.title` can be modified by passing `mtext.args` through `...`.  `mtext.args` should be a named list with components matching the elements of `mtext`, which is the function used to create the common title.
 
 ```{r, fig.height = 5, fig.width = 5}
-autoimage(lon, lat, tasmax, outer.title = 'tasmax for 5 days',
-          mtext.args = list(col = 'blue', cex = 2),
+autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days",
+          mtext.args = list(col = "blue", cex = 2),
           lratio = 0.3)
 ```
 

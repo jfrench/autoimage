@@ -20,18 +20,18 @@ i.e., the different images to be constructed.}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to 
-the \code{'projection'} argument in the 
+default is \code{"none"}.  The other valid choices correspond to 
+the \code{"projection"} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
 \item{parameters}{A numeric vector specifying the values of the 
 \code{parameters} argument in the 
 \code{\link[mapproj]{mapproject}}.  This may be necessary when
-\code{proj != 'none'}.}
+\code{proj != "none"}.}
 
 \item{orientation}{A vector \code{c(latitude,longitude,rotation)} 
-which describes where the 'North Pole' should be when computing 
+which describes where the "North Pole" should be when computing 
 the projection.  See \code{\link[mapproj]{mapproject}} for more
 details.}
 
@@ -61,7 +61,7 @@ the image.  This interpolation can be customized by passing
 be a named list with component matching the non \code{x}, \code{y},
 and \code{z} arguments of the \code{\link[akima]{interp}} function.
 
-When \code{proj != 'none'}, the \code{\link[mapproj]{mapproject}} 
+When \code{proj != "none"}, the \code{\link[mapproj]{mapproject}} 
 function is used to project the \code{x} and \code{y} coordinates. 
 In that case, \code{proj} must correspond to one of the choices for
 the \code{projection} argument in the 
@@ -93,12 +93,12 @@ data(narccap)
 x <- rep(c(lon), 2)
 y <- rep(c(lat), 2)
 z <- c(tasmax[, , 1:2])
-f <- factor(rep(c('day 1', 'day 2'), each = length(lon)))
+f <- factor(rep(c("day 1", "day 2"), each = length(lon)))
 # load national borders
-data('worldMapEnv', package = 'maps')
-lines <- maps::map('world', plot = FALSE)
+data("worldMapEnv", package = "maps")
+lines <- maps::map("world", plot = FALSE)
 # obtain us captial cities
-data(us.cities, package = 'maps')
+data(us.cities, package = "maps")
 cap <- us.cities[us.cities$capital == 2, ]
 # convert to list format
 points <- list(x = cap$lon, y = cap$lat)
@@ -110,7 +110,7 @@ ggautoimage(x, y, z, f)
 ggautoimage(x, y, z, f, lines = lines, points = points)
 # project coordinates with national borders and U.S. capitals
 ggautoimage(x, y, z, f, lines = lines, points = points,
-            proj = 'bonne', parameters = 40)
+            proj = "bonne", parameters = 40)
 # finer interpolation grid
 ggautoimage(x, y, z, f, lines = lines, points = points,
             interp.args = list(nx = 100, ny = 100))

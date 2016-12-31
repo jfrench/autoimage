@@ -13,8 +13,8 @@ psegments(x0, y0, x1 = x0, y1 = y0, proj, ...)
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
-default is \code{'none'}.  The other valid choices correspond to 
-the \code{'projection'} argument in the 
+default is \code{"none"}.  The other valid choices correspond to 
+the \code{"projection"} argument in the 
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
@@ -32,10 +32,10 @@ projection.
 \examples{
 data(narccap)
 # plot image using bonne projection (w/o grid lines)
-pimage(lon, lat, tasmax[,,1], proj = 'bonne',
+pimage(lon, lat, tasmax[,,1], proj = "bonne",
        parameters = 40, paxes.args = list(grid = FALSE))
 # some locations for u.s. cities
-# taken from data(us.cities, package = 'maps')
+# taken from data(us.cities, package = "maps")
 boston <- c(-71.02, 42.34)
 la <- c(-118.41, 34.11)
 ny <- c(-73.94, 40.67)
@@ -45,10 +45,10 @@ x0 <- c(sf[1], ny[1])
 y0 <- c(sf[2], ny[2])
 x1 <- c(la[1], boston[1])
 y1 <- c(la[2], boston[2])
-psegments(x0, y0, x1, y1, proj = 'bonne', lwd = 3)
+psegments(x0, y0, x1, y1, proj = "bonne", lwd = 3)
 citycoords <- rbind(sf, la, ny, boston)
 cityxy <- list(x = citycoords[,1], y = citycoords[,2])
-citynames <- c('san francisco', 'los angeles', 'new york', 'boston') 
+citynames <- c("san francisco", "los angeles", "new york", "boston") 
 ptext(cityxy, labels = citynames, proj = 'bonne')
 }
 \seealso{

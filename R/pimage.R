@@ -26,7 +26,7 @@
 #' dimensions, then an image for irregularly gridded data is 
 #' constructed.
 #' 
-#' When \code{proj != 'none'}, the \code{\link[mapproj]{mapproject}} 
+#' When \code{proj != "none"}, the \code{\link[mapproj]{mapproject}} 
 #' function is used to project the \code{x} and \code{y} coordinates. 
 #' In that case, \code{proj} must correspond to one of the choices for
 #' the \code{projection} argument in the 
@@ -35,11 +35,11 @@
 #' \code{parameters} and \code{orientation} arguments. See Examples 
 #' and the \code{\link[mapproj]{mapproject}} function.
 #' 
-#' Valid options for \code{legend} are \code{'none'}, 
-#' \code{'horizontal'}, and \code{'vertical'}.  If \code{legend = 
-#' 'none'}, then no color scale is provided.  If \code{legend = 
-#' 'horizontal'}, then a color scale is included under the image.  If 
-#' \code{legend = 'vertical'}, then a color scale is added to the 
+#' Valid options for \code{legend} are \code{"none"}, 
+#' \code{"horizontal"}, and \code{"vertical"}.  If \code{legend = 
+#' "none"}, then no color scale is provided.  If \code{legend = 
+#' "horizontal"}, then a color scale is included under the image.  If 
+#' \code{legend = "vertical"}, then a color scale is added to the 
 #' right of the image.
 #' 
 #' Lines can be added to each image by passing the \code{lines} 
@@ -76,7 +76,7 @@
 #' The legend margin can be customized by passing \code{legend.mar} to
 #' \code{pimage} through \code{...}.  This should be a numeric vector
 #' indicating the margins of the legend, identical to how 
-#' \code{par('mar')} is specified.
+#' \code{par("mar")} is specified.
 #' 
 #' @param x,y Locations of grid points at which the values in \code{z}
 #'   are measured.  The values must be finite and non-missing.  These 
@@ -85,30 +85,30 @@
 #' @param z A numeric or logical vector or matrix containing the 
 #'   values to be plotted (NAs are allowed).
 #' @param legend A character string indicating where the color scale 
-#'   should be placed.  The default is \code{'horizontal'}.  The other
-#'   valid options are \code{'none'} and \code{'vertical'}.
+#'   should be placed.  The default is \code{"horizontal"}.  The other
+#'   valid options are \code{"none"} and \code{"vertical"}.
 #' @param proj A character string indicating what projection should be
 #'   used for the included \code{x} and \code{y} coordinates.  The 
-#'   default is \code{'none'}.  The other valid choices correspond to 
-#'   the \code{'projection'} argument in the 
+#'   default is \code{"none"}.  The other valid choices correspond to 
+#'   the \code{"projection"} argument in the 
 #'   \code{\link[mapproj]{mapproject}} function, which is used for the
 #'   projection.
 #' @param parameters A numeric vector specifying the values of the 
 #'   \code{parameters} argument in the 
 #'   \code{\link[mapproj]{mapproject}}.  This may be necessary when
-#'   \code{proj != 'none'}.
+#'   \code{proj != "none"}.
 #' @param orientation A vector \code{c(latitude,longitude,rotation)} 
-#'   which describes where the 'North Pole' should be when computing 
+#'   which describes where the "North Pole" should be when computing 
 #'   the projection.  See \code{\link[mapproj]{mapproject}} for more
 #'   details.
 #' @param lratio A numeric value indicating the ratio of the smaller 
 #'   dimension of the legend scale to the width of the image.  Default
 #'   is \code{lratio = 0.2}.
 #' @param map The name of the map to draw on the image. Default is 
-#'   \code{'none'}.  Other options include \code{'world'}, 
-#'   \code{'usa'}, \code{'state'}, \code{'county'}, \code{'france'}, 
-#'   \code{'nz'} (New Zealand), \code{'italy'}, \code{'lakes'}, and
-#'   \code{'world2'}, all from the \code{maps} package.
+#'   \code{"none"}.  Other options include \code{"world"}, 
+#'   \code{"usa"}, \code{"state"}, \code{"county"}, \code{"france"}, 
+#'   \code{"nz"} (New Zealand), \code{"italy"}, \code{"lakes"}, and
+#'   \code{"world2"}, all from the \code{maps} package.
 #' @param ... Additional arguments passed to the 
 #'   \code{\link[graphics]{image}} or \code{\link[fields]{poly.image}}
 #'   functions.  e.g., \code{xlab}, \code{ylab}, \code{xlim}, 
@@ -123,17 +123,17 @@
 #'   mtext
 #' @examples
 #' # image plot for data on an irregular grid
-#' pimage(lon, lat, tasmax[,,1], legend = 'h', map = 'world')
+#' pimage(lon, lat, tasmax[,,1], legend = "h", map = "world")
 #' # same plot but with projection and vertical legend
-#' pimage(lon, lat, tasmax[,,1], legend = 'v', map = 'world', 
-#'        proj = 'bonne', parameters = 45)
+#' pimage(lon, lat, tasmax[,,1], legend = "v", map = "world", 
+#'        proj = "bonne", parameters = 45)
 #' # different projection
-#' pimage(lon, lat, tasmax[,,1], proj = 'albers',
-#'        parameters = c(33, 45), map = 'world')
+#' pimage(lon, lat, tasmax[,,1], proj = "albers",
+#'        parameters = c(33, 45), map = "world")
 #' 
 #' reset.par() # reset graphics device
 #' # image plot for non-gridded data
-#' data(co, package = 'gear')
+#' data(co, package = "gear")
 #' pimage(co$longitude, co$latitude, co$Al)
 #' 
 #' # show observed locations on image,
@@ -142,17 +142,17 @@
 #' copoints <- list(x = co$lon, y = co$lat)
 #' pimage(co$longitude, co$latitude, co$Al, 
 #'        lines = copoly, 
-#'        lines.args = list(lwd = 2, col = 'grey'),
+#'        lines.args = list(lwd = 2, col = "grey"),
 #'        points = copoints, 
-#'        points.args = list(pch = 21, bg = 'white'),
+#'        points.args = list(pch = 21, bg = "white"),
 #'        xlim = c(-109.1, -102),
 #'        ylim = c(36.8, 41.1))
 #' 
 #' # image plot for data on irregular grid
 #' # notice the poor axis labeling
 #' data(narccap)
-#' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-#'        parameters = 45, map = 'world')
+#' pimage(lon, lat, tasmax[,,1], proj = "bonne",
+#'        parameters = 45, map = "world")
 #' # same plot but customize axis labeling 
 #' # need to extend horizontally-running axis lines
 #' # farther to the west and east
@@ -160,30 +160,30 @@
 #' # to run further north/sount
 #' # will need manual adjusting depending on size
 #' # of current device 
-#' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-#'        parameters = 45, map = 'world', 
+#' pimage(lon, lat, tasmax[,,1], proj = "bonne",
+#'        parameters = 45, map = "world", 
 #'        xaxp = c(-200, 0, 10), yaxp = c(-10, 80, 9))
 #' 
 #' # the same effect can be acheived by specifying axis.args
 #' # we also modify the color and size of the axis labels
-#' pimage(lon, lat, tasmax[,,1], proj = 'bonne',
-#'        parameters = 45, map = 'world', 
+#' pimage(lon, lat, tasmax[,,1], proj = "bonne",
+#'        parameters = 45, map = "world", 
 #'        axis.args = list(xat = seq(-200, 0, by = 20),
 #'                         yat = seq(0, 70, by = 10),
-#'                         col.axis = 'blue', 
+#'                         col.axis = "blue", 
 #'                         cex.axis = 0.5))
 #' 
 #' # modify colors of legend, map, line type for grid lines
 #' # and customize axis
 #' pimage(lon, lat, tasmax[,,1], 
-#'        legend = 'v', proj = 'bonne', parameters = 45,
-#'        map = 'state',
+#'        legend = "v", proj = "bonne", parameters = 45,
+#'        map = "state",
 #'        paxes.args = list(lty = 3),
-#'        legend.axis.args = list(col = 'blue', col.axis = 'blue'),
+#'        legend.axis.args = list(col = "blue", col.axis = "blue"),
 #'        col = fields::tim.colors(64),
-#'        xlab = 'longitude',
-#'        ylab = 'latitude',
-#'        main = 'temperature (K)')
+#'        xlab = "longitude",
+#'        ylab = "latitude",
+#'        main = "temperature (K)")
 #' reset.par() # reset graphics device
 #' @export
 pimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters, 

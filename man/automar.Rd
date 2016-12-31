@@ -9,23 +9,23 @@ automar(legend = "none")
 \arguments{
 \item{legend}{A character string indicating the orientation of the
 \code{\link[autoimage]{legend.scale}}. The default is
-\code{'none'}.  The other valid options are \code{'horizontal'}
-and \code{'vertical'}.}
+\code{"none"}.  The other valid options are \code{"horizontal"}
+and \code{"vertical"}.}
 }
 \description{
 \code{automar} determines sensible margins for 
 \code{\link[autoimage]{legend.scale}} based on the value currently
-set for \code{par('mar')}.
+set for \code{par("mar")}.
 }
 \details{
 The margins produced by \code{automar} are based on the current
-choice of \code{par('mar')}. If the user has specified a poor
-choice for \code{par('mar')}, then \code{automar} might also
+choice of \code{par("mar")}. If the user has specified a poor
+choice for \code{par("mar")}, then \code{automar} might also
 produce a poor choice for the legend margin.
 }
 \examples{
 automar()
-automar('h')
-automar('v')
+automar("h")
+automar("v")
 }
 
