@@ -89,13 +89,13 @@ The `autoimage` function generalizes the `pimage` function to allow for multiple
 
 The structure of `z` will vary slightly from the `pimage` function.  Specifically, if multiple gridded images are to be constructed, then `z` will be a three-dimensional array instead of a matrix.  Each element of the third dimension of `z` corresponds to the matrix of gridded values for each image.  If images for multiple non-gridded variables are to be constructed, then `z` will be a matrix with each column corresponding to a different variable.
 
-Passing a three-dimensional array to `autoimage` constructs a sequence of images with a common legend.  Note that `lratio` is increased to produce a more sensible legend thickness.
+Passing a three-dimensional array to `autoimage` constructs a sequence of images with a common legend.  Note that we increase `lratio` to produce a more sensible legend thickness.
 
 ```{r, fig.height=5, fig.width=5}
 autoimage(lon, lat, tasmax, lratio = 0.25)
 ```
 
-Passing a two-dimensional matrix for `z` (where the number of rows matches the length of `x` and `y`) constructs a sequence of images for non-gridded data with a common legend.  Note titles are added to each image using the `main` argument by providing a character vector whose length matches the number of plotted images.
+Passing a two-dimensional matrix for `z` (where the number of rows matches the length of `x` and `y`) constructs a sequence of images for non-gridded data with a common legend.  Titles are added to each image using the `main` argument by providing a character vector whose length matches the number of plotted images.
 
 ```{r, fig.height=5, fig.width=5}
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
@@ -242,7 +242,7 @@ Consider the following poor graphic.
 pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40)
 ```
 
-The grid lines do not extend nearly far enough.  Additionally, there are numerous missing grid lines on the y axis.  We can add the desired grid lines by specifying `xat` and `yat` in `axis.args`.  We can also further change the appearance of the axes via other components of `axis.args`.  We change the appearance of the grid lines by specifying choices in `paxes.args`.
+The grid lines do not extend nearly far enough.  Additionally, there are only two tick marks on the y axis.  We can add additional longer grid lines by specifying `xat` and `yat` in `axis.args`.  We can also further change the appearance of the axes via other components of `axis.args`.  We change the appearance of the grid lines by specifying choices in `paxes.args`.
 
 ```{r, fig.height = 4, fig.width = 5}
 pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,

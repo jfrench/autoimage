@@ -1,8 +1,8 @@
 Package: autoimage
 Type: Package
 Title: Display Images with Color Scale for Projected Coordinates
-Version: 0.3.25
-Date: 2016-12-29
+Version: 0.3.26
+Date: 2017-01-12
 Author: Joshua French
 Maintainer: Joshua French <joshua.french@ucdenver.edu>
 BugReports: https://github.com/jpfrench81/autoimage/issues
