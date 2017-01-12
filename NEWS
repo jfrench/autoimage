@@ -7,4 +7,5 @@
         etc., to existing images created by pimage.  Create helper
         function to make plot similar to autoimage using ggplot2.
         Introduce incompatibilities with version 0.3.1.  Add vignette
-        with examples of package capabilities.
+        with examples of package capabilities.  Update License because
+        of importation of akima package.

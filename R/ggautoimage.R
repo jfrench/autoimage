@@ -76,9 +76,9 @@
 #' # convert to list format
 #' points <- list(x = cap$lon, y = cap$lat)
 #' 
+#' \dontrun{
 #' # basic images
 #' ggautoimage(x, y, z, f)
-#' \dontrun{
 #' # basic images with national borders and U.S. captials
 #' ggautoimage(x, y, z, f, lines = lines, points = points)
 #' # project coordinates with national borders and U.S. capitals
