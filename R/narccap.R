@@ -4,7 +4,8 @@
 #' @description These data are taken from the North American Regional
 #'   Climate Change Assessment Program (NARCCAP). Specifically, data
 #'   provide maximum daily surface air temperature (K) (abbreviated
-#'   tasmax) for the five consecutive days of May 15, 2041 to May 19,
+#'   tasmax) for locations in the United States, Mexico, and Canada 
+#'   for the five consecutive days of May 15, 2041 to May 19,
 #'   2041 simulated by the Weather Research and Forecasting model
 #'   (WRFG) regional climate model forced by the Canadian Climate
 #'   Centre (CGCM3) atmosphere-ocean general circular model.
@@ -16,7 +17,8 @@
 #'   of latitude coordinates.} \item{tasmax}{A
 #'   140\eqn{\times}115\eqn{\times}5 array of tasmax values.} }
 #' @source The National Center for Atmospheric Research 
-#'   \url{http://www.narccap.ucar.edu/index.html}.
+#'   \url{http://www.narccap.ucar.edu/index.html}.  Data may be 
+#'   downloaded at \url{https://www.earthsystemgrid.org/home.html}.
 #' @references Mearns, L.O., et al., 2007, updated 2012. The North
 #'   American Regional Climate Change Assessment Program dataset,
 #'   National Center for Atmospheric Research Earth System Grid data

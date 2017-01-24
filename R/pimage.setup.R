@@ -163,7 +163,11 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
       interp.args$x <- x
       interp.args$y <- y
       interp.args$z <- z
-      interpf <- akima::interp
+      if (requireNamespace("akima", quietly = TRUE)) {
+        interpf <- akima::interp
+      } else {
+        stop("User must manually install the akima package to enable this functionality due to licensing restrictions")
+      }
       ixyz <- do.call(interpf, interp.args)
       x <- ixyz$x
       y <- ixyz$y

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joshua P. French" />
 
-<meta name="date" content="2017-01-12" />
+<meta name="date" content="2017-01-14" />
 
 <title>How to Use the autoimage package</title>
 
@@ -70,18 +70,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">How to Use the <strong>autoimage</strong> package</h1>
 <h4 class="author"><em>Joshua P. French</em></h4>
-<h4 class="date"><em>2017-01-12</em></h4>
+<h4 class="date"><em>2017-01-14</em></h4>
 
 
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>The goal of the <strong>autoimage</strong> package is to easily plot a sequence of images with corresponding color scales, i.e., a sequence of heatmaps, with straightforward, native options for projection of geographical coordinates. The package makes it simple to add lines, points, and other graphics features to these image plots, even when the coordinates are projected. The package allows for seamless creation of heat maps for data on regular or irregular grids, as well as that is not on a grid.</p>
+<p>The <strong>autoimage</strong> package makes it easy to plot a sequence of images with corresponding color scales, i.e., a sequence of heatmaps, with straightforward, native options for projection of geographical coordinates. The package makes it simple to add lines, points, and other features to the images, even when the coordinates are projected. The package allows for seamless creation of heat maps for data on regular or irregular grids, as well as data that is not on a grid.</p>
 </div>
 <div id="examples" class="section level2">
 <h2>Examples</h2>
 <p>The most important functions in <strong>autoimage</strong> are the <code>pimage</code> and <code>autoimage</code> functions. We illustrate the basic usage of these functions using two data sets: the first is data on an irregular grid and the second is non-gridded data.</p>
-<p>The first data set we utilize comes from the North American Regional Climate Change Assessment Program (NARCCAP, <a href="http://www.narccap.ucar.edu/" class="uri">http://www.narccap.ucar.edu/</a>). Specifically, the data are the maximum daily surface air temperature (K) (abbreviated tasmax) for the five consecutive days of May 15, 2041 to May 19, 2041 simulated by the Weather Research and Forecasting model (WRFG) regional climate model forced by the Canadian Climate Centre (CGCM3) atmosphere-ocean general circular model. The data set contains <code>lon</code>, a 140 <span class="math inline">\(\times\)</span> 115 matrix of longitude coordinates, <code>lat</code>, a 140 <span class="math inline">\(\times\)</span> 115 matrix of latitude coordinates, and <code>tasmax</code>, a 140 <span class="math inline">\(\times\)</span> 115 <span class="math inline">\(\times\)</span> 5 array where each element of the third dimension of the array corresponds to the <code>tasmax</code> measurements of the respective day.</p>
+<p>The first data set we utilize comes from the North American Regional Climate Change Assessment Program (NARCCAP, <a href="http://www.narccap.ucar.edu/" class="uri">http://www.narccap.ucar.edu/</a>). Specifically, the data are the maximum daily surface air temperature (K) (abbreviated tasmax) for the five consecutive days of May 15, 2041 to May 19, 2041 simulated by the Weather Research and Forecasting model (WRFG) regional climate model forced by the Canadian Climate Centre (CGCM3) atmosphere-ocean general circular model. The data set contains <code>lon</code>, a 140 <span class="math inline">\(\times\)</span> 115 matrix of longitude coordinates, <code>lat</code>, a 140 <span class="math inline">\(\times\)</span> 115 matrix of latitude coordinates, and <code>tasmax</code>, a 140 <span class="math inline">\(\times\)</span> 115 <span class="math inline">\(\times\)</span> 5 array, where each element of the third dimension of the array corresponds to the <code>tasmax</code> measurements of the respective day.</p>
 <p>The second data set we utilize is geochemical measurements obtained by the United States Geological Survy (USGS) in the state of Colorado. The data are stored as a data frame with 960 rows and 31 columns. <code>easting</code>, <code>northing</code>, <code>latitude</code>, and <code>longitude</code> variables are provided in the data frame, as well as Aluminum (<code>Al</code>), Calcium (<code>Ca</code>), Iron (<code>Fe</code>), and many more chemicals measurements.</p>
 <p>The <code>autoimage</code> function is a generalization of the <code>pimage</code> function, so we discuss the <code>pimage</code> function first.</p>
 <div id="basic-usage-of-pimage" class="section level3">

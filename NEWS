@@ -9,3 +9,6 @@
         Introduce incompatibilities with version 0.3.1.  Add vignette
         with examples of package capabilities.  Update License because
         of importation of akima package.
+        
+# 1.1 - Update package to suggest akima package.  Done for GPL 
+        reasons.  User must install akima manually.

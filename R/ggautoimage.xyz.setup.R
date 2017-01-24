@@ -14,7 +14,12 @@ ggautoimage.xyz.setup <- function(x, y, z, f, interp.args) {
       temp.interp.args$x <- c(xi)
       temp.interp.args$y <- c(yi)
       temp.interp.args$z <- c(zi)
-      fun <- akima::interp
+      if (requireNamespace("akima", quietly = TRUE)) {
+        fun <- akima::interp
+      } else {
+        stop("User must manually install the akima package to enable this functionality due to licensing restrictions")
+      }
+      
       # interpoluation output
       iout <- do.call(fun, temp.interp.args)
       xy <- expand.grid(iout$x, iout$y)
