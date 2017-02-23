@@ -12,3 +12,6 @@
         
 # 1.1 - Update package to suggest akima package.  Done for GPL 
         reasons.  User must install akima manually.
+
+# 1.2 - Update vignette and narccap data documentation to correct
+        error in climate models.  

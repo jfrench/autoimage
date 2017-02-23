@@ -16,9 +16,9 @@ The **autoimage** package makes it easy to plot a sequence of images with corres
 
 The most important functions in **autoimage** are the `pimage` and `autoimage` functions. We illustrate the basic usage of these functions using two data sets: the first is data on an irregular grid and the second is non-gridded data.
 
-The first data set we utilize comes from the North American Regional Climate Change Assessment Program (NARCCAP, http://www.narccap.ucar.edu/).  Specifically, the data are the maximum daily surface air temperature (K) (abbreviated tasmax) for the five consecutive days of May 15, 2041 to May 19, 2041 simulated by the Weather Research and Forecasting model (WRFG) regional climate model forced by the Canadian Climate Centre (CGCM3) atmosphere-ocean general circular model.  The data set contains `lon`, a 140 $\times$ 115 matrix of longitude coordinates, `lat`, a 140 $\times$ 115 matrix of latitude coordinates, and `tasmax`, a 140 $\times$ 115 $\times$ 5 array, where each element of the third dimension of the array corresponds to the `tasmax` measurements of the respective day.
+The first data set we utilize comes from the North American Regional Climate Change Assessment Program (NARCCAP, http://www.narccap.ucar.edu/).  Specifically, the data are the maximum daily surface air temperature (K) (abbreviated tasmax) for the five consecutive days of May 15, 2041 to May 19, 2041 simulated using the Canadian Regional Climate Model (Caya and Laprise, 1999) forced by the Community Climate System Model atmosphere-ocean general circular model (Collins et al., 2006).  The data set contains `lon`, a 140 $\times$ 115 matrix of longitude coordinates, `lat`, a 140 $\times$ 115 matrix of latitude coordinates, and `tasmax`, a 140 $\times$ 115 $\times$ 5 array, where each element of the third dimension of the array corresponds to the `tasmax` measurements of the respective day.
 
-The second data set we utilize is geochemical measurements obtained by the United States Geological Survy (USGS) in the state of Colorado.  The data are stored as a data frame with 960 rows and 31 columns.  `easting`, `northing`, `latitude`, and `longitude` variables are provided in the data frame, as well as Aluminum (`Al`), Calcium (`Ca`), Iron (`Fe`), and many more chemicals measurements.
+The second data set we utilize is geochemical measurements obtained by the United States Geological Survey (USGS) in the state of Colorado.  The data are stored as a data frame with 960 rows and 31 columns.  `easting`, `northing`, `latitude`, and `longitude` variables are provided in the data frame, as well as Aluminum (`Al`), Calcium (`Ca`), Iron (`Fe`), and many more chemical measurements.
 
 The `autoimage` function is a generalization of the `pimage` function, so we discuss the `pimage` function first.
 
@@ -48,7 +48,7 @@ pimage(co$longitude, co$latitude, co$Al)
 
 We now discuss the basic options of the `pimage` function.
 
-The color scheme used for an image plot can be of great importance.  The `viridis` color scheme from the **viridis** package is used by default as it is, "... designed in such a way that [it] will analytically be perfectly perceptually-uniform, both in regular form and also when converted to black-and-white. [It is] also designed to be perceived by readers with the most common form of color blindness."  The colors of the color scale can be modified by passing a vector of colors to the `col` argument through `...`, as in the `image` function in **graphics**.  We use 6 colors from the `magma` color pallete in the **viridis** package in the next example.
+The color scheme used for an image plot can be of great importance.  The `viridis` color scheme from the **viridis** package is used by default as it is, "... designed in such a way that [it] will analytically be perfectly perceptually-uniform, both in regular form and also when converted to black-and-white. [It is] also designed to be perceived by readers with the most common form of color blindness."  The colors of the color scale can be modified by passing a vector of colors to the `col` argument through `...`, as in the `image` function in **graphics**.  We use 6 colors from the `magma` color palette in the **viridis** package in the next example.
 
 ```{r, fig.height = 5, fig.width = 5}
 pimage(lon, lat, tasmax[,,1], col = viridis::magma(6))
@@ -161,7 +161,7 @@ codf <- codf[c(3, 5, 7:11, 15, 18), ]
 capdf <- us.cities[us.cities$capital == 2,]
 ```
 
-Having obtained the relevant information, we setup a 1 $\times$ 2 matrix of images with individual horizontal legends and an area for a commmon title.  We create an image plot of NARCCAP data using the mercator projection and including grey state borders.  The borders of Hawaii and Alaska are added using the `plines` function.  The state capitals are added to the image using the `ppoints` function.  The first image is then titled using the `title` function.  The legend is then added using the `autolegend` function.  Next, an image of the Colorado Aluminum measurements is created.  The coordinates are projected using the Bonne projection, the color scheme is customized, grey county borders are added to the plot, but the grid lines are removed.  The `ppoints` function is then used to add locations for several Colorado cities to the image.  The `ptext` function is then used to add the names of these cities to the image.  The second image is then titled using the `title` function. The appropriate legend is then added using the `autolegend` function.  Lastly, a common title is added using the `mtext` function.  
+Having obtained the relevant information, we setup a 1 $\times$ 2 matrix of images with individual horizontal legends and an area for a common title.  We create an image plot of NARCCAP data using the mercator projection and including grey state borders.  The borders of Hawaii and Alaska are added using the `plines` function.  The state capitals are added to the image using the `ppoints` function.  The first image is then titled using the `title` function.  The legend is then added using the `autolegend` function.  Next, an image of the Colorado Aluminum measurements is created.  The coordinates are projected using the Bonne projection, the color scheme is customized, grey county borders are added to the plot, but the grid lines are removed.  The `ppoints` function is then used to add locations for several Colorado cities to the image.  The `ptext` function is then used to add the names of these cities to the image.  The second image is then titled using the `title` function. The appropriate legend is then added using the `autolegend` function.  Lastly, a common title is added using the `mtext` function.  
 
 ```{r, fig.width=7, fig.height=5, hold=TRUE}
 # setup plotting area
@@ -274,5 +274,12 @@ autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days",
           lratio = 0.3)
 ```
 
+## References
 
+Mearns, L.O., et al., 2007, updated 2012. The North American Regional Climate Change Assessment Program dataset, National Center for Atmospheric Research Earth System Grid data portal, Boulder, CO. Data downloaded 2016-08-12. http://dx.doi.org/10.5065/D6RN35ST.
+   
+Mearns, L. O., W. J. Gutowski, R. Jones, L.-Y. Leung, S. McGinnis, A. M. B. Nunes, and Y. Qian: A regional climate change assessment program for North America. EOS, Vol. 90, No. 36, 8 September 2009, pp. 311-312.
 
+D. Caya and R. Laprise. A semi-implicit semi-Lagrangian regional climate model: The Canadian RCM. Monthly Weather Review, 127(3):341–362, 1999.
+
+M. Collins, B. B. Booth, G. R. Harris, J. M. Murphy, D. M. Sexton, and M. J. Webb. Towards quantifying uncertainty in transient climate change. Climate Dynamics, 27(2-3):127–147, 2006. http://dx.doi.org/10.1007/s00382-006-0121-0.
