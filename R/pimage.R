@@ -118,7 +118,6 @@
 #' @seealso \code{\link[graphics]{image}}, 
 #'   \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
 #' @return NULL
-#' @importFrom akima interp
 #' @importFrom graphics axTicks axis box image layout par points lines
 #'   mtext
 #' @examples
