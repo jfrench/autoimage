@@ -47,4 +47,3 @@ parrows <- function(x0, y0, x1 = x0, y1 = y0, proj, ...) {
   f <- graphics::arrows
   do.call(f, object)
 }
-TRUE

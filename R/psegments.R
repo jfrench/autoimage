@@ -58,4 +58,3 @@ psegments <- function(x0, y0, x1 = x0, y1 = y0, proj, ...) {
   f <- graphics::segments
   do.call(f, object)
 }
-TRUE

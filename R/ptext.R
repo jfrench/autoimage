@@ -98,4 +98,3 @@ arg.check.ptext <- function(x, y, labels, proj, arglist) {
   arglist$labels <- labels
   arglist
 }
-TRUE

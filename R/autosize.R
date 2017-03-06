@@ -48,4 +48,3 @@ autosize <- function(n) {
     stop("autosize only works for n <= 36.  user must choose size.")
   }
 }
-TRUE

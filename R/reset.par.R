@@ -83,4 +83,3 @@ reset.par <- function() {
   )
   par(parlist)
 }
-TRUE

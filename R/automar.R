@@ -31,4 +31,3 @@ automar <- function(legend = "none") {
   }
   return(legend.mar)
 }
-TRUE

@@ -68,4 +68,3 @@ autoimage.match.old.args <- function(legend = "horizontal", proj = "none",
   return(list(legend = legend, proj = proj, proj.args = proj.args, lratio = lratio, 
     arglist = arglist))
 }
-TRUE

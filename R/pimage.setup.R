@@ -240,4 +240,3 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
     lines = lines, lines.args = lines.args, axes = axes, paxes.args = paxes.args)
   return(object)
 }
-TRUE

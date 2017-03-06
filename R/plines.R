@@ -86,4 +86,3 @@ arg.check.plines <- function(x, y, type, proj, arglist) {
   arglist$type <- type
   arglist
 }
-TRUE

@@ -242,4 +242,3 @@ arg.check.autolayout <- function(size, legend, common.legend, outer, show,
     stop("legend.mar cannot have negative values")
   }
 }
-TRUE

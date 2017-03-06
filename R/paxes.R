@@ -174,4 +174,3 @@ arg.check.paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid) {
     stop("grid should be a logical value")
   }
 }
-TRUE

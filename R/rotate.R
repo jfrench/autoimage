@@ -49,5 +49,3 @@ arg.check.rotate <- function(coords, theta, pivot) {
     stop("pivot must be a numeric vector of length 2")
   }
 }
-
-TRUE

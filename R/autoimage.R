@@ -245,4 +245,3 @@ arg.check.autoimage <- function(common.legend, size = c(1, 1), outer.title = NUL
   }
   return(list(outer = outer, mtext.args = mtext.args))
 }
-TRUE

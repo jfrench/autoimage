@@ -80,4 +80,3 @@ arg.check.ppolygon <- function(x, y, proj, arglist) {
   arglist$y <- y
   arglist
 }
-TRUE

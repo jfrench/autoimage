@@ -77,4 +77,3 @@ pimage.xyz.setup <- function(x, y, z, tx, ty, arglist) {
   }
   return(list(x = x, y = y, z = z, arglist = arglist))
 }
-TRUE

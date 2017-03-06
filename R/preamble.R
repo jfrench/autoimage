@@ -5,5 +5,3 @@
   greet <- paste("# This package was created for research supported by NSF Grant DMS-1463642 and NIH Grant R01 CA157528")
   packageStartupMessage(greet)
 }
-
-TRUE

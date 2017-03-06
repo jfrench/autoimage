@@ -235,5 +235,3 @@ pimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters,
   }
   return(invisible(structure(object, class = "pimage")))
 }
-
-TRUE

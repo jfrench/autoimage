@@ -103,4 +103,3 @@ legend.scale <- function(zlim, col = viridis::viridis(12), horizontal = TRUE,
   graphics::box()
   do.call("axis", axis.args)
 }
-TRUE

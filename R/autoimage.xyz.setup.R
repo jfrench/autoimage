@@ -248,4 +248,3 @@ autoimage.xyz.setup <- function(x, y, z, tx, ty, arglist, verbose, common.legend
   }
   return(invisible(xyz.list))
 }
-TRUE

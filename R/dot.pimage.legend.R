@@ -20,5 +20,3 @@
   function(new) if (!missing(new)) 
     val <<- new else val
 })
-
-TRUE

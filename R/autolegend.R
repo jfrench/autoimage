@@ -99,4 +99,3 @@ autolegend <- function() {
   do.call("legend.scale", legend.scale.args)
   par(mar = curmar)
 }
-TRUE

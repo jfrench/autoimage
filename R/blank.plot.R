@@ -15,4 +15,3 @@
 blank.plot <- function() {
   graphics::plot(1:2, 1:2, type = "n", axes = FALSE, ann = FALSE)
 }
-TRUE
