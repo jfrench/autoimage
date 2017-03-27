@@ -1,7 +1,7 @@
 autoimage README
 ================
 
-[![Build Status](https://travis-ci.org/jpfrench81/autoimage.svg?branch=master)](https://travis-ci.org/jpfrench81/autoimage)
+[![Build Status](https://travis-ci.org/jpfrench81/autoimage.svg?branch=master)](https://travis-ci.org/jpfrench81/autoimage)[![codecov](https://codecov.io/gh/jpfrench81/autoimage/branch/master/graph/badge.svg)](https://codecov.io/gh/jpfrench81/autoimage)
 
 The **autoimage** R package
 ===========================

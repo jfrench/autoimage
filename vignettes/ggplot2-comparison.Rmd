@@ -30,6 +30,7 @@ As a preliminary, we create a day vector related to the date of the temperatures
 library(autoimage)
 library(ggplot2)
 par(mar = c(3.1, 2.1, 2.1, 1.1))
+# knitr::opts_chunk$set(out.width = '50%', out.height = '50%')
 ```
 
 

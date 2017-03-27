@@ -30,6 +30,7 @@ We create a basic image plot by providing `x`, `y`, and `z` to the `pimage` func
 
 ```{r, include=FALSE}
 library(autoimage)
+# knitr::opts_chunk$set(out.width = '50%', out.height = '50%')
 ```
 
 ```{r, fig.height=5, fig.width=5}
