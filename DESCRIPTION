@@ -1,7 +1,7 @@
 Package: autoimage
 Type: Package
 Title: Multiple Heat Maps for Projected Coordinates
-Version: 1.2.7
+Version: 1.2.8
 Date: 2017-03-27
 Author: Joshua French
 Maintainer: Joshua French <joshua.french@ucdenver.edu>
@@ -24,10 +24,10 @@ Suggests:
     testthat,
     spatstat,
     gear,
-    knitr,
-    rmarkdown,
     broom,
-    gridExtra
+    gridExtra,
+    knitr,
+    rmarkdown
 License: GPL (>=2)
 LazyData: TRUE
 RoxygenNote: 6.0.1

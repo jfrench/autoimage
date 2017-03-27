@@ -58,7 +58,7 @@ The orientation of the color scale can be changed by changing the `legend` argum
 
 The following code creates a heat map with a vertical color scale. 
 
-```{r, fig.height=5, fig.width=5}
+```{r, fig.height=5, fig.width=7}
 pimage(x = lon, y = lat, z = tasmax[,,1], legend = "vertical")
 ```
 
@@ -91,7 +91,7 @@ The structure of `z` will vary slightly from the `pimage` function.  Specificall
 
 Passing a three-dimensional array to `autoimage` constructs a sequence of images with a common legend.  Note that we increase `lratio` to produce a more sensible legend thickness.
 
-```{r, fig.height=5, fig.width=5}
+```{r, fig.height=5, fig.width=7}
 autoimage(lon, lat, tasmax, lratio = 0.25)
 ```
 
@@ -115,17 +115,17 @@ autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
 
 The dimensions of the plotting matrix can be changed by specifying the `size` argument.  If not provided, then a sensible choice is automatically chosen via the `autosize` function.  The `size` argument should be a two-dimensional vector where the first element corresponds to the number of rows of images and the second dimension corresponds to the number of columns.
 
-We create a 1 $\times$ 5 matrix of images for the NARCCAP data.
+We create a 1 $\times$ 3 matrix of images for the NARCCAP data.
 
-```{r, fig.height=3, fig.width=7}
-autoimage(lon, lat, tasmax, size = c(1, 5))
+```{r, fig.height=3.5, fig.width=7}
+autoimage(lon, lat, tasmax[,,1:3], size = c(1, 3))
 ```
 
 A common title is sometimes desired for a sequence of images.  This can easily be added by specifying the `outer.title` argument.  The margins of the common title can be controlled via the `oma` argument of `par`.  However, if `oma` is not specified beforehand, then a sensible value is automatically chosen (while showing a warning to the user.)
 
 We add a common title to the NARCCAP data.
 
-```{r, fig.height = 5, fig.width = 5}
+```{r, fig.height = 6, fig.width = 7}
 autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days")
 ```
 
@@ -248,7 +248,7 @@ the non-`x`, `y`, and `labels` arguments of the
 We add the names and locations of two Colorado cities to the Colorado
 geochemical data.
 
-```{r, fig.height=5, fig.width=5}
+```{r, fig.height=4, fig.width=7}
 citypoints = list(x = c(-104.98, -104.80), y = c(39.74, 38.85),
                   labels = c("Denver", "Colorado Springs"))
 autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE, 
@@ -296,7 +296,7 @@ pimage(co$lon, co$lat, co$Al, interp.args = list(nx = 100, ny = 100))
 The appearance of `outer.title` can be modified by passing `mtext.args` through `...`.  `mtext.args` should be a named list with components matching 
 the arguments of `mtext`, which is the function used to create the common title.
 
-```{r, fig.height = 5, fig.width = 5}
+```{r, fig.height = 5, fig.width = 6}
 autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days",
           mtext.args = list(col = "blue", cex = 2),
           lratio = 0.3)

@@ -410,7 +410,7 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
   arglist$text <- NULL
   if (!is.null(text)) {
     if (!is.list(text)) {
-      stop("text must be a list with vectors x, y, and (possibly) labels")
+      stop("text must be a list")
     }
     if (is.null(text$x) | is.null(text$y)) {
       stop("text must be a list with vectors x, y, and (possibly) labels")
