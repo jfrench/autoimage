@@ -104,7 +104,7 @@ mtext("Two complicated maps", col = "purple", outer = TRUE, cex = 2)
 
 ## ------------------------------------------------------------------------
 data(stateMapEnv, package = "maps")
-statepoly <- maps::map("world", plot = FALSE)
+statepoly <- maps::map("state", plot = FALSE)
 citylist <- list(x = us.cities$long, y = us.cities$lat)
 
 ## ---- fig.height = 5, fig.width = 5--------------------------------------
@@ -114,6 +114,16 @@ pimage(lon, lat, tasmax[,,1], lines = statepoly, points = citylist)
 pimage(lon, lat, tasmax[,,1], lines = statepoly, points = citylist, 
        lines.args = list(lwd = 2, lty = 3, col = "white"),
        points.args = list(pch = 20, col = "blue"))
+
+## ---- fig.height=5, fig.width=5------------------------------------------
+citypoints = list(x = c(-104.98, -104.80), y = c(39.74, 38.85),
+                  labels = c("Denver", "Colorado Springs"))
+autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE, 
+          main = c("Aluminum", "Cadmium"), 
+          points = citypoints,
+          points.args = list(pch = 20, col = "white"),
+          text = citypoints,
+          text.args = list(pos = 3, col = "white"))
 
 ## ---- fig.height = 4, fig.width = 5--------------------------------------
 pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40)

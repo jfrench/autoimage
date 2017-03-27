@@ -1,8 +1,8 @@
 Package: autoimage
 Type: Package
 Title: Multiple Heat Maps for Projected Coordinates
-Version: 1.2.6
-Date: 2017-03-24
+Version: 1.2.7
+Date: 2017-03-27
 Author: Joshua French
 Maintainer: Joshua French <joshua.french@ucdenver.edu>
 BugReports: https://github.com/jpfrench81/autoimage/issues
