@@ -28,4 +28,3 @@ automar()
 automar("h")
 automar("v")
 }
-

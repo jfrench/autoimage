@@ -11,10 +11,9 @@ ptext(x, y = NULL, labels, proj, ...)
     \code{labels} should be written.  If the length of \code{x} and
     \code{y} differs, the shorter one is recycled.}
 
-\item{y}{Locations of grid points at which the values in \code{z}
-are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors or matrices depending on the type
-of data to be displayed.  See Details.}
+\item{y}{numeric vectors of coordinates where the text
+    \code{labels} should be written.  If the length of \code{x} and
+    \code{y} differs, the shorter one is recycled.}
 
 \item{labels}{a character vector or \link{expression} specifying
     the \emph{text} to be written.  An attempt is made to coerce other
@@ -64,4 +63,3 @@ ptext(x = citysmall$lon, y = citysmall$lat,
   \code{\link[mapproj]{mapproject}},
   \code{\link[autoimage]{pimage}}
 }
-

@@ -45,4 +45,3 @@ parrows(cityxy$x[1:4], cityxy$y[1:4], cityxy$x[2:5], cityxy$y[2:5],
   \code{\link[mapproj]{mapproject}}, 
   \code{\link[autoimage]{pimage}}
 }
-

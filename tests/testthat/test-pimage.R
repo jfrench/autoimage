@@ -39,10 +39,12 @@ if (test) {
   pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "bonne", 
     parameters = 45, main = "with bonne projection dashed grey grid", 
     paxes.args = list(col = "grey", lty = 2))
+  
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "mercator", 
     main = "bonne projection, thick grey lines", paxes.args = list(grid = FALSE), 
     lines = worldpoly, lines.args = list(col = "grey", lwd = 3))
+  
   par(curpar)
   data(us.cities, package = "maps")
   usm <- head(us.cities)
@@ -50,6 +52,16 @@ if (test) {
   pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "mercator", 
     main = "mercator projection, solid orange points", paxes.args = list(grid = FALSE), 
     points = cityxy, points.args = list(col = "orange", pch = 20))
+  
+  
+  par(curpar)
+  data(us.cities, package = "maps")
+  usm <- head(us.cities)
+  cityxy <- list(x = usm$long, y = usm$lat)
+  pimage(lon, lat, z = tasmax[, , 1], legend = "none", proj = "mercator", 
+         main = "mercator projection, orange numbered text", paxes.args = list(grid = FALSE), 
+         text = cityxy, text.args = list(col = "orange"))
+  
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", lratio = 0.5, 
     main = "wide vertical bar")
@@ -57,6 +69,7 @@ if (test) {
   pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", lratio = 0.5, 
     main = "blue legend text", legend.axis.args = list(col = "blue", 
       col.axis = "blue", at = seq(280, 320, 20)))
+  
   par(curpar)
   pimage(lon, lat, z = tasmax[, , 1], legend = "vertical", proj = "bonne", 
     parameters = 45, xlim = c(-130, -60), ylim = c(23, 50))

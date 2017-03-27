@@ -21,4 +21,3 @@ blank.plot()
 \seealso{
 \code{autoimage}
 }
-

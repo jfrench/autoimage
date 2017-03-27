@@ -120,4 +120,3 @@ ggautoimage(x, y, z, f, lines = lines, points = points,
 \code{\link[autoimage]{autoimage}},
   \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
 }
-

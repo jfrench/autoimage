@@ -56,4 +56,3 @@ ptext(cityxy, labels = citynames, proj = 'bonne')
   \code{\link[mapproj]{mapproject}}, 
   \code{\link[autoimage]{pimage}}
 }
-

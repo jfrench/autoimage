@@ -227,7 +227,7 @@ ggautoimage.xyz.setup <- function(x, y, z, f, interp.args) {
         stop("User must manually install the akima package to enable this functionality due to licensing restrictions")
       }
       
-      # interpoluation output
+      # interpolation output
       iout <- do.call(fun, temp.interp.args)
       xy <- expand.grid(iout$x, iout$y)
       split_df[[i]] <- data.frame(x = xy[, 1], y = xy[, 2], z = c(iout$z), 

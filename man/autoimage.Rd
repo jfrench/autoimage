@@ -112,27 +112,35 @@ incompatible with the \code{\link[graphics]{split.screen}} function.
 
 The \code{mtext.args} argument can be passed through \code{...} 
 in order to customize the outer title.  This should be a named
-list with elements match \code{\link[graphics]{mtext}}.
+list with components matching the arguments of 
+\code{\link[graphics]{mtext}}.
 
-Lines can be added to each image by passing the \code{lines}
-argument through \code{...}.  In that case, \code{lines}
-should be a list with components \code{x} and \code{y} 
-specifying the locations to draw the lines.  The appearance
-of the plotted lines can be customized by passing
-a named list called \code{lines.args} through \code{...}.
-The elements of \code{lines.args} should match the 
-elements of \code{\link[graphics]{lines}}.  See Examples.
+Lines can be added to each image by passing the \code{lines} 
+argument through \code{...}.  In that case, \code{lines} should be
+a list with components \code{x} and \code{y} specifying the
+locations to draw the lines.  The appearance of the plotted lines
+can be customized by passing a named list called \code{lines.args}
+through \code{...}. The components of \code{lines.args} should match
+the arguments of \code{\link[graphics]{lines}}.  See Examples.
 
-Points can be added to each image by passing the \code{points}
-argument through \code{...}.  In that case, \code{points}
-should be a list with components \code{x} and \code{y} 
-specifying the locations to draw the points.  The appearance
-of the plotted points can be customized by passing
-a named list called \code{points.args} through \code{...}.
-The elements of \code{points.args} should match the 
-elements of \code{\link[graphics]{points}}.  See Examples.
+Points can be added to each image by passing the \code{points} 
+argument through \code{...}.  In that case, \code{points} should be
+a list with components \code{x} and \code{y} specifying the
+locations to draw the points.  The appearance of the plotted points
+can be customized by passing a named list called \code{points.args}
+through \code{...}. The components of \code{points.args} should match
+the components of \code{\link[graphics]{points}}.  See Examples.
 
-#' The legend scale can be modified by passing \code{legend.axis.args}
+Text can be added to each image by passing the \code{text} 
+argument through \code{...}.  In that case, \code{text} should be
+a list with components \code{x} and \code{y} specifying the
+locations to draw the text, and \code{labels}, a component
+specifying the actual text to write.  The appearance of the plotted text
+can be customized by passing a named list called \code{text.args}
+through \code{...}. The components of \code{text.args} should match
+the components of \code{\link[graphics]{text}}.  See Examples.
+ 
+The legend scale can be modified by passing \code{legend.axis.args}
 through \code{...}.  The argument should be a named list
 corresponding to the arguments of the \code{\link[graphics]{axis}}
 function.  See Examples.
@@ -171,12 +179,15 @@ autoimage(lon, lat, tasmax2, map = "world",
 
 # plot irregularly-spaced responsed as images with separate legends
 # and county borders.  Add observed data locations with custom point
-# options
+# options.  Add text at locations of Denver and Colorado Springs.
 data(co, package = "gear")
 autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE, 
           map = "county", main = c("Aluminum", "Cadmium"),
-          points = list(x = co$easting, y = co$northing),
-          points.args = list(pch = 20, col = "white"))
+          points = list(x = co$lon, y = co$lat),
+          points.args = list(pch = 20, col = "white"),
+          text = list(x = c(-104.98, -104.80), y = c(39.74, 38.85), 
+                      labels = c("Denver", "Colorado Springs")),
+          text.args = list(col = "red"))
 
 # customize margins and lratio for large plot
 # also use projection
@@ -195,4 +206,3 @@ autoimage(lon, lat, tasmax, lines = worldpoly,
 \seealso{
 \code{\link[autoimage]{pimage}}
 }
-

@@ -21,4 +21,3 @@ par("mar") # should be c(5.1, 4.1, 4.1, 2.1)
 \seealso{
 \code{\link[graphics]{par}}
 }
-

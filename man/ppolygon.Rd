@@ -10,10 +10,8 @@ ppolygon(x, y = NULL, proj, ...)
 \item{x}{vectors containing the coordinates of the vertices
     of the polygon.}
 
-\item{y}{Locations of grid points at which the values in \code{z}
-are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors or matrices depending on the type
-of data to be displayed.  See Details.}
+\item{y}{vectors containing the coordinates of the vertices
+    of the polygon.}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
@@ -47,4 +45,3 @@ ppolygon(copoly, proj = "bonne", col = "orange")
   \code{\link[mapproj]{mapproject}}, 
   \code{\link[autoimage]{pimage}}
 }
-

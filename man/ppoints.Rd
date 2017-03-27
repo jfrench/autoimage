@@ -9,10 +9,7 @@ ppoints(x, y = NULL, type = "p", proj, ...)
 \arguments{
 \item{x}{coordinate vectors of points to plot.}
 
-\item{y}{Locations of grid points at which the values in \code{z}
-are measured.  The values must be finite and non-missing.  These 
-arguments can be either vectors or matrices depending on the type
-of data to be displayed.  See Details.}
+\item{y}{coordinate vectors of points to plot.}
 
 \item{type}{character indicating the type of plotting; actually any of
     the \code{type}s as in \code{\link{plot.default}}.}
@@ -50,4 +47,3 @@ ppoints(us.cities$long, us.cities$lat, proj = "bonne")
   \code{\link[mapproj]{mapproject}}, 
   \code{\link[autoimage]{pimage}}
 }
-

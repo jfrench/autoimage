@@ -2,9 +2,9 @@
 % Please edit documentation in R/narccap.R
 \docType{data}
 \name{narccap}
-\alias{lat}
-\alias{lon}
 \alias{narccap}
+\alias{lon}
+\alias{lat}
 \alias{tasmax}
 \title{Maximum daily surface air temperatures on a grid.}
 \format{Contains: \describe{ \item{lon}{A 140\eqn{\times}115 matrix
@@ -50,4 +50,3 @@ Mearns, L.O., et al., 2007, updated 2012. The North
   climate change. Climate Dynamics, 27(2-3):127-147, 2006. 
   \url{http://dx.doi.org/10.1007/s00382-006-0121-0}.
 }
-

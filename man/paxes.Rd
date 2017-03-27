@@ -67,4 +67,3 @@ paxes("mercator", xlim = range(lon), ylim = range(lat),
 \code{\link[graphics]{image}},
   \code{\link[mapproj]{mapproject}}
 }
-

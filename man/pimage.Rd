@@ -103,16 +103,25 @@ argument through \code{...}.  In that case, \code{lines} should be
 a list with components \code{x} and \code{y} specifying the
 locations to draw the lines.  The appearance of the plotted lines
 can be customized by passing a named list called \code{lines.args}
-through \code{...}. The elements of \code{lines.args} should match
-the elements of \code{\link[graphics]{lines}}.  See Examples.
+through \code{...}. The components of \code{lines.args} should match
+the arguments of \code{\link[graphics]{lines}}.  See Examples.
 
 Points can be added to each image by passing the \code{points} 
 argument through \code{...}.  In that case, \code{points} should be
 a list with components \code{x} and \code{y} specifying the
 locations to draw the points.  The appearance of the plotted points
 can be customized by passing a named list called \code{points.args}
-through \code{...}. The elements of \code{points.args} should match
-the elements of \code{\link[graphics]{points}}.  See Examples.
+through \code{...}. The components of \code{points.args} should match
+the components of \code{\link[graphics]{points}}.  See Examples.
+
+Text can be added to each image by passing the \code{text} 
+argument through \code{...}.  In that case, \code{text} should be
+a list with components \code{x} and \code{y} specifying the
+locations to draw the text, and \code{labels}, a component
+specifying the actual text to write.  The appearance of the plotted text
+can be customized by passing a named list called \code{text.args}
+through \code{...}. The components of \code{text.args} should match
+the components of \code{\link[graphics]{text}}.  See Examples.
 
 The legend scale can be modified by passing \code{legend.axis.args}
 through \code{...}.  The argument should be a named list 
@@ -150,7 +159,8 @@ data(co, package = "gear")
 pimage(co$longitude, co$latitude, co$Al)
 
 # show observed locations on image,
-# along with Colorado border
+# along with Colorado border, locations of Denver and Colorado 
+# Springs
 data(copoly)
 copoints <- list(x = co$lon, y = co$lat)
 pimage(co$longitude, co$latitude, co$Al, 
@@ -158,6 +168,9 @@ pimage(co$longitude, co$latitude, co$Al,
        lines.args = list(lwd = 2, col = "grey"),
        points = copoints, 
        points.args = list(pch = 21, bg = "white"),
+       text = list(x = c(-104.98, -104.80), y = c(39.74, 38.85), 
+                   labels = c("Denver", "Colorado Springs")), 
+       text.args = list(col = "purple"),
        xlim = c(-109.1, -102),
        ylim = c(36.8, 41.1))
 
@@ -203,4 +216,3 @@ reset.par() # reset graphics device
 \code{\link[graphics]{image}}, 
   \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
 }
-

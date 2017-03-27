@@ -96,4 +96,3 @@ reset.par() # reset device default
   \code{\link[autoimage]{pimage}}, 
   \code{\link[autoimage]{legend.scale}}
 }
-

@@ -91,4 +91,3 @@ autolayout(c(2, 2), legend = "h", lratio = 0.2)
 \code{\link[graphics]{image}}, 
   \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
 }
-

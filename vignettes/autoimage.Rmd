@@ -37,7 +37,7 @@ data(narccap)
 pimage(x = lon, y = lat, z = tasmax[,,1])
 ```
 
-`x`, `y`, and `z` can have differing formats depending on the type of data. **If the data are observed on a regular grid**, then `z` will be matrix with dimensions matching the dimensions of the grid and `x` and `y` will be vectors of increasing values that define the grid lines.  **If the data are observed on an irregular grid** (e.g., a regular grid that is rotated or projected), then `z` will be a matrix matching with dimensions matching the dimensions of the grid and `x` and `y` will be matrices whose coordinates specify the x and y coordinates of each value in `z`.  If the data are not on a grid, then `x` and `y` will be vectors specifying the coordinate locations and `z` will be the vector of responses at each coordinate.  If the data are not on a grid, then the data are automatically interpolated onto a grid before plotting.
+`x`, `y`, and `z` can have differing formats depending on the type of data. **If the data are observed on a regular grid**, then `z` will be matrix with dimensions matching the dimensions of the grid and `x` and `y` will be vectors of increasing values that define the grid lines.  **If the data are observed on an irregular grid** (e.g., a regular grid that is rotated or projected), then `z` will be a matrix with dimensions matching the dimensions of the grid and `x` and `y` will be matrices whose coordinates specify the x and y coordinates of each value in `z`.  If the data are not on a grid, then `x` and `y` will be vectors specifying the coordinate locations, and `z` will be the vector of responses at each coordinate.  If the data are not on a grid, then the data are automatically interpolated onto a grid before plotting (assuming the **akima** package is available).
 
 We create a heat map using the non-gridded Aluminum measurements for the state of Colorado.
 
@@ -62,7 +62,7 @@ The following code creates a heat map with a vertical color scale.
 pimage(x = lon, y = lat, z = tasmax[,,1], legend = "vertical")
 ```
 
-The longitude and latitude coordinates can be projected before plotting by specifying the `proj`, `parameters`, and `orientation` arguments of `pimage`.  Prior to plotting, the coordinates are projected using the `mapproject` function in the **mapproj** package.  `proj` specifies the name of the projection to utilize (the default is `"none"`).  The `parameters` argument specifies the parameter values of the chosen projection and `orientation` can be used to change the orientation of the projection.  See the `mapproject` function in the **mapproj** function for more details regarding these arguments.
+The longitude and latitude coordinates can be projected before plotting by specifying the `proj`, `parameters`, and `orientation` arguments of `pimage`.  Prior to plotting, the coordinates are projected using the `mapproject` function in the **mapproj** package.  `proj` specifies the name of the projection to utilize (the default is `"none"`).  The `parameters` argument specifies the parameter values of the chosen projection and `orientation` can be used to change the orientation of the projection.  See the `mapproject` function in the **mapproj** package for more details regarding these arguments.
 
 We now create a heat map with projected coordinates.  We will utilize the Bonne projection using 45 degrees as the standard parallel. A grid is automatically added to projected images because latitude and longitude parallels are not straight for most projections.
 
@@ -83,7 +83,7 @@ The last major argument to the `pimage` function is the `lratio` argument.  This
 
 Additional arguments can be passed to the `pimage` function via `...`.  These will be discussed at a later time in this vignette.
 
-### Basic use of `autoimage`
+### Basic usage of `autoimage`
 
 The `autoimage` function generalizes the `pimage` function to allow for multiple images in the same plot.  Most of the arguments are the same as the `pimage` function, and we do not replicate their discussion except when necessary.  
 
@@ -214,7 +214,7 @@ To illustrate usage of these arguments, we extract United States state boundarie
 
 ```{r}
 data(stateMapEnv, package = "maps")
-statepoly <- maps::map("world", plot = FALSE)
+statepoly <- maps::map("state", plot = FALSE)
 citylist <- list(x = us.cities$long, y = us.cities$lat)
 ```
 
@@ -234,7 +234,33 @@ pimage(lon, lat, tasmax[,,1], lines = statepoly, points = citylist,
        points.args = list(pch = 20, col = "blue"))
 ```
 
-When projections are used, the grid lines do not always go as far as they should.  Thus, axis customization is desired.  Additionally, the appearance of the grid lines might need improving.  The appears of the axis (and the locations of the grid lines) can be changed by passing `axis.args` through `...`.  `axis.args` should be a named list with components matching the arguments of the `axis` function in **graphics**.  The exception is that `xat` and `yat` arguments are used instead of `at` so that ticks on the x and y axes can be specified separately.  The appearance of the grid lines can be changed by passing the desired changes through the `paxes.args` argument.  This is a named list with options matching those in the `lines` function.
+
+Text can be added to each image by passing the `text` 
+argument through `...`.  `text` should be
+a named list with components `x` and `y`, which specify the
+locations to draw the text, and `labels`, which specifies
+the text to write at each location.  The appearance of 
+the text can be customized by passing the `text.args` argument.  
+`text.args` should be a named list with components matching
+the non-`x`, `y`, and `labels` arguments of the 
+`text` function in the **graphics** package.
+
+We add the names and locations of two Colorado cities to the Colorado
+geochemical data.
+
+```{r, fig.height=5, fig.width=5}
+citypoints = list(x = c(-104.98, -104.80), y = c(39.74, 38.85),
+                  labels = c("Denver", "Colorado Springs"))
+autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE, 
+          main = c("Aluminum", "Cadmium"), 
+          points = citypoints,
+          points.args = list(pch = 20, col = "white"),
+          text = citypoints,
+          text.args = list(pos = 3, col = "white"))
+```
+
+When projections are used, the grid lines do not always go as far as they should.  Thus, axis customization is desired.  Additionally, the appearance of the grid lines might need improving.  The appears of the axis (and the locations of the grid lines) can be changed by passing `axis.args` through `...`.  `axis.args` should be a named list with components matching the arguments of the `axis` function in **graphics**.  The exception is that `xat` and `yat` arguments are used instead of `at` so that ticks on the x and y axes can be specified separately.  The appearance of the grid lines can be changed by passing the desired changes through the `paxes.args` argument.  This is a named list with components matching the
+arguments in the `lines` function.
 
 Consider the following poor graphic.
 
@@ -252,7 +278,7 @@ pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
        paxes.args = list(col = "grey", lty = 2))
 ```
 
-The breaks and colors of the scale can be modified by specifying the `breaks` and `col` arguments, as in the `image` function in **graphics**.  Additional changes can be made by specifying `legend.axis.args`, a named list with components matching the elements of the `axis` function, which is used in creating the legend.  
+The breaks and colors of the scale can be modified by specifying the `breaks` and `col` arguments, as in the `image` function in **graphics**.  Additional changes can be made by specifying `legend.axis.args`, a named list with components matching the arguments of the `axis` function, which is used in creating the legend.  
 
 ```{r, fig.height = 5, fig.width = 5}
 pimage(lon, lat, tasmax[,,1], col = viridis::magma(6), 
@@ -260,13 +286,15 @@ pimage(lon, lat, tasmax[,,1], col = viridis::magma(6),
        legend.axis.args = list(col.axis = "blue", las = 2, cex.axis = 0.75))
 ```
 
-When non-gridded are used, the interpolation settings can be passed through `...` by specifying `interp.args`, a named list with components matching those of the `interp` function in the **akima** package.  We project the Colorado Aluminum measurements onto a finer grid in the following plot.
+When non-gridded are used, the interpolation settings can be passed through `...` by specifying `interp.args`, a named list with components matching the
+arguments of the `interp` function in the **akima** package.  We project the Colorado Aluminum measurements onto a finer grid in the following plot.
 
 ```{r, fig.height = 5, fig.width = 5}
 pimage(co$lon, co$lat, co$Al, interp.args = list(nx = 100, ny = 100))
 ```
 
-The appearance of `outer.title` can be modified by passing `mtext.args` through `...`.  `mtext.args` should be a named list with components matching the elements of `mtext`, which is the function used to create the common title.
+The appearance of `outer.title` can be modified by passing `mtext.args` through `...`.  `mtext.args` should be a named list with components matching 
+the arguments of `mtext`, which is the function used to create the common title.
 
 ```{r, fig.height = 5, fig.width = 5}
 autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days",

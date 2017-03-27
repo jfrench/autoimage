@@ -79,4 +79,3 @@ The code for this function is derived from the
 \code{\link[graphics]{image}}, 
   \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
 }
-

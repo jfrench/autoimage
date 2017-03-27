@@ -47,16 +47,25 @@
 #' a list with components \code{x} and \code{y} specifying the
 #' locations to draw the lines.  The appearance of the plotted lines
 #' can be customized by passing a named list called \code{lines.args}
-#' through \code{...}. The elements of \code{lines.args} should match
-#' the elements of \code{\link[graphics]{lines}}.  See Examples.
+#' through \code{...}. The components of \code{lines.args} should match
+#' the arguments of \code{\link[graphics]{lines}}.  See Examples.
 #' 
 #' Points can be added to each image by passing the \code{points} 
 #' argument through \code{...}.  In that case, \code{points} should be
 #' a list with components \code{x} and \code{y} specifying the
 #' locations to draw the points.  The appearance of the plotted points
 #' can be customized by passing a named list called \code{points.args}
-#' through \code{...}. The elements of \code{points.args} should match
-#' the elements of \code{\link[graphics]{points}}.  See Examples.
+#' through \code{...}. The components of \code{points.args} should match
+#' the components of \code{\link[graphics]{points}}.  See Examples.
+#' 
+#' Text can be added to each image by passing the \code{text} 
+#' argument through \code{...}.  In that case, \code{text} should be
+#' a list with components \code{x} and \code{y} specifying the
+#' locations to draw the text, and \code{labels}, a component
+#' specifying the actual text to write.  The appearance of the plotted text
+#' can be customized by passing a named list called \code{text.args}
+#' through \code{...}. The components of \code{text.args} should match
+#' the components of \code{\link[graphics]{text}}.  See Examples.
 #' 
 #' The legend scale can be modified by passing \code{legend.axis.args}
 #' through \code{...}.  The argument should be a named list 
@@ -136,7 +145,8 @@
 #' pimage(co$longitude, co$latitude, co$Al)
 #' 
 #' # show observed locations on image,
-#' # along with Colorado border
+#' # along with Colorado border, locations of Denver and Colorado 
+#' # Springs
 #' data(copoly)
 #' copoints <- list(x = co$lon, y = co$lat)
 #' pimage(co$longitude, co$latitude, co$Al, 
@@ -144,6 +154,9 @@
 #'        lines.args = list(lwd = 2, col = "grey"),
 #'        points = copoints, 
 #'        points.args = list(pch = 21, bg = "white"),
+#'        text = list(x = c(-104.98, -104.80), y = c(39.74, 38.85), 
+#'                    labels = c("Denver", "Colorado Springs")), 
+#'        text.args = list(col = "purple"),
 #'        xlim = c(-109.1, -102),
 #'        ylim = c(36.8, 41.1))
 #' 
@@ -232,6 +245,9 @@ pimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters,
   if (!is.null(object$points.args$x)) {
     f <- autoimage::ppoints
     do.call(f, object$points.args)
+  }
+  if (!is.null(object$text.args$x)) {
+    do.call("ptext", object$text.args)
   }
   return(invisible(structure(object, class = "pimage")))
 }
@@ -389,6 +405,41 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
   lines.args$proj <- proj
   lines.args$x <- lines
   
+  # check if there is text to plot
+  text <- arglist$text
+  arglist$text <- NULL
+  if (!is.null(text)) {
+    if (!is.list(text)) {
+      stop("text must be a list with vectors x, y, and (possibly) labels")
+    }
+    if (is.null(text$x) | is.null(text$y)) {
+      stop("text must be a list with vectors x, y, and (possibly) labels")
+    }
+    if (length(text$x) != length(text$y)) {
+      stop("The x and y vectors in text should have the same length")
+    }
+    if (is.null(text$labels)) {
+      text$labels <- seq_along(text$x)
+    }
+    if (length(text$x) != length(text$labels)) {
+      stop("The x, y, and labels vectors in text should have the same length")
+    }
+    if (is.data.frame(text)) {
+      text <- as.list(text)
+    }
+  }
+  text.args <- arglist$text.args
+  arglist$text.args <- NULL
+  if (!is.null(text.args)) { 
+    if (!is.list(text.args)) {
+      stop("text.args must be a list")
+    }
+  }
+  text.args$proj <- proj
+  text.args$x <- text$x
+  text.args$y <- text$y
+  text.args$labels <- text$labels
+  
   # setup interpolation arguments
   interp.args <- arglist$interp.args
   # remove non-graphical arguments, if provided
@@ -475,9 +526,13 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
   arglist$y <- y
   arglist$z <- z
   
-  object <- list(plotf = plotf, arglist = arglist, legend = legend, legend.scale.args = legend.scale.args, 
-                 legend.mar = legend.mar, proj = proj, points = points, points.args = points.args, 
-                 lines = lines, lines.args = lines.args, axes = axes, paxes.args = paxes.args)
+  object <- list(plotf = plotf, arglist = arglist, legend = legend, 
+                 legend.scale.args = legend.scale.args, 
+                 legend.mar = legend.mar, proj = proj, 
+                 points = points, points.args = points.args, 
+                 lines = lines, lines.args = lines.args, 
+                 axes = axes, paxes.args = paxes.args,
+                 text = text, text.args = text.args)
   return(object)
 }
 

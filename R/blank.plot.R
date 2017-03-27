@@ -13,5 +13,8 @@
 #' blank.plot()
 #' @export
 blank.plot <- function() {
-  graphics::plot(1:2, 1:2, type = "n", axes = FALSE, ann = FALSE)
+  curmar <- par()$mar
+  par(mar = rep(0, 4))
+  graphics::plot(0, 0, type = "n", axes = FALSE, ann = FALSE)
+  par(mar = curmar)
 }
