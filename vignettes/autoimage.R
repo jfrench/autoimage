@@ -1,45 +1,44 @@
 ## ---- include=FALSE------------------------------------------------------
 library(autoimage)
-# knitr::opts_chunk$set(out.width = '50%', out.height = '50%')
 
-## ---- fig.height=5, fig.width=5------------------------------------------
+## ---- fig.height=5, fig.width=4------------------------------------------
 data(narccap)
 pimage(x = lon, y = lat, z = tasmax[,,1])
 
-## ---- fig.height=5, fig.width=5------------------------------------------
+## ---- fig.height=5, fig.width=4------------------------------------------
 data(co, package = "gear")
 pimage(co$longitude, co$latitude, co$Al)
 
-## ---- fig.height = 5, fig.width = 5--------------------------------------
+## ---- fig.height = 5, fig.width = 4--------------------------------------
 pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6))
 
-## ---- fig.height=5, fig.width=7------------------------------------------
+## ---- fig.height=4, fig.width=5------------------------------------------
 pimage(x = lon, y = lat, z = tasmax[,,1], legend = "vertical")
 
-## ---- fig.height=5, fig.width=5------------------------------------------
+## ---- fig.height=5, fig.width=4------------------------------------------
 pimage(x = lon, y = lat, z = tasmax[,,1], proj = "bonne", 
        parameters = 45)
 
-## ---- fig.height=5, fig.width=5------------------------------------------
+## ---- fig.height=5, fig.width=4------------------------------------------
 pimage(x = lon, y = lat, z = tasmax[,,1], proj = "bonne", 
        parameters = 45, map = "world")
 
 ## ---- fig.height=5, fig.width=7------------------------------------------
 autoimage(lon, lat, tasmax, lratio = 0.25)
 
-## ---- fig.height=5, fig.width=5------------------------------------------
+## ---- fig.height=5, fig.width=4------------------------------------------
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
            lratio = 0.25, 
            main = c("(a) Aluminum %", "(b) Calcium %", 
                     "(c) Iron %", "(d) Potassium %"))
 
-## ---- fig.height=5, fig.width=5------------------------------------------
+## ---- fig.height=5, fig.width=4------------------------------------------
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
           common.legend = FALSE, lratio = 0.25,
           main = c("(a) Aluminum %", "(b) Calcium %", 
                    "(c) Iron %", "(d) Potassium %"))
 
-## ---- fig.height=3.5, fig.width=7----------------------------------------
+## ---- fig.height=3, fig.width=7------------------------------------------
 autoimage(lon, lat, tasmax[,,1:3], size = c(1, 3))
 
 ## ---- fig.height = 6, fig.width = 7--------------------------------------
@@ -59,7 +58,6 @@ data(us.cities, package = "maps")
 # extract colorado cities from us.cities
 codf <- us.cities[us.cities$country.etc == "CO", ]
 # select smaller subset of colorado cities
-codf <- codf[c(3, 5, 7:11, 15, 18), ]
 # extract capitals from us.cities
 capdf <- us.cities[us.cities$capital == 2,]
 
@@ -108,10 +106,10 @@ data(stateMapEnv, package = "maps")
 statepoly <- maps::map("state", plot = FALSE)
 citylist <- list(x = us.cities$long, y = us.cities$lat)
 
-## ---- fig.height = 5, fig.width = 5--------------------------------------
+## ---- fig.height = 5, fig.width = 4--------------------------------------
 pimage(lon, lat, tasmax[,,1], lines = statepoly, points = citylist)
 
-## ---- fig.height = 5, fig.width = 5--------------------------------------
+## ---- fig.height = 5, fig.width = 4--------------------------------------
 pimage(lon, lat, tasmax[,,1], lines = statepoly, points = citylist, 
        lines.args = list(lwd = 2, lty = 3, col = "white"),
        points.args = list(pch = 20, col = "blue"))
@@ -136,16 +134,24 @@ pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
                         col.axis = "darkgrey", cex.axis = 0.9),
        paxes.args = list(col = "grey", lty = 2))
 
-## ---- fig.height = 5, fig.width = 5--------------------------------------
+## ---- fig.height = 5, fig.width = 4--------------------------------------
 pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6), 
        breaks = c(0, 275, 285, 295, 305, 315, 325),
        legend.axis.args = list(col.axis = "blue", las = 2, cex.axis = 0.75))
 
-## ---- fig.height = 5, fig.width = 5--------------------------------------
+## ---- fig.height = 5, fig.width = 4.5------------------------------------
 pimage(co$lon, co$lat, co$Al, interp.args = list(nx = 100, ny = 100))
 
 ## ---- fig.height = 5, fig.width = 6--------------------------------------
 autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days",
           mtext.args = list(col = "blue", cex = 2),
           lratio = 0.3)
+
+## ---- fig.width = 4, fig.height = 4--------------------------------------
+par(cex.axis = 0.5, cex.lab = 0.5, mgp = c(1.5, 0.5, 0),
+    mar = c(2.1, 2.1, 2.1, 0.2), col.axis = "orange",
+    col.main = "blue", family = "mono")
+pimage(lon, lat, tasmax[,,1])
+title("very customized plot")
+reset.par()
 

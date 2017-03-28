@@ -80,12 +80,21 @@
 #' x and y ticks.  If \code{xat} or \code{yat} are specified, then
 #' this overrides the \code{xaxt} and \code{yaxt} arguments,
 #' respectively.  See the \code{\link[autoimage]{paxes}} function to
-#' see how \code{axis.args can be used.}
+#' see how \code{axis.args} can be used.
 #' 
 #' The legend margin can be customized by passing \code{legend.mar} to
 #' \code{pimage} through \code{...}.  This should be a numeric vector
 #' indicating the margins of the legend, identical to how 
 #' \code{par("mar")} is specified.
+#' 
+#' The various options of the labeling, axes, and legend are largely
+#' independent.  e.g., passing \code{col.axis} through \code{...} 
+#' will not affect the axis unless it is passed as part of the 
+#' named list \code{axis.args}.  However, one can set the various
+#' \code{par} options prior to plotting to simultaneously
+#' affect the appearance of multiple aspects of the plot.  See 
+#' Examples.  After plotting, \code{reset.par()} can be used to reset 
+#' the graphics device options to their default values. 
 #' 
 #' @param x,y Locations of grid points at which the values in \code{z}
 #'   are measured.  The values must be finite and non-missing.  These 
@@ -197,6 +206,15 @@
 #'        ylab = "latitude",
 #'        main = "temperature (K)")
 #' reset.par() # reset graphics device
+#' 
+#' # change many aspects of plot appearance using par
+#' par(cex.axis = 0.5, cex.lab = 0.5, mgp = c(1.5, 0.5, 0),
+#'     mar = c(2.1, 2.1, 4.1, 0.2), col.axis = "orange",
+#'     col.main = "blue", family = "mono")
+#' pimage(lon, lat, tasmax[,,1])
+#' title("very customized plot")
+#' reset.par()
+#' 
 #' @export
 pimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters, 
   orientation, lratio = 0.2, map = "none", ...) {
@@ -298,8 +316,6 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
       arglist$col <- viridisLite::viridis(nb - 1)
     }
   }
-  
-  
   
   # setup arguments for legend.scale function
   legend.scale.args <- list()

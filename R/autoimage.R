@@ -88,6 +88,16 @@
 #' vector indicating the margins of the legend, identical to how 
 #' \code{par("mar")} is specified.
 #' 
+#' The various options of the labeling, axes, and legend are largely
+#' independent.  e.g., passing \code{col.axis} through \code{...} 
+#' will not affect the axis unless it is passed as part of the 
+#' named list \code{axis.args}.  However, one can set the various
+#' \code{par} options prior to plotting to simultaneously
+#' affect the appearance of multiple aspects of the plot.  See 
+#' Examples for \code{\link[autoimage]{pimage}}.  After plotting, 
+#' \code{reset.par()} can be used to reset 
+#' the graphics device options to their default values. 
+#' 
 #' @inheritParams pimage
 #' @inheritParams autolayout
 #' @param outer.title A title related to all of the images that is plotted in the outer margin of the figure.

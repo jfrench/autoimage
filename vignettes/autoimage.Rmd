@@ -117,7 +117,7 @@ The dimensions of the plotting matrix can be changed by specifying the `size` ar
 
 We create a 1 $\times$ 3 matrix of images for the NARCCAP data.
 
-```{r, fig.height=3.5, fig.width=7}
+```{r, fig.height=3, fig.width=7}
 autoimage(lon, lat, tasmax[,,1:3], size = c(1, 3))
 ```
 
@@ -156,7 +156,6 @@ data(us.cities, package = "maps")
 # extract colorado cities from us.cities
 codf <- us.cities[us.cities$country.etc == "CO", ]
 # select smaller subset of colorado cities
-codf <- codf[c(3, 5, 7:11, 15, 18), ]
 # extract capitals from us.cities
 capdf <- us.cities[us.cities$capital == 2,]
 ```
@@ -289,7 +288,7 @@ pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6),
 When non-gridded are used, the interpolation settings can be passed through `...` by specifying `interp.args`, a named list with components matching the
 arguments of the `interp` function in the **akima** package.  We project the Colorado Aluminum measurements onto a finer grid in the following plot.
 
-```{r, fig.height = 5, fig.width = 4}
+```{r, fig.height = 5, fig.width = 4.5}
 pimage(co$lon, co$lat, co$Al, interp.args = list(nx = 100, ny = 100))
 ```
 
@@ -300,6 +299,25 @@ the arguments of `mtext`, which is the function used to create the common title.
 autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days",
           mtext.args = list(col = "blue", cex = 2),
           lratio = 0.3)
+```
+
+The various options of the labeling, axes, and legend are largely
+independent.  e.g., passing `col.axis` through `...` 
+will not affect the axis unless it is passed as part of the 
+named list `axis.args`.  However, one can set the various
+`par` options prior to plotting to simultaneously
+affect the appearance of multiple aspects of the plot.  
+After plotting, `reset.par` can be used to reset 
+the graphics device options to their default values.  We provide
+an example below.
+
+```{r, fig.width = 4, fig.height = 4}
+par(cex.axis = 0.5, cex.lab = 0.5, mgp = c(1.5, 0.5, 0),
+    mar = c(2.1, 2.1, 2.1, 0.2), col.axis = "orange",
+    col.main = "blue", family = "mono")
+pimage(lon, lat, tasmax[,,1])
+title("very customized plot")
+reset.par()
 ```
 
 ## References
