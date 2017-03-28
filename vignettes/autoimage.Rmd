@@ -30,10 +30,9 @@ We create a basic image plot by providing `x`, `y`, and `z` to the `pimage` func
 
 ```{r, include=FALSE}
 library(autoimage)
-# knitr::opts_chunk$set(out.width = '50%', out.height = '50%')
 ```
 
-```{r, fig.height=5, fig.width=5}
+```{r, fig.height=5, fig.width=4}
 data(narccap)
 pimage(x = lon, y = lat, z = tasmax[,,1])
 ```
@@ -42,7 +41,7 @@ pimage(x = lon, y = lat, z = tasmax[,,1])
 
 We create a heat map using the non-gridded Aluminum measurements for the state of Colorado.
 
-```{r, fig.height=5, fig.width=5}
+```{r, fig.height=5, fig.width=4}
 data(co, package = "gear")
 pimage(co$longitude, co$latitude, co$Al)
 ```
@@ -51,7 +50,7 @@ We now discuss the basic options of the `pimage` function.
 
 The color scheme used for an image plot can be of great importance.  The `viridis` color scheme from the **viridisLite** package is used by default as it is, "... designed in such a way that [it] will analytically be perfectly perceptually-uniform, both in regular form and also when converted to black-and-white. [It is] also designed to be perceived by readers with the most common form of color blindness."  The colors of the color scale can be modified by passing a vector of colors to the `col` argument through `...`, as in the `image` function in **graphics**.  We use 6 colors from the `magma` color palette in the **viridisLite** package in the next example.
 
-```{r, fig.height = 5, fig.width = 5}
+```{r, fig.height = 5, fig.width = 4}
 pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6))
 ```
 
@@ -59,7 +58,7 @@ The orientation of the color scale can be changed by changing the `legend` argum
 
 The following code creates a heat map with a vertical color scale. 
 
-```{r, fig.height=5, fig.width=7}
+```{r, fig.height=4, fig.width=5}
 pimage(x = lon, y = lat, z = tasmax[,,1], legend = "vertical")
 ```
 
@@ -67,7 +66,7 @@ The longitude and latitude coordinates can be projected before plotting by speci
 
 We now create a heat map with projected coordinates.  We will utilize the Bonne projection using 45 degrees as the standard parallel. A grid is automatically added to projected images because latitude and longitude parallels are not straight for most projections.
 
-```{r, fig.height=5, fig.width=5}
+```{r, fig.height=5, fig.width=4}
 pimage(x = lon, y = lat, z = tasmax[,,1], proj = "bonne", 
        parameters = 45)
 ```
@@ -75,7 +74,7 @@ pimage(x = lon, y = lat, z = tasmax[,,1], proj = "bonne",
 Several maps can be automatically added to the image by specifying the `map` argument.  The maps come from the **maps** package, and include the `world`, `usa`, `state`, `county`, `france`, `nz` (New Zealand), `italy`, `lakes`, and `world2` maps.
 
 We add national boundaries to our previous map.  
-```{r, fig.height=5, fig.width=5}
+```{r, fig.height=5, fig.width=4}
 pimage(x = lon, y = lat, z = tasmax[,,1], proj = "bonne", 
        parameters = 45, map = "world")
 ```
@@ -98,7 +97,7 @@ autoimage(lon, lat, tasmax, lratio = 0.25)
 
 Passing a two-dimensional matrix for `z` (where the number of rows matches the length of `x` and `y`) constructs a sequence of images for non-gridded data with a common legend.  Titles are added to each image using the `main` argument by providing a character vector whose length matches the number of plotted images.
 
-```{r, fig.height=5, fig.width=5}
+```{r, fig.height=5, fig.width=4}
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
            lratio = 0.25, 
            main = c("(a) Aluminum %", "(b) Calcium %", 
@@ -107,7 +106,7 @@ autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
 
 Separate color scales will be used for each image when `common.legend = FALSE`.
 
-```{r, fig.height=5, fig.width=5}
+```{r, fig.height=5, fig.width=4}
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
           common.legend = FALSE, lratio = 0.25,
           main = c("(a) Aluminum %", "(b) Calcium %", 
@@ -221,7 +220,7 @@ citylist <- list(x = us.cities$long, y = us.cities$lat)
 
 We now add these state lines and city locations to the image.
 
-```{r, fig.height = 5, fig.width = 5}
+```{r, fig.height = 5, fig.width = 4}
 pimage(lon, lat, tasmax[,,1], lines = statepoly, points = citylist)
 ```
 
@@ -229,7 +228,7 @@ The appearance of the lines and points can be customized by passing the `lines.a
 
 We change the appearance of the lines and points in the previous plot by specifying these arguments.
 
-```{r, fig.height = 5, fig.width = 5}
+```{r, fig.height = 5, fig.width = 4}
 pimage(lon, lat, tasmax[,,1], lines = statepoly, points = citylist, 
        lines.args = list(lwd = 2, lty = 3, col = "white"),
        points.args = list(pch = 20, col = "blue"))
@@ -281,7 +280,7 @@ pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
 
 The breaks and colors of the scale can be modified by specifying the `breaks` and `col` arguments, as in the `image` function in **graphics**.  Additional changes can be made by specifying `legend.axis.args`, a named list with components matching the arguments of the `axis` function, which is used in creating the legend.  
 
-```{r, fig.height = 5, fig.width = 5}
+```{r, fig.height = 5, fig.width = 4}
 pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6), 
        breaks = c(0, 275, 285, 295, 305, 315, 325),
        legend.axis.args = list(col.axis = "blue", las = 2, cex.axis = 0.75))
@@ -290,7 +289,7 @@ pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6),
 When non-gridded are used, the interpolation settings can be passed through `...` by specifying `interp.args`, a named list with components matching the
 arguments of the `interp` function in the **akima** package.  We project the Colorado Aluminum measurements onto a finer grid in the following plot.
 
-```{r, fig.height = 5, fig.width = 5}
+```{r, fig.height = 5, fig.width = 4}
 pimage(co$lon, co$lat, co$Al, interp.args = list(nx = 100, ny = 100))
 ```
 

@@ -11,7 +11,7 @@ data(co, package = "gear")
 pimage(co$longitude, co$latitude, co$Al)
 
 ## ---- fig.height = 5, fig.width = 5--------------------------------------
-pimage(lon, lat, tasmax[,,1], col = viridis::magma(6))
+pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6))
 
 ## ---- fig.height=5, fig.width=7------------------------------------------
 pimage(x = lon, y = lat, z = tasmax[,,1], legend = "vertical")
@@ -137,7 +137,7 @@ pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
        paxes.args = list(col = "grey", lty = 2))
 
 ## ---- fig.height = 5, fig.width = 5--------------------------------------
-pimage(lon, lat, tasmax[,,1], col = viridis::magma(6), 
+pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6), 
        breaks = c(0, 275, 285, 295, 305, 315, 325),
        legend.axis.args = list(col.axis = "blue", las = 2, cex.axis = 0.75))
 
