@@ -292,10 +292,10 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
   # check colors
   if (is.null(arglist$col)) {
     if (is.null(arglist$breaks)) {
-      arglist$col <- viridis::viridis(64)
+      arglist$col <- viridisLite::viridis(64)
     } else {
       nb <- length(arglist$breaks)
-      arglist$col <- viridis::viridis(nb - 1)
+      arglist$col <- viridisLite::viridis(nb - 1)
     }
   }
   

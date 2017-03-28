@@ -6,6 +6,12 @@ autoimage README
 The **autoimage** R package
 ===========================
 
+``` r
+knitr::opts_chunk$set(
+  fig.path = "tools/README/"
+)
+```
+
 Introduction
 ------------
 
@@ -39,7 +45,7 @@ data(narccap)
 pimage(lon, lat, tasmax[,,1], map = "world", legend = "h")
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-1-1.png)
+![](tools/README/unnamed-chunk-2-1.png)
 
 ``` r
 # same plot but with projection
@@ -47,7 +53,7 @@ pimage(lon, lat, tasmax[,,1], map = "world", legend = "v",
        proj = "bonne", parameters = 45)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-1-2.png)
+![](tools/README/unnamed-chunk-2-2.png)
 
 We next display an image for data that is not on a grid. Specifically, we create image plots for Colorado geochemical measurements. We also include the Colorado border in the image and the locations of the observed coordinates. Note that the `lines.args` and `points.args` arguments are used to customize the appearance of the lines and points.
 
@@ -68,7 +74,7 @@ pimage(co$longitude, co$latitude, co$Al,
        ylim = c(36.8, 41.1))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-2-1.png)
+![](tools/README/unnamed-chunk-3-1.png)
 
 The `autoimage` function generalizes the `pimage` function to allow for a sequence of images in a single graphic. We display two images, first with a common legend, then with individual legends for each image.
 
@@ -77,11 +83,11 @@ The `autoimage` function generalizes the `pimage` function to allow for a sequen
 autoimage(lon, lat, tasmax[,,1:2], legend = "v", map = "usa")
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-3-1.png)
+![](tools/README/unnamed-chunk-4-1.png)
 
 ``` r
 # with separate scales
 autoimage(lon, lat, tasmax[,,1:2], common.legend = FALSE, map = "usa")
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-3-2.png)
+![](tools/README/unnamed-chunk-5-1.png)

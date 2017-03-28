@@ -7,6 +7,12 @@ output: github_document
 
 # The **autoimage** R package
 
+```{r}
+knitr::opts_chunk$set(
+  fig.path = "tools/README/"
+)
+```
+
 ## Introduction
 
 The goal of the **autoimage** package is to easily plot a sequence of images with corresponding color scales, i.e., a sequence of heatmaps, with straightforward, native options for projection of geographical coordinates.  The package makes it simple to add lines, points, and other graphics features to these image plots, even when the coordinates are projected.  The package allows for seamless creation of heat maps for data on regular or irregular grids, as well as that is not on a grid.
@@ -44,7 +50,7 @@ We illustrate some basic usage of the `pimage` function.
 
 We begin by creating image plots for data on an irregular grid while also including national boundaries and a legend.  The coordinates are projected in the second plot by specifying the desired projection via the `proj` argument and the relevant projection parameters via the  `parameters` arguments.
 
-```{r}
+```{r, fig.width = 5}
 # display some narccap data on an irregular grid
 data(narccap)
 # heat map for data on an irregular grid with national boundaries
@@ -56,7 +62,7 @@ pimage(lon, lat, tasmax[,,1], map = "world", legend = "v",
 
 We next display an image for data that is not on a grid.  Specifically, we create image plots for Colorado geochemical measurements.  We also include the Colorado border in the image and the locations of the observed coordinates.  Note that the `lines.args` and `points.args` arguments are used to customize the appearance of the lines and points.
 
-```{r}
+```{r, fig.width = 4}
 # colorado data not on a grid
 # show observed locations on image,
 # along with Colorado border
@@ -76,9 +82,12 @@ pimage(co$longitude, co$latitude, co$Al,
 The `autoimage` function generalizes the `pimage` function to 
 allow for a sequence of images in a single graphic.  We display two images, first with a common legend, then with individual legends for each image.
 
-```{r}
+```{r, fig.height = 2.5, fig.width = 6}
 # plot images with USA state borders and common vertical scale
 autoimage(lon, lat, tasmax[,,1:2], legend = "v", map = "usa")
+```
+
+```{r, fig.height = 4, fig.width = 6}
 # with separate scales
 autoimage(lon, lat, tasmax[,,1:2], common.legend = FALSE, map = "usa")
 ```

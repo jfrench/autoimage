@@ -1,7 +1,7 @@
 Package: autoimage
 Type: Package
 Title: Multiple Heat Maps for Projected Coordinates
-Version: 1.2.9
+Version: 1.2.10
 Date: 2017-03-27
 Author: Joshua French
 Maintainer: Joshua French <joshua.french@ucdenver.edu>
@@ -15,12 +15,13 @@ Depends:
 Imports:
     fields,
     mapproj,
-    viridis,
+    viridisLite,
     ggplot2,
     maps
 Suggests:
     akima, 
     abind,
+    viridis,
     testthat,
     spatstat,
     gear,
