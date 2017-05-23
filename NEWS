@@ -23,5 +23,9 @@
         to adapt to number of images being plotted.
         
 # 2.0 - Use MBA::mba.surf for grid interpolation instead of akima::interp
+<<<<<<< HEAD
         because of rescrictive licensing.  Update behavior of lratio to 
         adapt based on the number of images being plotted.  Add inarccap data.
+=======
+        because of rescrictive licensing.
+>>>>>>> e1c465e611e70dd71b9b9c8fabc9a3122fe547f9
