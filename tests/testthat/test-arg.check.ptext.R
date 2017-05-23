@@ -19,4 +19,3 @@ test_that("sanity checks for arg.check.ptext arguments", {
   expect_error(arg.check.ptext(x = 1:2, y = 1:2, labels = letters[1:2], 
     proj = 8), "proj should be a single character string")
 })
-TRUE

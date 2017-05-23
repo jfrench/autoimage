@@ -67,12 +67,13 @@ provided.
 }
 \details{
 If \code{x}, \code{y}, and \code{z} are numeric vectors of the same
-length, then the \code{\link[akima]{interp}} function is used to 
-interpolate the locations onto a regular grid before constructing 
+length, then the \code{\link[MBA]{mba.surf}} function is used to 
+predict the response on a regular grid using multilevel
+B-splines before constructing 
 the image.  This interpolation can be customized by passing 
 \code{interp.args} through \code{...}.  \code{interp.args} should 
-be a named list with component matching the non \code{x}, \code{y},
-and \code{z} arguments of the \code{\link[akima]{interp}} function.
+be a named list with component matching the non \code{xyz}
+arguments of the \code{\link[MBA]{mba.surf}} function.
 
 If \code{x} are \code{y} are vectors of increasing values and 
 \code{nrow(z) == length(x)} and \code{ncol(z) == length(y)}, then 

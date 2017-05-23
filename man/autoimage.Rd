@@ -5,7 +5,7 @@
 \title{Automatic facetting of multiple projected images}
 \usage{
 autoimage(x, y, z, legend = "horizontal", proj = "none", parameters,
-  orientation, lratio = 0.2, common.legend = TRUE, map = "none", size,
+  orientation, common.legend = TRUE, map = "none", size, lratio,
   outer.title, ...)
 }
 \arguments{
@@ -43,10 +43,6 @@ which describes where the "North Pole" should be when computing
 the projection.  See \code{\link[mapproj]{mapproject}} for more
 details.}
 
-\item{lratio}{A numeric value indicating the ratio of the smaller 
-dimension of the legend scale to the width of the image.  Default
-is \code{lratio = 0.2}.}
-
 \item{common.legend}{A logical value indicating whether a common 
 legend scale should be used for all images provided in the
 \code{z} array.  Default is \code{TRUE}.  If \code{FALSE}, a
@@ -63,6 +59,12 @@ and columns that should be used for the series of image data in
 \code{z}.  Note that \code{prod(size)} must match the length of 
 the third dimension of \code{z} (if it is an array), or 
 \code{c(1, 1)} if \code{z} is a matrix.}
+
+\item{lratio}{A numeric value indicating the ratio of the smaller 
+dimension of the legend scale to the width of the image.  Default
+is 0.1 + 0.1 \code{* k}, where \code{k} is the number of image rows 
+if \code{legend == "horizontal"} or the number of image 
+columns if \code{legend == "vertical"}.}
 
 \item{outer.title}{A title related to all of the images that is plotted in the outer margin of the figure.}
 
@@ -101,8 +103,8 @@ is set to \code{FALSE}.
 The range of \code{zlim} is cut into \eqn{n} partitions, 
 where \code{n} is the length of \code{col}.
 
-Note that the more images that are plotted simulataneously, 
-the smaller one typically wants \code{lratio} to be.
+It is generally desirable to increase \code{lratio} when
+more images are plotted simultaneously.
 
 The multiple plots are constructed using the 
 \code{\link[autoimage]{autolayout}} function, which 

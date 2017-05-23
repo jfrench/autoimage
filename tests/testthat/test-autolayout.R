@@ -44,4 +44,3 @@ if (test) {
   autolayout(c(2, 2), legend = "h", lratio = 0.2, reverse = TRUE)
   dev.off()
 }
-TRUE

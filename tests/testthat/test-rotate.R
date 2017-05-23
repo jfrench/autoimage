@@ -28,4 +28,3 @@ test_that("autoimage::rotate matches spatstat::rotate", {
   expect_true(all.equal(rcoords, cbind(rppcoords$x, rppcoords$y)))
   expect_true(all.equal(rcoords2, cbind(rppcoords2$x, rppcoords2$y)))
 })
-TRUE

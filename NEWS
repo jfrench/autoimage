@@ -19,4 +19,9 @@
 # 1.3 - Add text capability to pimage and autoimage.  Add new
         vignette comparing autoimage and ggplot2. Improve blank.plot()
         by reducing margins before plotting, returning to previous
-        margins.
+        margins.  Changed behavior of lratio in autoimage
+        to adapt to number of images being plotted.
+        
+# 2.0 - Use MBA::mba.surf for grid interpolation instead of akima::interp
+        because of rescrictive licensing.  Update behavior of lratio to 
+        adapt based on the number of images being plotted.  Add inarccap data.

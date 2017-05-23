@@ -21,6 +21,3 @@ test_that("autoimage.xyz.setup detects correct type of problem", {
   # check mtext.args
   expect_error(arg.check.autoimage(TRUE, mtext.args = "tom"), "mtext.args should be a list")
 })
-
-
-TRUE
