@@ -266,7 +266,7 @@ Consider the following poor graphic.
 pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40)
 ```
 
-The grid lines do not extend nearly far enough.  There are only two tick marks on the y axis.  The legend is too thin.  We can add additional longer grid lines by specifying `xat` and `yat` in `axis.args`.  We can also further change the appearance of the axes via other components of `axis.args`.  We change the appearance of the grid lines by specifying choices in `paxes.args`.  We change the legend thickness by specifying `lratio`.
+The grid lines do not extend nearly far enough.  There are only two tick marks on the y axis.  The legend is too thin.  We can add additional longer grid lines by specifying `xat` and `yat` in `axis.args`.  We can also further change the appearance of the axes via other components of `axis.args`.  We change the appearance of the grid lines by specifying choices in `paxes.args`.  We change the appearance of the legend by specifying choices in `legend.axis.args`.  We change the legend thickness by specifying `lratio`.
 
 ```{r, fig.height = 4, fig.width = 5}
 pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
@@ -274,7 +274,8 @@ pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
                         xat = seq(-220, 20, by = 20),
                         col.axis = "darkgrey", cex.axis = 0.9),
        paxes.args = list(col = "grey", lty = 2),
-       lratio = 0.4)
+       legend.axis.args = list(cex.axis = 0.9),
+       lratio = 0.3)
 ```
 
 The breaks and colors of the scale can be modified by specifying the `breaks` and `col` arguments, as in the `image` function in **graphics**.  Additional changes can be made by specifying `legend.axis.args`, a named list with components matching the arguments of the `axis` function, which is used in creating the legend.  
