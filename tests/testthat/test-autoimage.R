@@ -1,6 +1,6 @@
 context("autoimage tests")
 
-test <- TRUE
+test <- FALSE
 
 if (test) {
   setwd("~")

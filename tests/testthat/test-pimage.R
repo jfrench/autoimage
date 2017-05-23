@@ -1,6 +1,6 @@
 context("pimage tests")
 
-test <- TRUE
+test <- FALSE
 
 if (test) {
   setwd("~")
