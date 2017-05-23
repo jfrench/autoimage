@@ -40,4 +40,3 @@ test_that("sanity checks for pimage.xyz.setup", {
   expect_error(pimage.xyz.setup(x = matrix(1, nrow = nr, ncol = nc), 
     y = 1:nc, z = z, "", "", arglist))
 })
-TRUE

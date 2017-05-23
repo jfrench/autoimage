@@ -11,12 +11,13 @@
 #' provided.
 #' 
 #' If \code{x}, \code{y}, and \code{z} are numeric vectors of the same
-#' length, then the \code{\link[akima]{interp}} function is used to 
-#' interpolate the locations onto a regular grid before constructing 
+#' length, then the \code{\link[MBA]{mba.surf}} function is used to 
+#' predict the response on a regular grid using multilevel
+#' B-splines before constructing 
 #' the image.  This interpolation can be customized by passing 
 #' \code{interp.args} through \code{...}.  \code{interp.args} should 
-#' be a named list with component matching the non \code{x}, \code{y},
-#' and \code{z} arguments of the \code{\link[akima]{interp}} function.
+#' be a named list with component matching the non \code{xyz}
+#' arguments of the \code{\link[MBA]{mba.surf}} function.
 #' 
 #' If \code{x} are \code{y} are vectors of increasing values and 
 #' \code{nrow(z) == length(x)} and \code{ncol(z) == length(y)}, then 
@@ -464,21 +465,61 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
     interp.args <- list()
   }
   
-  # Check for non-gridded points.  Interpolate onto regular grid.
+  # Check for non-gridded points.  
+  # Surface approximation onto regular grid.
   if (!is.matrix(x)) {
     if (length(x) == length(z)) {
-      interp.args$x <- x
-      interp.args$y <- y
-      interp.args$z <- z
-      if (requireNamespace("akima", quietly = TRUE)) {
-        interpf <- akima::interp
-      } else {
-        stop("User must manually install the akima package to enable this functionality due to licensing restrictions")
+      interp.args$xyz <- cbind(x, y, z)
+      
+      # convert from old format
+      if (!is.null(interp.args$xo)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        interp.args$no.X <- length(interp.args$xo)
+        interp.args$xo <- NULL
       }
+      if (!is.null(interp.args$yo)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        interp.args$no.Y <- length(interp.args$yo)
+        interp.args$yo <- NULL
+      }
+      if (!is.null(interp.args$linear)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        interp.args$linear <- NULL
+      }
+      if (!is.null(interp.args$extrap)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        interp.args$extend <- interp.args$extrap
+        interp.args$extrap <- NULL
+      }
+      if (!is.null(interp.args$nx)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        interp.args$no.X <- interp.args$nx
+        interp.args$nx <- NULL
+      }
+      if (!is.null(interp.args$ny)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        interp.args$no.Y <- interp.args$ny
+        interp.args$ny <- NULL
+      }
+      
+      if (is.null(interp.args$no.X)) {
+        interp.args$no.X <- 40
+      }
+      if (is.null(interp.args$no.Y)) {
+        interp.args$no.Y <- 40
+      }
+      interpf <- MBA::mba.surf
       ixyz <- do.call(interpf, interp.args)
-      x <- ixyz$x
-      y <- ixyz$y
-      z <- ixyz$z
+      x <- ixyz$xyz.est$x
+      y <- ixyz$xyz.est$y
+      z <- ixyz$xyz.est$z
+      
+      # bug fix for old version of MBA package
+      if (length(x) != length(y)) {
+        if (length(x) != nrow(z)) {
+          z <- matrix(c(z), nrow = ncol(z), ncol = nrow(z))    
+        }
+      }
     }
   }
   

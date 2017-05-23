@@ -1,4 +1,8 @@
-## ---- include=FALSE------------------------------------------------------
+## ----setup 1, include = FALSE--------------------------------------------
+library(knitr)
+opts_knit$set(global.par = TRUE)
+
+## ----setup, include=FALSE------------------------------------------------
 library(autoimage)
 library(ggplot2)
 par(mar = c(3.1, 2.1, 2.1, 1.1))
@@ -8,39 +12,34 @@ par(mar = c(3.1, 2.1, 2.1, 1.1))
 data(narccap)
 dates <- c("May 15, 2041", "May 16, 2041", "May 17, 2041", "May 18, 2041", "May 19, 2041")
 
-## ---- fig.height=6, fig.width=7------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 autoimage(x = lon, y = lat, z = tasmax, main = dates)
 
-## ---- fig.height=4, fig.width=4------------------------------------------
+## ---- fig.height=2, fig.width=2------------------------------------------
 df1 <- data.frame(lon = c(lon[65:75, 50:60]), lat = c(lat[65:75, 50:60]), 
                   tasmax = c(tasmax[65:75, 50:60, 1]))
 ggplot(df1, aes(x = lon, y = lat, z = tasmax, fill = tasmax)) + geom_tile()
 
 ## ------------------------------------------------------------------------
-library(akima)
-i1 <- interp(c(lon), c(lat), c(tasmax[,,1]), nx = 140, ny = 115)
-i2 <- interp(c(lon), c(lat), c(tasmax[,,2]), nx = 140, ny = 115)
-i3 <- interp(c(lon), c(lat), c(tasmax[,,3]), nx = 140, ny = 115)
-i4 <- interp(c(lon), c(lat), c(tasmax[,,4]), nx = 140, ny = 115)
-i5 <- interp(c(lon), c(lat), c(tasmax[,,5]), nx = 140, ny = 115)
+data(inarccap)
 
 ## ------------------------------------------------------------------------
-igrid <- expand.grid(i1$x, i1$y)
+igrid <- expand.grid(ilon, ilat)
 df <- data.frame(lon = igrid[,1], lat = igrid[,2], 
-                 tasmax = c(c(i1$z), c(i2$z), c(i3$z), c(i4$z), c(i5$z)),
+                 tasmax = c(itasmax),
                  day = rep(dates, each = 16100)) 
 
-## ---- fig.height=3.5, fig.width=5----------------------------------------
+## ---- fig.height=3, fig.width=5------------------------------------------
 ggplot(df, aes(x = lon, y = lat, fill = tasmax)) + geom_tile() + 
   facet_wrap(~ day) 
 
-## ---- fig.height=4, fig.width=5------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 library(viridis)
 ggplot(df, aes(x = lon, y = lat, fill = tasmax)) + 
   geom_tile() + facet_wrap(~ day) + scale_fill_viridis(na.value = "transparent") + 
   theme_bw() + theme(legend.position = "bottom")
 
-## ---- fig.height=6, fig.width=7------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 autoimage(x = lon, y = lat, z = tasmax, main = dates, 
           proj = "bonne", parameters = 45)
 
@@ -50,10 +49,10 @@ autoimage(x = lon, y = lat, z = tasmax, main = dates,
 #   coord_map(projection = "bonne", parameters = 45) + 
 #   theme(legend.position = "bottom")
 
-## ---- fig.height=6, fig.width=7------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 autoimage(x = lon, y = lat, z = tasmax, main = dates, map = "world")
 
-## ---- fig.height=4, fig.width=5------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 world_df <- map_data("world")
 ggplot() + geom_tile(aes(x = lon, y = lat, fill = tasmax), data = df) + 
   facet_wrap(~ day) + scale_fill_viridis() + theme_bw() + 
@@ -66,10 +65,10 @@ data(canada)
 library(broom)
 canada_df <- tidy(canada)
 
-## ---- fig.height=6, fig.width=7------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 autoimage(x = lon, y = lat, z = tasmax, main = dates, lines = canada)
 
-## ---- fig.height=4, fig.width=5------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 ggplot() + geom_tile(aes(x = lon, y = lat, fill = tasmax), data = df) + 
   facet_wrap(~ day) + scale_fill_viridis() + 
   geom_path(aes(x = long, y = lat, group = group), data = canada_df) + 
@@ -80,19 +79,19 @@ caps <- us.cities[us.cities$capital == 2, ]
 caps <- caps[c(1, 3, 5, 22, 27, 42), ]
 cap_df <- data.frame(x = caps$lon, y = caps$lat, labels = caps$country.etc)
 
-## ---- fig.height=6, fig.width=7------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 autoimage(x = lon, y = lat, z = tasmax, main = dates, text = cap_df)
 
-## ---- fig.height=4, fig.width=5------------------------------------------
+## ---- fig.height=4, fig.width=4------------------------------------------
 ggplot() + geom_tile(aes(x = lon, y = lat, fill = tasmax), data = df) + 
   facet_wrap(~ day) + scale_fill_viridis() + 
   geom_text(aes(x = x, y = y, label = labels), data = cap_df) + 
   theme_bw() + theme(legend.position = "bottom")
 
-## ---- fig.height=6.5, fig.width=7.5--------------------------------------
-autoimage(lon, lat, tasmax, common.legend = FALSE)
+## ---- fig.height=5, fig.width=5------------------------------------------
+autoimage(lon, lat, tasmax, common.legend = FALSE, main = dates)
 
-## ---- fig.height=5, fig.width=6------------------------------------------
+## ---- fig.height=5, fig.width=5------------------------------------------
 df_days = split(df, f = df$day)
 p1 <- ggplot(df_days[[1]], aes(x = lon, y = lat, fill = tasmax)) + 
   geom_tile() + labs(title = dates[1]) + 

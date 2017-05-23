@@ -13,6 +13,3 @@ if (test) {
     pos = 3)
   dev.off()
 }
-
-
-TRUE

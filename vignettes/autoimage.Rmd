@@ -28,7 +28,7 @@ The most important arguments of the `pimage` function are `x`, `y`, and `z`.  `x
 
 We create a basic image plot by providing `x`, `y`, and `z` to the `pimage` function.
 
-```{r, include=FALSE}
+```{r setup, include=FALSE}
 library(autoimage)
 ```
 
@@ -37,7 +37,7 @@ data(narccap)
 pimage(x = lon, y = lat, z = tasmax[,,1])
 ```
 
-`x`, `y`, and `z` can have differing formats depending on the type of data. **If the data are observed on a regular grid**, then `z` will be matrix with dimensions matching the dimensions of the grid and `x` and `y` will be vectors of increasing values that define the grid lines.  **If the data are observed on an irregular grid** (e.g., a regular grid that is rotated or projected), then `z` will be a matrix with dimensions matching the dimensions of the grid and `x` and `y` will be matrices whose coordinates specify the x and y coordinates of each value in `z`.  If the data are not on a grid, then `x` and `y` will be vectors specifying the coordinate locations, and `z` will be the vector of responses at each coordinate.  If the data are not on a grid, then the data are automatically interpolated onto a grid before plotting (assuming the **akima** package is available).
+`x`, `y`, and `z` can have differing formats depending on the type of data. **If the data are observed on a regular grid**, then `z` will be matrix with dimensions matching the dimensions of the grid and `x` and `y` will be vectors of increasing values that define the grid lines.  **If the data are observed on an irregular grid** (e.g., a regular grid that is rotated or projected), then `z` will be a matrix with dimensions matching the dimensions of the grid and `x` and `y` will be matrices whose coordinates specify the x and y coordinates of each value in `z`.  If the data are not on a grid, then `x` and `y` will be vectors specifying the coordinate locations, and `z` will be the vector of responses at each coordinate.  If the data are not on a grid, then  multilevel B-splines are used to automatically predict the response on a grid before plotting (using the `mba.surf` function in the **MBA** package).
 
 We create a heat map using the non-gridded Aluminum measurements for the state of Colorado.
 
@@ -89,17 +89,16 @@ The `autoimage` function generalizes the `pimage` function to allow for multiple
 
 The structure of `z` will vary slightly from the `pimage` function.  Specifically, if multiple gridded images are to be constructed, then `z` will be a three-dimensional array instead of a matrix.  Each element of the third dimension of `z` corresponds to the matrix of gridded values for each image.  If images for multiple non-gridded variables are to be constructed, then `z` will be a matrix with each column corresponding to a different variable.
 
-Passing a three-dimensional array to `autoimage` constructs a sequence of images with a common legend.  Note that we increase `lratio` to produce a more sensible legend thickness.
+Passing a three-dimensional array to `autoimage` constructs a sequence of images with a common legend.
 
 ```{r, fig.height=5, fig.width=7}
-autoimage(lon, lat, tasmax, lratio = 0.25)
+autoimage(lon, lat, tasmax)
 ```
 
 Passing a two-dimensional matrix for `z` (where the number of rows matches the length of `x` and `y`) constructs a sequence of images for non-gridded data with a common legend.  Titles are added to each image using the `main` argument by providing a character vector whose length matches the number of plotted images.
 
 ```{r, fig.height=5, fig.width=4}
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
-           lratio = 0.25, 
            main = c("(a) Aluminum %", "(b) Calcium %", 
                     "(c) Iron %", "(d) Potassium %"))
 ```
@@ -108,7 +107,7 @@ Separate color scales will be used for each image when `common.legend = FALSE`.
 
 ```{r, fig.height=5, fig.width=4}
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
-          common.legend = FALSE, lratio = 0.25,
+          common.legend = FALSE,
           main = c("(a) Aluminum %", "(b) Calcium %", 
                    "(c) Iron %", "(d) Potassium %"))
 ```
@@ -267,14 +266,15 @@ Consider the following poor graphic.
 pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40)
 ```
 
-The grid lines do not extend nearly far enough.  Additionally, there are only two tick marks on the y axis.  We can add additional longer grid lines by specifying `xat` and `yat` in `axis.args`.  We can also further change the appearance of the axes via other components of `axis.args`.  We change the appearance of the grid lines by specifying choices in `paxes.args`.
+The grid lines do not extend nearly far enough.  There are only two tick marks on the y axis.  The legend is too thin.  We can add additional longer grid lines by specifying `xat` and `yat` in `axis.args`.  We can also further change the appearance of the axes via other components of `axis.args`.  We change the appearance of the grid lines by specifying choices in `paxes.args`.  We change the legend thickness by specifying `lratio`.
 
 ```{r, fig.height = 4, fig.width = 5}
 pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
        axis.args = list(yat = seq(0, 70, by = 10), 
                         xat = seq(-220, 20, by = 20),
                         col.axis = "darkgrey", cex.axis = 0.9),
-       paxes.args = list(col = "grey", lty = 2))
+       paxes.args = list(col = "grey", lty = 2),
+       lratio = 0.4)
 ```
 
 The breaks and colors of the scale can be modified by specifying the `breaks` and `col` arguments, as in the `image` function in **graphics**.  Additional changes can be made by specifying `legend.axis.args`, a named list with components matching the arguments of the `axis` function, which is used in creating the legend.  
@@ -285,11 +285,10 @@ pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6),
        legend.axis.args = list(col.axis = "blue", las = 2, cex.axis = 0.75))
 ```
 
-When non-gridded are used, the interpolation settings can be passed through `...` by specifying `interp.args`, a named list with components matching the
-arguments of the `interp` function in the **akima** package.  We project the Colorado Aluminum measurements onto a finer grid in the following plot.
+When non-gridded data are used, the settings for the gridded surface approximation can be passed through `...` by specifying `interp.args`, a named list with components matching the non-`xyz` arguments of the `mba.surf` function in the **MBA** package.  We project the Colorado Aluminum measurements onto a finer grid in the following plot.
 
 ```{r, fig.height = 5, fig.width = 4.5}
-pimage(co$lon, co$lat, co$Al, interp.args = list(nx = 100, ny = 100))
+pimage(co$lon, co$lat, co$Al, interp.args = list(no.X = 100, no.Y = 100))
 ```
 
 The appearance of `outer.title` can be modified by passing `mtext.args` through `...`.  `mtext.args` should be a named list with components matching 
@@ -297,8 +296,7 @@ the arguments of `mtext`, which is the function used to create the common title.
 
 ```{r, fig.height = 5, fig.width = 6}
 autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days",
-          mtext.args = list(col = "blue", cex = 2),
-          lratio = 0.3)
+          mtext.args = list(col = "blue", cex = 2))
 ```
 
 The various options of the labeling, axes, and legend are largely

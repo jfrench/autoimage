@@ -5,12 +5,12 @@
 #' \code{\link[ggplot2]{ggplot2}} package.
 #' 
 #' If \code{x} and \code{y} do not form a regular grid, then the 
-#' \code{\link[akima]{interp}} function is used to
+#' \code{\link[MBA]{mba.surf}} function is used to
 #' interpolate the locations onto a regular grid before constructing
 #' the image.  This interpolation can be customized by passing
 #' \code{interp.args} through \code{...}.  \code{interp.args} should
-#' be a named list with component matching the non \code{x}, \code{y},
-#' and \code{z} arguments of the \code{\link[akima]{interp}} function.
+#' be a named list with components matching the non \code{xyz} 
+#' arguments of the \code{\link[MBA]{mba.surf}} function.
 #' 
 #' When \code{proj != "none"}, the \code{\link[mapproj]{mapproject}} 
 #' function is used to project the \code{x} and \code{y} coordinates. 
@@ -51,8 +51,8 @@
 #' @param points A named list with components \code{x} and \code{y}
 #' specifiying the locations to be plot points.
 #' @param interp.args A named list with component matching the 
-#' non \code{x}, \code{y}, and \code{z} arguments of the 
-#' \code{\link[akima]{interp}} function.  Used to customize
+#' non \code{xyz} arguments of the 
+#' \code{\link[MBA]{mba.surf}} function.  Used to customize
 #' interpolation, when required.
 #' @seealso \code{\link[autoimage]{autoimage}},
 #'   \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}
@@ -85,13 +85,13 @@
 #'             proj = "bonne", parameters = 40)
 #' # finer interpolation grid
 #' ggautoimage(x, y, z, f, lines = lines, points = points,
-#'             interp.args = list(nx = 100, ny = 100))
+#'             interp.args = list(no.X = 100, no.Y = 100))
 #' }
 #' @export
 ggautoimage <- function(x, y, z, f, proj = "none", parameters, orientation, 
   lines, points, interp.args) {
   if (missing(f)) 
-    factor(rep(1, length(x)))
+    f <- factor(rep(1, length(x)))
   if (missing(parameters)) 
     parameters <- NULL
   if (missing(orientation)) 
@@ -204,7 +204,7 @@ arg.check.ggautoimage <- function(x, y, z, f, proj, lines, points, interp.args) 
 
 # setup x, y, z for ggplot2 compatibility
 # f is the factor
-# interp.args is the arguments for akima::interp
+# interp.args is the arguments for MBA::mba.surf
 ggautoimage.xyz.setup <- function(x, y, z, f, interp.args) {
   df <- data.frame(x, y, z, f)
   split_df <- split(df, f = f)
@@ -218,17 +218,64 @@ ggautoimage.xyz.setup <- function(x, y, z, f, interp.args) {
     # if not on a regular grid, interpolate to regular grid
     if (length(uxi) * length(uyi) != length(zi)) {
       temp.interp.args <- interp.args
-      temp.interp.args$x <- c(xi)
-      temp.interp.args$y <- c(yi)
-      temp.interp.args$z <- c(zi)
-      if (requireNamespace("akima", quietly = TRUE)) {
-        fun <- akima::interp
-      } else {
-        stop("User must manually install the akima package to enable this functionality due to licensing restrictions")
+      temp.interp.args$xyz <- cbind(x, y, z)
+      
+      # convert from old format
+      if (!is.null(temp.interp.args$xo)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        temp.interp.args$no.X <- length(temp.interp.args$xo)
+        temp.interp.args$xo <- NULL
+      }
+      if (!is.null(temp.interp.args$yo)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        temp.interp.args$no.Y <- length(temp.interp.args$yo)
+        temp.interp.args$yo <- NULL
+      }
+      if (!is.null(temp.interp.args$linear)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        temp.interp.args$linear <- NULL
+      }
+      if (!is.null(temp.interp.args$extrap)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        temp.interp.args$extend <- temp.interp.args$extrap
+        temp.interp.args$extrap <- NULL
+      }
+      if (!is.null(temp.interp.args$nx)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        temp.interp.args$no.X <- temp.interp.args$nx
+        temp.interp.args$nx <- NULL
+      }
+      if (!is.null(temp.interp.args$ny)) {
+        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
+        temp.interp.args$no.Y <- temp.interp.args$ny
+        temp.interp.args$ny <- NULL
       }
       
-      # interpolation output
-      iout <- do.call(fun, temp.interp.args)
+      if (is.null(temp.interp.args$no.X)) {
+        temp.interp.args$no.X <- 40
+      }
+      if (is.null(temp.interp.args$no.Y)) {
+        temp.interp.args$no.Y <- 40
+      }
+      interpf <- MBA::mba.surf
+      ixyz <- do.call(interpf, temp.interp.args)
+      iout <- ixyz$xyz.est
+      # x <- ixyz$xyz.est$x
+      # y <- ixyz$xyz.est$y
+      # z <- ixyz$xyz.est$z
+      # print(ixyz)
+      # bug fix for old version of MBA package
+      if (length(iout$x) != length(iout$y)) {
+        if (length(iout$x) != nrow(iout$z)) {
+          iout$z <- matrix(c(iout$z), 
+                           nrow = ncol(iout$z), 
+                           ncol = nrow(iout$z))    
+        }
+      }
+      
+      # fun <- MBA::mba.surf
+      # # interpolation output
+      # iout <- do.call(fun, temp.interp.args)
       xy <- expand.grid(iout$x, iout$y)
       split_df[[i]] <- data.frame(x = xy[, 1], y = xy[, 2], z = c(iout$z), 
                                   f = fi)

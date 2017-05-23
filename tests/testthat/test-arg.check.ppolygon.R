@@ -13,4 +13,3 @@ test_that("sanity checks for arg.check.ppolygon arguments", {
     "proj should be a single character string")
   expect_error(arg.check.ppolygon(x = 1:2, y = 1:2, proj = 8), "proj should be a single character string")
 })
-TRUE

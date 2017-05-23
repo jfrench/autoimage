@@ -51,4 +51,3 @@ test_that("sanity checks for arg.check.autolayout arguments", {
   expect_error(arg.check.autolayout(1:2, "none", TRUE, TRUE, TRUE, 0.2, 
     TRUE, -1:2))  # negative values
 })
-TRUE

@@ -1,4 +1,4 @@
-## ---- include=FALSE------------------------------------------------------
+## ----setup, include=FALSE------------------------------------------------
 library(autoimage)
 
 ## ---- fig.height=5, fig.width=4------------------------------------------
@@ -24,17 +24,16 @@ pimage(x = lon, y = lat, z = tasmax[,,1], proj = "bonne",
        parameters = 45, map = "world")
 
 ## ---- fig.height=5, fig.width=7------------------------------------------
-autoimage(lon, lat, tasmax, lratio = 0.25)
+autoimage(lon, lat, tasmax)
 
 ## ---- fig.height=5, fig.width=4------------------------------------------
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
-           lratio = 0.25, 
            main = c("(a) Aluminum %", "(b) Calcium %", 
                     "(c) Iron %", "(d) Potassium %"))
 
 ## ---- fig.height=5, fig.width=4------------------------------------------
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
-          common.legend = FALSE, lratio = 0.25,
+          common.legend = FALSE,
           main = c("(a) Aluminum %", "(b) Calcium %", 
                    "(c) Iron %", "(d) Potassium %"))
 
@@ -132,7 +131,8 @@ pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
        axis.args = list(yat = seq(0, 70, by = 10), 
                         xat = seq(-220, 20, by = 20),
                         col.axis = "darkgrey", cex.axis = 0.9),
-       paxes.args = list(col = "grey", lty = 2))
+       paxes.args = list(col = "grey", lty = 2),
+       lratio = 0.4)
 
 ## ---- fig.height = 5, fig.width = 4--------------------------------------
 pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6), 
@@ -140,12 +140,11 @@ pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6),
        legend.axis.args = list(col.axis = "blue", las = 2, cex.axis = 0.75))
 
 ## ---- fig.height = 5, fig.width = 4.5------------------------------------
-pimage(co$lon, co$lat, co$Al, interp.args = list(nx = 100, ny = 100))
+pimage(co$lon, co$lat, co$Al, interp.args = list(no.X = 100, no.Y = 100))
 
 ## ---- fig.height = 5, fig.width = 6--------------------------------------
 autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days",
-          mtext.args = list(col = "blue", cex = 2),
-          lratio = 0.3)
+          mtext.args = list(col = "blue", cex = 2))
 
 ## ---- fig.width = 4, fig.height = 4--------------------------------------
 par(cex.axis = 0.5, cex.lab = 0.5, mgp = c(1.5, 0.5, 0),

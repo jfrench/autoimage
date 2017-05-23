@@ -14,4 +14,3 @@ if (test) {
   plines(worldpoly, proj = "mercator")
   dev.off()
 }
-TRUE

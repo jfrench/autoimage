@@ -14,6 +14,3 @@ if (test) {
   title("polygon over colorado")
   dev.off()
 }
-
-
-TRUE

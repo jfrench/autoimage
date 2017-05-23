@@ -1,6 +1,6 @@
 context("autoimage tests")
 
-test <- FALSE
+test <- TRUE
 
 if (test) {
   setwd("~")
@@ -72,4 +72,3 @@ if (test) {
   reset.par()
   dev.off()
 }
-TRUE

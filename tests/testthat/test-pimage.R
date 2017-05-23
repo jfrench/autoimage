@@ -1,6 +1,6 @@
 context("pimage tests")
 
-test <- FALSE
+test <- TRUE
 
 if (test) {
   setwd("~")
@@ -129,6 +129,3 @@ if (test) {
   title("custom spaced y axis, legend axis")
   dev.off()
 }
-
-
-TRUE

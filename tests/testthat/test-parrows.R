@@ -27,6 +27,3 @@ if (test) {
   title("arrows b/w sf/la and ny/boston")
   dev.off()
 }
-
-
-TRUE

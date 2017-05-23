@@ -26,6 +26,3 @@ if (test) {
   title("connect sf/la and ny/boston")
   dev.off()
 }
-
-
-TRUE

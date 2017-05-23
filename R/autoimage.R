@@ -29,8 +29,8 @@
 #' The range of \code{zlim} is cut into \eqn{n} partitions, 
 #' where \code{n} is the length of \code{col}.
 #'
-#' Note that the more images that are plotted simulataneously, 
-#' the smaller one typically wants \code{lratio} to be.
+#' It is generally desirable to increase \code{lratio} when
+#' more images are plotted simultaneously.
 #'
 #' The multiple plots are constructed using the 
 #' \code{\link[autoimage]{autolayout}} function, which 
@@ -101,6 +101,11 @@
 #' @inheritParams pimage
 #' @inheritParams autolayout
 #' @param outer.title A title related to all of the images that is plotted in the outer margin of the figure.
+#' @param lratio A numeric value indicating the ratio of the smaller 
+#'   dimension of the legend scale to the width of the image.  Default
+#'   is 0.1 + 0.1 \code{* k}, where \code{k} is the number of image rows 
+#'   if \code{legend == "horizontal"} or the number of image 
+#'   columns if \code{legend == "vertical"}.
 #' @param ... Additional arguments passed to the \code{\link[graphics]{image}} or 
 #' \code{\link[fields]{poly.image}} functions.  e.g., \code{xlab}, \code{ylab}, 
 #' \code{xlim}, \code{ylim}, \code{zlim}, etc.
@@ -150,7 +155,7 @@
 #'           lratio = 0.5)
 #' @export
 autoimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters, 
-  orientation, lratio = 0.2, common.legend = TRUE, map = "none", size, 
+  orientation, common.legend = TRUE, map = "none", size, lratio,
   outer.title, ...) {
   # obtain elements of ...
   arglist <- list(...)
@@ -161,11 +166,11 @@ autoimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters,
     legend <- match.arg(legend, c("none", "horizontal", "vertical"))
   }
   # attempt to match deprecated arguments
-  argmatch <- autoimage.match.old.args(legend, proj, list(), lratio, 
-    arglist)
-  legend <- argmatch$legend
-  lratio <- argmatch$lratio
-  arglist <- argmatch$arglist
+  # argmatch <- autoimage.match.old.args(legend, proj, list(), 
+  #   arglist = arglist)
+  # legend <- argmatch$legend
+  # lratio <- argmatch$lratio
+  # arglist <- argmatch$arglist
   
   # set default for missing arguments
   if (missing(x)) 
@@ -192,6 +197,13 @@ autoimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters,
   # additional argument checking
   if (missing(size)) 
     size <- autosize(length(xyz.list))
+  if (missing(lratio)) {
+    if (legend == "horizontal") {
+      lratio = 0.1 + 0.1 * size[1]
+    } else {
+      lratio = 0.1 + 0.1 * size[2]
+    }
+  }
   # change common.legend if zlim is a list
   if (!is.null(arglist$zlim)) {
     if (is.list(arglist$zlim)) 

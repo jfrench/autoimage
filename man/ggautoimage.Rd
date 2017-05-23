@@ -43,8 +43,8 @@ lines should be separated by \code{NA} values.  See Details.}
 specifiying the locations to be plot points.}
 
 \item{interp.args}{A named list with component matching the 
-non \code{x}, \code{y}, and \code{z} arguments of the 
-\code{\link[akima]{interp}} function.  Used to customize
+non \code{xyz} arguments of the 
+\code{\link[MBA]{mba.surf}} function.  Used to customize
 interpolation, when required.}
 }
 \description{
@@ -54,12 +54,12 @@ similar to \code{\link[autoimage]{autoimage}} using the
 }
 \details{
 If \code{x} and \code{y} do not form a regular grid, then the 
-\code{\link[akima]{interp}} function is used to
+\code{\link[MBA]{mba.surf}} function is used to
 interpolate the locations onto a regular grid before constructing
 the image.  This interpolation can be customized by passing
 \code{interp.args} through \code{...}.  \code{interp.args} should
-be a named list with component matching the non \code{x}, \code{y},
-and \code{z} arguments of the \code{\link[akima]{interp}} function.
+be a named list with components matching the non \code{xyz} 
+arguments of the \code{\link[MBA]{mba.surf}} function.
 
 When \code{proj != "none"}, the \code{\link[mapproj]{mapproject}} 
 function is used to project the \code{x} and \code{y} coordinates. 
@@ -113,7 +113,7 @@ ggautoimage(x, y, z, f, lines = lines, points = points,
             proj = "bonne", parameters = 40)
 # finer interpolation grid
 ggautoimage(x, y, z, f, lines = lines, points = points,
-            interp.args = list(nx = 100, ny = 100))
+            interp.args = list(no.X = 100, no.Y = 100))
 }
 }
 \seealso{
