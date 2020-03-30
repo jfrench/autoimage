@@ -4,8 +4,13 @@
 \alias{legend.scale}
 \title{Color scale legend}
 \usage{
-legend.scale(zlim, col = viridisLite::viridis(12), horizontal = TRUE,
-  breaks, axis.args)
+legend.scale(
+  zlim,
+  col = viridisLite::viridis(12),
+  horizontal = TRUE,
+  breaks,
+  axis.args
+)
 }
 \arguments{
 \item{zlim}{A two-dimensional vector containing the minimum and 

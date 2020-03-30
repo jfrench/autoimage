@@ -32,9 +32,9 @@ test_that("sanity checks for autoimage.xyz.setup", {
   expect_error(autoimage.xyz.setup(1:10, NULL, NULL, "", "", arglist, 
     TRUE), "argument must be matrix-like")
   expect_error(autoimage.xyz.setup(NULL, NULL, 1:10, "", "", arglist, 
-    TRUE), "x and y must be specified when z is not a matrix", TRUE)
+    TRUE), "x and y must be specified when z is not a matrix or array")
   expect_error(autoimage.xyz.setup(NULL, NULL, 1:10, "", "", arglist, 
-    TRUE), "x and y must be specified when z is not a matrix")
+    TRUE), "x and y must be specified when z is not a matrix or array")
   expect_message(autoimage.xyz.setup(rnorm(10), rnorm(10), rnorm(10), 
     "", "", arglist, TRUE))  # okay
   # x and y length problems

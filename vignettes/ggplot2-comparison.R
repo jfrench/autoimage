@@ -75,7 +75,7 @@ ggplot() + geom_tile(aes(x = lon, y = lat, fill = tasmax), data = df) +
   theme_bw() + theme(legend.position = "bottom")
 
 ## ------------------------------------------------------------------------
-caps <- us.cities[us.cities$capital == 2, ]
+caps <- maps::us.cities[maps::us.cities$capital == 2, ]
 caps <- caps[c(1, 3, 5, 22, 27, 42), ]
 cap_df <- data.frame(x = caps$lon, y = caps$lat, labels = caps$country.etc)
 

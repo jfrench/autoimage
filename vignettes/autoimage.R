@@ -7,7 +7,8 @@ pimage(x = lon, y = lat, z = tasmax[,,1])
 
 ## ---- fig.height=5, fig.width=4------------------------------------------
 data(co, package = "gear")
-pimage(co$longitude, co$latitude, co$Al)
+pimage(co$longitude, co$latitude, co$Al, 
+       xlab = "lon", ylab = "lat")
 
 ## ---- fig.height = 5, fig.width = 4--------------------------------------
 pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6))
@@ -29,13 +30,15 @@ autoimage(lon, lat, tasmax)
 ## ---- fig.height=5, fig.width=4------------------------------------------
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
            main = c("(a) Aluminum %", "(b) Calcium %", 
-                    "(c) Iron %", "(d) Potassium %"))
+                    "(c) Iron %", "(d) Potassium %"),
+          xlab = "lon", ylab = "lat")
 
 ## ---- fig.height=5, fig.width=4------------------------------------------
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
           common.legend = FALSE,
           main = c("(a) Aluminum %", "(b) Calcium %", 
-                   "(c) Iron %", "(d) Potassium %"))
+                   "(c) Iron %", "(d) Potassium %"),
+          xlab = "lon", ylab = "lat")
 
 ## ---- fig.height=3, fig.width=7------------------------------------------
 autoimage(lon, lat, tasmax[,,1:3], size = c(1, 3))
@@ -88,7 +91,8 @@ pimage(co$lon, co$lat, co$Al, map = "county", legend = "none",
        proj = "bonne", parameters = 39, 
        paxes.args = list(grid = FALSE),
        col = fields::tim.colors(64),
-       lines.args = list(col = "grey"))
+       lines.args = list(col = "grey"),
+       xlab = "lon", ylab = "lat")
 # add colorado city points to image
 ppoints(codf$lon, codf$lat, pch = 16, proj = "bonne")
 # add names of colorado cities to image
@@ -121,7 +125,8 @@ autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE,
           points = citypoints,
           points.args = list(pch = 20, col = "white"),
           text = citypoints,
-          text.args = list(pos = 3, col = "white"))
+          text.args = list(pos = 3, col = "white"),
+          xlab = "lon", ylab = "lat")
 
 ## ---- fig.height = 4, fig.width = 5--------------------------------------
 pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40)
@@ -132,7 +137,8 @@ pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
                         xat = seq(-220, 20, by = 20),
                         col.axis = "darkgrey", cex.axis = 0.9),
        paxes.args = list(col = "grey", lty = 2),
-       lratio = 0.4)
+       legend.axis.args = list(cex.axis = 0.9),
+       lratio = 0.3)
 
 ## ---- fig.height = 5, fig.width = 4--------------------------------------
 pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6), 
@@ -140,7 +146,8 @@ pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6),
        legend.axis.args = list(col.axis = "blue", las = 2, cex.axis = 0.75))
 
 ## ---- fig.height = 5, fig.width = 4.5------------------------------------
-pimage(co$lon, co$lat, co$Al, interp.args = list(no.X = 100, no.Y = 100))
+pimage(co$lon, co$lat, co$Al, interp.args = list(no.X = 100, no.Y = 100), 
+       xlab = "lon", ylab = "lat")
 
 ## ---- fig.height = 5, fig.width = 6--------------------------------------
 autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days",

@@ -12,7 +12,7 @@ ppoints(x, y = NULL, type = "p", proj, ...)
 \item{y}{coordinate vectors of points to plot.}
 
 \item{type}{character indicating the type of plotting; actually any of
-    the \code{type}s as in \code{\link{plot.default}}.}
+    the \code{type}s as in \code{\link[graphics]{plot.default}}.}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 

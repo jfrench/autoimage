@@ -4,8 +4,18 @@
 \alias{pimage}
 \title{Display image for projected coordinates}
 \usage{
-pimage(x, y, z, legend = "horizontal", proj = "none", parameters,
-  orientation, lratio = 0.2, map = "none", ...)
+pimage(
+  x,
+  y,
+  z,
+  legend = "horizontal",
+  proj = "none",
+  parameters,
+  orientation,
+  lratio = 0.2,
+  map = "none",
+  ...
+)
 }
 \arguments{
 \item{x, y}{Locations of grid points at which the values in \code{z}

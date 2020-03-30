@@ -4,8 +4,16 @@
 \alias{autolayout}
 \title{Divide device into rows and columns}
 \usage{
-autolayout(size, legend = "none", common.legend = TRUE, lratio = 0.2,
-  outer = FALSE, show = TRUE, reverse = FALSE, legend.mar)
+autolayout(
+  size,
+  legend = "none",
+  common.legend = TRUE,
+  lratio = 0.2,
+  outer = FALSE,
+  show = TRUE,
+  reverse = FALSE,
+  legend.mar
+)
 }
 \arguments{
 \item{size}{A vector of length two indicating the number of rows 

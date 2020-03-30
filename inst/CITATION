@@ -1,0 +1,13 @@
+citHeader("To cite this package in publications, please use:")
+
+citEntry(entry = "article",
+         author = "Joshua P. French",
+         title = "autoimage: Multiple Heat Maps for Projected Coordinates",
+         journal = "The R Journal",
+         year = "2017",
+         volume = "9",
+         issue = "1",
+         pages = "284--297",
+         url = "https://journal.r-project.org/archive/2017/RJ-2017-025/RJ-2017-025.pdf",
+         textVersion = "Joshua P. French. autoimage: Multiple Heat Maps for Projected Coordinates.  The R Journal.  9(1), 284-297, 2017"
+)

@@ -4,8 +4,18 @@
 \alias{ggautoimage}
 \title{Display images using ggplot2}
 \usage{
-ggautoimage(x, y, z, f, proj = "none", parameters, orientation, lines, points,
-  interp.args)
+ggautoimage(
+  x,
+  y,
+  z,
+  f,
+  proj = "none",
+  parameters,
+  orientation,
+  lines,
+  points,
+  interp.args
+)
 }
 \arguments{
 \item{x}{A numeric vector specifying the x coordinate locations.}

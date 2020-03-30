@@ -12,7 +12,7 @@ plines(x, y = NULL, type = "l", proj, ...)
 \item{y}{coordinate vectors of points to join.}
 
 \item{type}{character indicating the type of plotting; actually any of
-    the \code{type}s as in \code{\link{plot.default}}.}
+    the \code{type}s as in \code{\link[graphics]{plot.default}}.}
 
 \item{proj}{A character string indicating what projection should be
 used for the included \code{x} and \code{y} coordinates.  The 
@@ -21,7 +21,7 @@ the \code{"projection"} argument in the
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
-\item{...}{Further graphical parameters (see \code{\link{par}}) may
+\item{...}{Further graphical parameters (see \code{\link[graphics]{par}}) may
     also be supplied as arguments, particularly, line type, \code{lty},
     line width, \code{lwd}, color, \code{col} and for \code{type = "b"},
     \code{pch}.  Also the line characteristics \code{lend}, \code{ljoin}

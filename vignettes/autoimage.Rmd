@@ -43,7 +43,8 @@ We create a heat map using the non-gridded Aluminum measurements for the state o
 
 ```{r, fig.height=5, fig.width=4}
 data(co, package = "gear")
-pimage(co$longitude, co$latitude, co$Al)
+pimage(co$longitude, co$latitude, co$Al, 
+       xlab = "lon", ylab = "lat")
 ```
 
 We now discuss the basic options of the `pimage` function.
@@ -100,7 +101,8 @@ Passing a two-dimensional matrix for `z` (where the number of rows matches the l
 ```{r, fig.height=5, fig.width=4}
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
            main = c("(a) Aluminum %", "(b) Calcium %", 
-                    "(c) Iron %", "(d) Potassium %"))
+                    "(c) Iron %", "(d) Potassium %"),
+          xlab = "lon", ylab = "lat")
 ```
 
 Separate color scales will be used for each image when `common.legend = FALSE`.
@@ -109,7 +111,8 @@ Separate color scales will be used for each image when `common.legend = FALSE`.
 autoimage(co$longitude, co$latitude, co[,c("Al", "Ca", "Fe", "K")],
           common.legend = FALSE,
           main = c("(a) Aluminum %", "(b) Calcium %", 
-                   "(c) Iron %", "(d) Potassium %"))
+                   "(c) Iron %", "(d) Potassium %"),
+          xlab = "lon", ylab = "lat")
 ```
 
 The dimensions of the plotting matrix can be changed by specifying the `size` argument.  If not provided, then a sensible choice is automatically chosen via the `autosize` function.  The `size` argument should be a two-dimensional vector where the first element corresponds to the number of rows of images and the second dimension corresponds to the number of columns.
@@ -189,7 +192,8 @@ pimage(co$lon, co$lat, co$Al, map = "county", legend = "none",
        proj = "bonne", parameters = 39, 
        paxes.args = list(grid = FALSE),
        col = fields::tim.colors(64),
-       lines.args = list(col = "grey"))
+       lines.args = list(col = "grey"),
+       xlab = "lon", ylab = "lat")
 # add colorado city points to image
 ppoints(codf$lon, codf$lat, pch = 16, proj = "bonne")
 # add names of colorado cities to image
@@ -254,7 +258,8 @@ autoimage(co$lon, co$lat, co[,c("Al", "Ca")], common.legend = FALSE,
           points = citypoints,
           points.args = list(pch = 20, col = "white"),
           text = citypoints,
-          text.args = list(pos = 3, col = "white"))
+          text.args = list(pos = 3, col = "white"),
+          xlab = "lon", ylab = "lat")
 ```
 
 When projections are used, the grid lines do not always go as far as they should.  Thus, axis customization is desired.  Additionally, the appearance of the grid lines might need improving.  The appears of the axis (and the locations of the grid lines) can be changed by passing `axis.args` through `...`.  `axis.args` should be a named list with components matching the arguments of the `axis` function in **graphics**.  The exception is that `xat` and `yat` arguments are used instead of `at` so that ticks on the x and y axes can be specified separately.  The appearance of the grid lines can be changed by passing the desired changes through the `paxes.args` argument.  This is a named list with components matching the
@@ -289,7 +294,8 @@ pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6),
 When non-gridded data are used, the settings for the gridded surface approximation can be passed through `...` by specifying `interp.args`, a named list with components matching the non-`xyz` arguments of the `mba.surf` function in the **MBA** package.  We project the Colorado Aluminum measurements onto a finer grid in the following plot.
 
 ```{r, fig.height = 5, fig.width = 4.5}
-pimage(co$lon, co$lat, co$Al, interp.args = list(no.X = 100, no.Y = 100))
+pimage(co$lon, co$lat, co$Al, interp.args = list(no.X = 100, no.Y = 100), 
+       xlab = "lon", ylab = "lat")
 ```
 
 The appearance of `outer.title` can be modified by passing `mtext.args` through `...`.  `mtext.args` should be a named list with components matching 

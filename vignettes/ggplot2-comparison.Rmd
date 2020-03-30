@@ -208,7 +208,7 @@ the `x` and `y` coordinates of the locations, so we create a data frame
 with this structure before plotting.  The same data frame can be used
 by `ggplot2`.
 ```{r}
-caps <- us.cities[us.cities$capital == 2, ]
+caps <- maps::us.cities[maps::us.cities$capital == 2, ]
 caps <- caps[c(1, 3, 5, 22, 27, 42), ]
 cap_df <- data.frame(x = caps$lon, y = caps$lat, labels = caps$country.etc)
 ```

@@ -29,7 +29,7 @@ the \code{"projection"} argument in the
 \code{\link[mapproj]{mapproject}} function, which is used for the
 projection.}
 
-\item{...}{further \link{graphical parameters} (from \code{\link{par}}),
+\item{...}{further \link[graphics]{graphical parameters} (from \code{\link[graphics]{par}}),
     such as \code{srt}, \code{family} and \code{xpd}.}
 }
 \description{
