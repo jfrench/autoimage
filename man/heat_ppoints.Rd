@@ -14,6 +14,7 @@ heat_ppoints(
   orientation,
   lratio = 0.2,
   map = "none",
+  n = 5,
   ...
 )
 }
@@ -57,6 +58,9 @@ Default is \code{"none"}.  Other options include
 \code{"county"}, \code{"france"}, \code{"nz"} (New
 Zealand), \code{"italy"}, \code{"lakes"}, and
 \code{"world2"}, all from the \code{maps} package.}
+
+\item{n}{integer giving the \emph{desired} number of
+    intervals.  Non-integer values are rounded down.}
 
 \item{...}{Additional arguments passed to the
 \code{\link[graphics]{plot}} function.  e.g.,

@@ -118,7 +118,6 @@
 #' @inheritParams heat_ppoints
 #' @inheritParams autolayout
 #' @inheritParams autoimage
-#' @inheritParams base::pretty
 #' @param ... Additional arguments passed to the 
 #' \code{\link[graphics]{plot}}. e.g., \code{xlab}, \code{ylab}, 
 #' \code{xlim}, \code{ylim}, \code{zlim}, etc.

@@ -103,10 +103,10 @@ data(co, package = "gear")
 # customize legend colors
 # add grey county borders
 # exclude longitude/latitude
-pimage(co$lon, co$lat, co$Al, map = "county", legend = "none",
+heat_ppoints(co$lon, co$lat, co$Al, map = "county", legend = "none",
        proj = "bonne", parameters = 39, 
        paxes.args = list(grid = FALSE),
-       col = cm.colors(6),
+       col = cm.colors(5),
        lines.args = list(col = "grey"),
        xlab = "lon", ylab = "lat")
 # add colorado city points to image

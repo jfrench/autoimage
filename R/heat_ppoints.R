@@ -128,6 +128,7 @@
 #'   \code{zlim}, etc.  Additionally, arguments that can be
 #'   used to further customize the plot (like adding lines
 #'   or points), as described in Details and Examples.
+#' @inheritParams base::pretty   
 #' @seealso \code{\link[graphics]{plot}},
 #'   \code{\link[graphics]{axis}},
 #'   \code{\link[autoimage]{pimage}}
@@ -157,7 +158,7 @@
 heat_ppoints <- function(x, y, z, legend = "horizontal",
                          proj = "none", parameters,
                          orientation, lratio = 0.2,
-                         map = "none", ...) {
+                         map = "none", n = 5, ...) {
   if (missing(parameters)) parameters <- NULL
   if (missing(orientation)) orientation <- NULL
   # obtain elements of ...
@@ -168,15 +169,14 @@ heat_ppoints <- function(x, y, z, legend = "horizontal",
                                tx = deparse(substitute(x)),
                                ty = deparse(substitute(y)),
                                arglist = arglist)
-  
   # check/setup arguments for heat_ppoints
   object <- heat_ppoints_setup(xyz, legend, proj, parameters,
-                               orientation, lratio, map)
+                               orientation, lratio, map, n = n)
   if (legend != "none") {
     .legend.mar(object$legend.mar)
   }
   .legend.scale.args(object$legend.scale.args)
-  
+
   if (legend == "none") {
     do.call(object$plotf, object$arglist)
   } else {
@@ -212,7 +212,8 @@ heat_ppoints_setup <- function(xyz, legend = "none",
                                proj = "none",
                                parameters = NULL, 
                                orientation = NULL,
-                               lratio = 0.2, map = "none") {
+                               lratio = 0.2, map = "none",
+                               n) {
   x <- xyz$x
   y <- xyz$y
   z <- xyz$z
@@ -244,56 +245,75 @@ heat_ppoints_setup <- function(xyz, legend = "none",
   }
   
   if (is.null(arglist$pch)) {
-    arglist$pch = 20
+    arglist$pch <- 16
   }
   
-  # setup arguments for legend.scale function
-  legend.scale.args <- list()
-  # if(legend != "none"){
-  legend.scale.args$zlim <- arglist$zlim
-  if (is.null(arglist$zlim)) {
-    arglist$zlim <- range(z, na.rm = TRUE)
-    legend.scale.args$zlim <- arglist$zlim
+  if (!is.null(arglist$col)) {
+    n <- length(arglist$col)
   }
-  # check colors
+  if (length(n) != 1 | !is.numeric(n) | n <= 1) {
+    stop("n should be a positive integer")
+  }
+  
+  # set zlim and breaks for plotting
+  zlim_breaks = zlim_breaks_setup(arglist$zlim,
+                                  arglist$breaks, n,
+                                  range(z, na.rm = TRUE),
+                                  arglist$col)
+  arglist$zlim = zlim_breaks$zlim
+  arglist$breaks = zlim_breaks$breaks
   if (is.null(arglist$col)) {
-    if (is.null(arglist$breaks)) {
-      arglist$col <- viridisLite::viridis(5)
-      arglist$breaks = seq(arglist$zlim[1], arglist$zlim[2], len = 6)
-      # arglist$breaks = pretty(arglist$zlim, len = length(arglist$col))
-    } else {
-      # set user-specified breaks
-      legend.scale.args$breaks <- arglist$breaks
-      nb <- length(arglist$breaks)
-      arglist$col <- viridisLite::viridis(nb - 1)
-    }
-  } else {
-    if (is.null(arglist$breaks)) {
-      arglist$breaks = seq(arglist$zlim[1], arglist$zlim[2], len = length(arglist$col) + 1)
-      # arglist$breaks = pretty(arglist$zlim, len = length(arglist$col))
-    } else {
-      if (length(arglist$breaks) != (length(arglist$col) + 1)) {
-        stop("length(breaks) != (length(col) + 1)")
-      }
-      # set user-specified breaks
-      legend.scale.args$breaks <- arglist$breaks
-    }
-  }
+    arglist$col = viridisLite::viridis(length(arglist$breaks) - 1)
+  }  
+  # # setup arguments for legend.scale function
+  # legend.scale.args <- list()
+  # # if(legend != "none"){
+  # legend.scale.args$zlim <- arglist$zlim
+  # if (is.null(arglist$zlim)) {
+  #   arglist$zlim <- range(z, na.rm = TRUE)
+  #   legend.scale.args$zlim <- arglist$zlim
+  # }
+  # # check colors
+  # if (is.null(arglist$col)) {
+  #   if (is.null(arglist$breaks)) {
+  #     arglist$col <- viridisLite::viridis(5)
+  #     arglist$breaks = seq(arglist$zlim[1], arglist$zlim[2], len = 6)
+  #     # arglist$breaks = pretty(arglist$zlim, len = length(arglist$col))
+  #   } else {
+  #     # set user-specified breaks
+  #     legend.scale.args$breaks <- arglist$breaks
+  #     nb <- length(arglist$breaks)
+  #     arglist$col <- viridisLite::viridis(nb - 1)
+  #   }
+  # } else {
+  #   if (is.null(arglist$breaks)) {
+  #     arglist$breaks = seq(arglist$zlim[1], arglist$zlim[2], len = length(arglist$col) + 1)
+  #     # arglist$breaks = pretty(arglist$zlim, len = length(arglist$col))
+  #   } else {
+  #     if (length(arglist$breaks) != (length(arglist$col) + 1)) {
+  #       stop("length(breaks) != (length(col) + 1)")
+  #     }
+  #     # set user-specified breaks
+  #     legend.scale.args$breaks <- arglist$breaks
+  #   }
+  # }
   
+  legend.scale.args <- list()
+  legend.scale.args$zlim <- arglist$zlim
+  legend.scale.args$breaks <- arglist$breaks
   legend.scale.args$col <- arglist$col
   # if (!is.null(arglist$breaks)) {
   #   legend.scale.args$breaks <- arglist$breaks
   # }
   legend.scale.args$axis.args <- arglist$legend.axis.args
   # remove non-graphical argument from arglist
-  arglist$legend.axis.args <- NULL
-  
+
+  # update color for points
   hpcol = as.character(cut(z, breaks = arglist$breaks, labels = arglist$col))
   arglist$col = hpcol
   
   legend.mar <- arglist$legend.mar
   # remove non-graphical argument from arglist
-  arglist$legend.mar <- NULL
   if (is.null(legend.mar)) {
     legend.mar <- automar(legend)
   }
@@ -339,7 +359,7 @@ heat_ppoints_setup <- function(xyz, legend = "none",
 
   # clear unnecessary additional arguments
   arglist <- arglist_clean(arglist, image = FALSE)
-    
+
   object <- list(plotf = plotf, arglist = arglist,
                  legend = legend, 
                  legend.scale.args = legend.scale.args, 
@@ -382,8 +402,8 @@ heat_ppoints_xyz_setup <- function(x, y, z, tx, ty, arglist) {
   if (is.null(arglist$xlim)) {
     arglist$xlim <- range(x, na.rm = TRUE)
   }
-  if (is.null(arglist$xlim)) {
-    arglist$xlim <- range(x, na.rm = TRUE)
+  if (is.null(arglist$ylim)) {
+    arglist$ylim <- range(y, na.rm = TRUE)
   }
   return(list(x = x, y = y, z = z, arglist = arglist))
 }

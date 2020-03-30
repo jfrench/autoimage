@@ -179,7 +179,7 @@ codf <- us.cities[us.cities$country.etc == "CO", ]
 capdf <- us.cities[us.cities$capital == 2,]
 ```
 
-Having obtained the relevant information, we setup a 1 $\times$ 2 matrix of images with individual horizontal legends and an area for a common title.  We create an image plot of NARCCAP data using the mercator projection and including grey state borders.  The borders of Hawaii and Alaska are added using the `plines` function.  The state capitals are added to the image using the `ppoints` function.  The first image is then titled using the `title` function.  The legend is then added using the `autolegend` function.  Next, an image of the Colorado Aluminum measurements is created.  The coordinates are projected using the Bonne projection, the color scheme is customized, grey county borders are added to the plot, but the grid lines are removed.  The `ppoints` function is then used to add locations for several Colorado cities to the image.  The `ptext` function is then used to add the names of these cities to the image.  The second heated scatterplot is then titled using the `title` function. The appropriate legend is then added using the `autolegend` function.  Lastly, a common title is added using the `mtext` function.  
+Having obtained the relevant information, we setup a 1 $\times$ 2 matrix of images with individual horizontal legends and an area for a common title.  We create an image plot of NARCCAP data using the mercator projection and including grey state borders.  The borders of Hawaii and Alaska are added using the `plines` function.  The state capitals are added to the image using the `ppoints` function.  The first image is then titled using the `title` function.  The legend is then added using the `autolegend` function.  Next, a heated scatterplots of the Colorado Aluminum measurements is created using the `heat_ppoints` function.  The coordinates are projected using the Bonne projection, the color scheme is customized, grey county borders are added to the plot, but the grid lines are removed.  The `ppoints` function is then used to add locations for several Colorado cities to the image.  The `ptext` function is then used to add the names of these cities to the image.  The second heated scatterplot is then titled using the `title` function. The appropriate legend is then added using the `autolegend` function.  Lastly, a common title is added using the `mtext` function.  
 
 ```{r, fig.width=7, fig.height=5, hold=TRUE}
 # setup plotting area
@@ -209,10 +209,10 @@ data(co, package = "gear")
 # customize legend colors
 # add grey county borders
 # exclude longitude/latitude
-pimage(co$lon, co$lat, co$Al, map = "county", legend = "none",
+heat_ppoints(co$lon, co$lat, co$Al, map = "county", legend = "none",
        proj = "bonne", parameters = 39, 
        paxes.args = list(grid = FALSE),
-       col = cm.colors(6),
+       col = cm.colors(5),
        lines.args = list(col = "grey"),
        xlab = "lon", ylab = "lat")
 # add colorado city points to image
