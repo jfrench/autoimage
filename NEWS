@@ -33,7 +33,9 @@
 # 2.1   Add autopoints and heat_ppoints functions to create
         heated scatterplots. Added autopoints vignette.
 
-# 2.1.1 Improve zlim axis tick lables for autopoints using
+# 2.1.1 Improve zlim axis tick labels for autopoints using
         pretty function. Can still override using zlim
         or breaks. Add list capability for breaks for 
+        autopoints.
+# 2.1.2 Update heat_ppoints to have n argument, similar to
         autopoints.
