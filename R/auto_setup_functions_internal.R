@@ -248,7 +248,7 @@ arglist_clean = function(arglist, image = FALSE) {
   arglist$axis.args <- NULL
   # will plot axes manually, if necessary
   arglist$axes <- FALSE
-  # 
+  arglist$legend.mar <- NULL
   # remove zlim and breaks since not relevant for plot
   if (!image) {
     arglist$zlim <- NULL
