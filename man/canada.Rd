@@ -4,13 +4,15 @@
 \name{canada}
 \alias{canada}
 \title{Provincial and territorial boundaries of Canada, 2001}
-\format{Contains:
+\format{
+Contains:
 \describe{
  \item{x}{Longitude coordinates for Canadian boundaries}
  \item{y}{Latitude coordinates for Canadian boundaries}
  \item{range}{Range of x- and y-values}
  \item{names}{Region name for each polygon}
-}}
+}
+}
 \source{
 Shapefile made available by Statistics Canada.  
 \url{http://www.statcan.gc.ca/eng/start}.

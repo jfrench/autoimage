@@ -4,13 +4,15 @@
 \name{copoly}
 \alias{copoly}
 \title{Colorado state border}
-\format{Contains:
+\format{
+Contains:
 \describe{
  \item{x}{longitude coordinates for Colorado border}
  \item{y}{latitude coordinates for Colorado border}
  \item{range}{Range of x- and y-values}
  \item{names}{Name of polygon}
-}}
+}
+}
 \source{
 The \code{\link[maps]{stateMapEnv}} data set in the 
 \code{maps} package.

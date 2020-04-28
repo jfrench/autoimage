@@ -7,10 +7,12 @@
 \alias{ilat}
 \alias{itasmax}
 \title{Interpolated maximum daily surface air temperatures on a regular grid.}
-\format{Contains: \describe{ 
+\format{
+Contains: \describe{ 
 \item{ilon}{A vector of of longitude coordinates.} 
 \item{ilat}{A vector of latitude coordinates.} 
-\item{itasmax}{A 140\eqn{\times}115\eqn{\times}5 array of tasmax values.} }}
+\item{itasmax}{A 140\eqn{\times}115\eqn{\times}5 array of tasmax values.} }
+}
 \usage{
 data(inarccap)
 }

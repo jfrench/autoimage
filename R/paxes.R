@@ -88,7 +88,6 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, axis.args,
     axis.args$side = 2
     axis.args$at <- yat
     do.call(f, axis.args)
-    # graphics::axis(1, at = xat) graphics::axis(2, at = yat)
   } else {
     # convert axis coordinates add grid lines, if desired
     xe <- numeric(length(xat))
@@ -96,22 +95,35 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, axis.args,
       xl <- cbind(xat[i], seq(min(yat), max(yat), len = 25))
       pxl <- mapproj::mapproject(xl[, 1], xl[, 2])
       if (grid) {
-        graphics::lines(pxl$x, pxl$y, ...)
-        # lines(pxl$x, pxl$y)
+        graphics::lines(pxl$x, pxl$y)
       }
       # need to interpolate to edge of plot
-      xe[i] <- stats::spline(pxl$y, pxl$x, xout = par("usr")[3])$y
+      # na.omit to deal with case of NAs
+      xei <- try(stats::spline(stats::na.omit(pxl$y), stats::na.omit(pxl$x), xout = par("usr")[3])$y,
+                 silent = TRUE)
+      if (class(xei) == "try-error") {
+        xe[i] <- NA
+      } else {
+        xe[i] <- xei
+      }
     }
     ye <- numeric(length(yat))
     for (j in seq_along(yat)) {
       yl <- cbind(seq(min(xat), max(xat), len = 25), yat[j])
       pyl <- mapproj::mapproject(yl[, 1], yl[, 2])
       if (grid) {
-        graphics::lines(pyl$x, pyl$y, ...)
-        # lines(pyl$x, pyl$y)
+        graphics::lines(pyl$x, pyl$y)
       }
-      ye[j] <- stats::spline(pyl$x, pyl$y, xout = par("usr")[1])$y
+      # na.omit to deal with case of NAs
+      yej <- try(stats::spline(stats::na.omit(pyl$x), stats::na.omit(pyl$y), xout = par("usr")[1])$y,
+                 silent = TRUE) 
+      if (class(yej) == "try-error") {
+        ye[j] <- NA
+      } else {
+        ye[j] <- yej
+      }
     }
+    
     axis.args$side = 1
     axis.args$at <- xe
     axis.args$labels <- xat
@@ -120,8 +132,6 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, axis.args,
     axis.args$at <- ye
     axis.args$labels <- yat
     do.call(f, axis.args)
-    # graphics::axis(1, at = xe, labels = xat) graphics::axis(2, at = ye,
-    # labels = yat)
   }
   # add box to make things look normal
   box()

@@ -131,6 +131,22 @@ We add a common title to the NARCCAP data.
 autoimage(lon, lat, tasmax, outer.title = "tasmax for 5 days")
 ```
 
+The mercator projection can sometimes be problematic for various
+reasons, especially with the world map as horizontal lines appear
+across the plot area. We provide one solution for this issue that utilizes the `map.wrap.poly` function
+in the **maps** package.
+
+```{r, fig.height = 5, fig.width = 4}
+worldpoly <- maps::map("world", plot = FALSE, wrap = TRUE)
+worldpoly <- maps::map.wrap.poly(worldpoly, range(lon),
+                                 poly = FALSE,
+                                 antarctica = -89.5)
+autoimage(x = lon, y = lat, z = tasmax[,,1], 
+          lines = list(x = worldpoly$x, y = worldpoly$y),
+          xlab = "longitude", ylab = "latitude",
+          proj = "mercator", axes = FALSE)
+```
+
 ### Richer plots using `autolayout` and `autolegend`
 
 Suppose we want to add custom features to a sequences of images, with each image receiving different features.  One can create a richer sequence of images using the `autolayout` and `autolegend` functions.

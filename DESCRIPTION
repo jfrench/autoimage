@@ -1,8 +1,8 @@
 Package: autoimage
 Type: Package
 Title: Multiple Heat Maps for Projected Coordinates
-Version: 2.1.3
-Date: 2020-03-30
+Version: 2.1.4
+Date: 2020-04-27
 Author: Joshua French
 Maintainer: Joshua French <joshua.french@ucdenver.edu>
 BugReports: https://github.com/jpfrench81/autoimage/issues
@@ -31,6 +31,6 @@ Suggests:
     rmarkdown
 License: GPL (>=2)
 LazyData: TRUE
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr
 Encoding: UTF-8

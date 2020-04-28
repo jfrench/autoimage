@@ -238,8 +238,8 @@ pimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters,
     ty = deparse(substitute(y)), arglist)
   
   # check/setup arguments for pimage
-  object <- pimage.setup(xyz, legend, proj, parameters, orientation, 
-    lratio, map)
+  object <- pimage.setup(xyz, legend, proj, parameters,
+                         orientation, lratio, map)
   if (legend != "none") {
     .legend.mar(object$legend.mar)
   }
@@ -307,247 +307,49 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
   if (lratio <= 0) {
     stop("lratio should be a positive number")
   }
+
+  # setup x, y, and zlim in arglist
+  arglist <- xyzlim_arglist_setup(x, y, z, arglist)
   
-  # check colors
-  if (is.null(arglist$col)) {
-    if (is.null(arglist$breaks)) {
-      arglist$col <- viridisLite::viridis(64)
-    } else {
-      nb <- length(arglist$breaks)
-      arglist$col <- viridisLite::viridis(nb - 1)
-    }
-  }
-  
-  # setup arguments for legend.scale function
-  legend.scale.args <- list()
-  # if(legend != "none"){
-  legend.scale.args$zlim <- arglist$zlim
-  if (is.null(arglist$zlim)) {
-    arglist$zlim <- range(z, na.rm = TRUE)
-    legend.scale.args$zlim <- arglist$zlim
-  }
-  legend.scale.args$col <- arglist$col
-  
-  if (!is.null(arglist$breaks)) {
-    legend.scale.args$breaks <- arglist$breaks
-  }
-  legend.scale.args$axis.args <- arglist$legend.axis.args
-  # remove non-graphical argument from arglist
-  arglist$legend.axis.args <- NULL
-  
+  # setup col argument for pimage
+  arglist <- pimage_col_arglist_setup(arglist)
+
+  # setup legend.scale.args from arglist
+  legend.scale.args <- legend_scale_args_setup(arglist)
+
   legend.mar <- arglist$legend.mar
   # remove non-graphical argument from arglist
   arglist$legend.mar <- NULL
   if (is.null(legend.mar)) {
     legend.mar <- automar(legend)
   }
+
+  # setup map information, if necessary
+  if (map != "none") arglist$lines <- map_setup(map)
   
-  # check if there are points to plot
-  points <- arglist$points
-  arglist$points <- NULL
-  if (!is.null(points)) {
-    if (!is.list(points)) {
-      stop("points must be a list with vectors x and y")
-    }
-    if (is.null(points$x) | is.null(points$y)) {
-      stop("points must be a list with vectors x and y")
-    }
-    if (length(points$x) != length(points$y)) {
-      stop("The x and y vectors in points should have the same length")
-    }
-  }
-  points.args <- arglist$points.args
-  arglist$points.args <- NULL
-  points.args$proj <- proj
-  points.args$x <- points
+  # setup lines information, if necessary
+  lines.args <- lines_args_setup(arglist, proj)
   
-  if (length(map) != 1) {
-    stop("map should be a single character string")
-  }
-  if (!is.character(map)) {
-    stop("map should be a single character string")
-  }
-  if (!is.element(map, c("none", "county", "france", "nz", "state", "usa", 
-                         "world", "world2", "italy", "lakes"))) {
-    # future maps to add "china", "japan", "nzHires", "rivers",
-    # "world2Hires", # "worldHires"
-    stop("invalid map choice")
-  } else {
-    if (map == "county") {
-      utils::data("countyMapEnv", package = "maps")
-      arglist$lines <- maps::map("county", plot = FALSE)
-    } else if (map == "france") {
-      utils::data("franceMapEnv", package = "maps")
-      arglist$lines <- maps::map("france", plot = FALSE)
-    } else if (map == "nz") {
-      utils::data("nzMapEnv", package = "maps")
-      arglist$lines <- maps::map("nz", plot = FALSE)
-    } else if (map == "state") {
-      utils::data("stateMapEnv", package = "maps")
-      arglist$lines <- maps::map("state", plot = FALSE)
-    } else if (map == "usa") {
-      utils::data("usaMapEnv", package = "maps")
-      arglist$lines <- maps::map("usa", plot = FALSE)
-    } else if (map == "world") {
-      utils::data("worldMapEnv", package = "maps")
-      arglist$lines <- maps::map("world", plot = FALSE)
-    } else if (map == "world2") {
-      utils::data("world2MapEnv", package = "maps")
-      arglist$lines <- maps::map("world2", plot = FALSE)
-    } else if (map == "italy") {
-      utils::data("italyMapEnv", package = "maps")
-      arglist$lines <- maps::map("italy", plot = FALSE)
-    } else if (map == "lakes") {
-      utils::data("lakesMapEnv", package = "maps")
-      arglist$lines <- maps::map("lakes", plot = FALSE)
-    }
-  }
+  # setup points information, if necessary
+  points.args <- points_args_setup(arglist, proj)
   
-  # check if there are lines to plot
-  lines <- arglist$lines
-  arglist$lines <- NULL
-  if (!is.null(lines)) {
-    if (!is.list(lines)) {
-      stop("lines must be a list with vectors x and y")
-    }
-    if (is.null(lines$x) | is.null(lines$y)) {
-      stop("lines must be a list with vectors x and y")
-    }
-    if (length(lines$x) != length(lines$y)) {
-      stop("The x and y vectors in lines should have he same length")
-    }
-  }
-  lines.args <- arglist$lines.args
-  arglist$lines.args <- NULL
-  lines.args$proj <- proj
-  lines.args$x <- lines
-  
-  # check if there is text to plot
-  text <- arglist$text
-  arglist$text <- NULL
-  if (!is.null(text)) {
-    if (!is.list(text)) {
-      stop("text must be a list")
-    }
-    if (is.null(text$x) | is.null(text$y)) {
-      stop("text must be a list with vectors x, y, and (possibly) labels")
-    }
-    if (length(text$x) != length(text$y)) {
-      stop("The x and y vectors in text should have the same length")
-    }
-    if (is.null(text$labels)) {
-      text$labels <- seq_along(text$x)
-    }
-    if (length(text$x) != length(text$labels)) {
-      stop("The x, y, and labels vectors in text should have the same length")
-    }
-    if (is.data.frame(text)) {
-      text <- as.list(text)
-    }
-  }
-  text.args <- arglist$text.args
-  arglist$text.args <- NULL
-  if (!is.null(text.args)) { 
-    if (!is.list(text.args)) {
-      stop("text.args must be a list")
-    }
-  }
-  text.args$proj <- proj
-  text.args$x <- text$x
-  text.args$y <- text$y
-  text.args$labels <- text$labels
-  
-  # setup interpolation arguments
-  interp.args <- arglist$interp.args
-  # remove non-graphical arguments, if provided
-  arglist$interp.args <- NULL
-  if (is.null(interp.args)) {
-    interp.args <- list()
-  }
+  # setup text information, if necessary
+  text.args = text_args_setup(arglist, proj)
   
   # Check for non-gridded points.  
   # Surface approximation onto regular grid.
-  if (!is.matrix(x)) {
-    if (length(x) == length(z)) {
-      interp.args$xyz <- cbind(x, y, z)
-      
-      # convert from old format
-      if (!is.null(interp.args$xo)) {
-        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
-        interp.args$no.X <- length(interp.args$xo)
-        interp.args$xo <- NULL
-      }
-      if (!is.null(interp.args$yo)) {
-        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
-        interp.args$no.Y <- length(interp.args$yo)
-        interp.args$yo <- NULL
-      }
-      if (!is.null(interp.args$linear)) {
-        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
-        interp.args$linear <- NULL
-      }
-      if (!is.null(interp.args$extrap)) {
-        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
-        interp.args$extend <- interp.args$extrap
-        interp.args$extrap <- NULL
-      }
-      if (!is.null(interp.args$nx)) {
-        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
-        interp.args$no.X <- interp.args$nx
-        interp.args$nx <- NULL
-      }
-      if (!is.null(interp.args$ny)) {
-        warning("MBA::mba.surf is now used for prediction on a grid instead of the akima::interp function.  Attempting to automatically translate arguments.  Results may slightly differ from previous versions of the package.")
-        interp.args$no.Y <- interp.args$ny
-        interp.args$ny <- NULL
-      }
-      
-      if (is.null(interp.args$no.X)) {
-        interp.args$no.X <- 40
-      }
-      if (is.null(interp.args$no.Y)) {
-        interp.args$no.Y <- 40
-      }
-      interpf <- MBA::mba.surf
-      ixyz <- do.call(interpf, interp.args)
-      x <- ixyz$xyz.est$x
-      y <- ixyz$xyz.est$y
-      z <- ixyz$xyz.est$z
-      
-      # bug fix for old version of MBA package
-      if (length(x) != length(y)) {
-        if (length(x) != nrow(z)) {
-          z <- matrix(c(z), nrow = ncol(z), ncol = nrow(z))    
-        }
-      }
-    }
+  if (!is.matrix(x) & length(x) == length(z)) {
+    xyz = interp_setup(x, y, z, arglist)
+    x = xyz$x
+    y = xyz$y
+    z = xyz$z
   }
   
-  paxes.args <- arglist$paxes.args
-  if (!is.null(arglist$paxes.args)) {
-    arglist$paxes.args <- NULL
-  }
-  if (is.null(arglist$xlim)) {
-    arglist$xlim <- range(x)
-  }
-  paxes.args$xlim <- arglist$xlim
-  if (is.null(arglist$ylim)) {
-    arglist$ylim <- range(y)
-  }
-  paxes.args$ylim <- arglist$ylim
-  paxes.args$xaxp <- arglist$xaxp
-  paxes.args$yaxp <- arglist$yaxp
-  paxes.args$proj <- proj
-  paxes.args$axis.args <- arglist$axis.args
-  arglist$axis.args <- NULL
+  # setup paxes information
+  paxes.args <- paxes_args_setup(arglist, proj)
   
-  if (is.null(arglist$axes)) {
-    axes <- TRUE
-  } else {
-    axes <- arglist$axes
-  }
-  # will plot axes manually, if necessary
-  arglist$axes <- FALSE
+  # setup axes information
+  axes <- axes_setup(arglist)
   
   if (proj != "none") {
     # if (!is.list(proj.args)) stop("proj.args should be a list")
@@ -562,14 +364,17 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
     yv <- c(y)
     
     which.in <- which(xv >= arglist$xlim[1] & xv <= arglist$xlim[2] & 
-                        yv >= arglist$ylim[1] & yv <= arglist$ylim[2])
+                      yv >= arglist$ylim[1] & yv <= arglist$ylim[2])
     
     projectxy <- mapproj::mapproject(c(x), c(y), projection = proj, 
                                      parameters = parameters, orientation = orientation)
+    if (projectxy$error == 1) {
+      warning("projection failed for some data")
+    }
     x <- matrix(projectxy$x, nrow = nrow(x))
     y <- matrix(projectxy$y, nrow = nrow(y))
-    arglist$xlim <- range(x[which.in])
-    arglist$ylim <- range(y[which.in])
+    arglist$xlim <- range(x[which.in], na.rm = TRUE)
+    arglist$ylim <- range(y[which.in], na.rm = TRUE)
   }
   
   # is the grid a regular grid
@@ -579,6 +384,9 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
   if (regular) 
     plotf <- graphics::image
   
+  # clear unnecessary additional arguments
+  arglist <- arglist_clean(arglist, image = FALSE)
+  
   arglist$x <- x
   arglist$y <- y
   arglist$z <- z
@@ -586,10 +394,13 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
   object <- list(plotf = plotf, arglist = arglist, legend = legend, 
                  legend.scale.args = legend.scale.args, 
                  legend.mar = legend.mar, proj = proj, 
-                 points = points, points.args = points.args, 
-                 lines = lines, lines.args = lines.args, 
+                 # points = points,
+                 points.args = points.args, 
+                 # lines = lines,
+                 lines.args = lines.args, 
                  axes = axes, paxes.args = paxes.args,
-                 text = text, text.args = text.args)
+                 # text = text,
+                 text.args = text.args)
   return(object)
 }
 

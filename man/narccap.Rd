@@ -7,10 +7,12 @@
 \alias{lat}
 \alias{tasmax}
 \title{Maximum daily surface air temperatures on a grid.}
-\format{Contains: \describe{ \item{lon}{A 140\eqn{\times}115 matrix
+\format{
+Contains: \describe{ \item{lon}{A 140\eqn{\times}115 matrix
   of longitude coordinates.} \item{lat}{A 140\eqn{\times}115 matrix
   of latitude coordinates.} \item{tasmax}{A
-  140\eqn{\times}115\eqn{\times}5 array of tasmax values.} }}
+  140\eqn{\times}115\eqn{\times}5 array of tasmax values.} }
+}
 \source{
 The National Center for Atmospheric Research 
   \url{http://www.narccap.ucar.edu/index.html}.  Data may be 

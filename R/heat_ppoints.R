@@ -247,7 +247,6 @@ heat_ppoints_setup <- function(xyz, legend = "none",
   if (is.null(arglist$pch)) {
     arglist$pch <- 16
   }
-  
   if (!is.null(arglist$col)) {
     n <- length(arglist$col)
   }
@@ -265,46 +264,11 @@ heat_ppoints_setup <- function(xyz, legend = "none",
   if (is.null(arglist$col)) {
     arglist$col = viridisLite::viridis(length(arglist$breaks) - 1)
   }  
-  # # setup arguments for legend.scale function
-  # legend.scale.args <- list()
-  # # if(legend != "none"){
-  # legend.scale.args$zlim <- arglist$zlim
-  # if (is.null(arglist$zlim)) {
-  #   arglist$zlim <- range(z, na.rm = TRUE)
-  #   legend.scale.args$zlim <- arglist$zlim
-  # }
-  # # check colors
-  # if (is.null(arglist$col)) {
-  #   if (is.null(arglist$breaks)) {
-  #     arglist$col <- viridisLite::viridis(5)
-  #     arglist$breaks = seq(arglist$zlim[1], arglist$zlim[2], len = 6)
-  #     # arglist$breaks = pretty(arglist$zlim, len = length(arglist$col))
-  #   } else {
-  #     # set user-specified breaks
-  #     legend.scale.args$breaks <- arglist$breaks
-  #     nb <- length(arglist$breaks)
-  #     arglist$col <- viridisLite::viridis(nb - 1)
-  #   }
-  # } else {
-  #   if (is.null(arglist$breaks)) {
-  #     arglist$breaks = seq(arglist$zlim[1], arglist$zlim[2], len = length(arglist$col) + 1)
-  #     # arglist$breaks = pretty(arglist$zlim, len = length(arglist$col))
-  #   } else {
-  #     if (length(arglist$breaks) != (length(arglist$col) + 1)) {
-  #       stop("length(breaks) != (length(col) + 1)")
-  #     }
-  #     # set user-specified breaks
-  #     legend.scale.args$breaks <- arglist$breaks
-  #   }
-  # }
-  
+
   legend.scale.args <- list()
   legend.scale.args$zlim <- arglist$zlim
   legend.scale.args$breaks <- arglist$breaks
   legend.scale.args$col <- arglist$col
-  # if (!is.null(arglist$breaks)) {
-  #   legend.scale.args$breaks <- arglist$breaks
-  # }
   legend.scale.args$axis.args <- arglist$legend.axis.args
   # remove non-graphical argument from arglist
 
@@ -346,8 +310,8 @@ heat_ppoints_setup <- function(xyz, legend = "none",
                                      orientation = orientation)
     x <- projectxy$x
     y <- projectxy$y
-    arglist$xlim <- range(x[which.in])
-    arglist$ylim <- range(y[which.in])
+    arglist$xlim <- range(x[which.in], na.rm = TRUE)
+    arglist$ylim <- range(y[which.in], na.rm = TRUE)
   }
   
   # store x and y for plotting
