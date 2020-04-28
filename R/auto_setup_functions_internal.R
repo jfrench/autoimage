@@ -130,12 +130,13 @@ lines_args_setup = function(arglist, proj) {
       stop("The x and y vectors in lines must have he same length")
     }
   }
-  # clip lines beyond xlim and ylim
-  arglist_lines$x[arglist_lines$x < arglist$xlim[1]] <- NA
-  arglist_lines$x[arglist_lines$x > arglist$xlim[2]] <- NA
-  arglist_lines$y[arglist_lines$y < arglist$ylim[1]] <- NA
-  arglist_lines$y[arglist_lines$y > arglist$ylim[2]] <- NA
-  
+  # clip lines beyond xlim and ylim if !is.null(arglist_lines)
+  if (!is.null(arglist_lines)) {
+    arglist_lines$x[arglist_lines$x < arglist$xlim[1]] <- NA
+    arglist_lines$x[arglist_lines$x > arglist$xlim[2]] <- NA
+    arglist_lines$y[arglist_lines$y < arglist$ylim[1]] <- NA
+    arglist_lines$y[arglist_lines$y > arglist$ylim[2]] <- NA
+  }
   lines.args <- arglist$lines.args
   lines.args$proj <- proj
   lines.args$x <- arglist_lines

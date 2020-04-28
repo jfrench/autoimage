@@ -41,5 +41,6 @@
         autopoints.
 # 2.1.3 Update arglist_clean to clean legend.mar from
         arglist.
-# 2.1.4 Fix bug when projection produces NA x and y values.
+# 2.1.5 Fix bug when projection produces NA x and y values.
         Make the pimage function more modular.
+        
