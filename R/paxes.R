@@ -90,14 +90,14 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, axis.args,
     do.call(f, axis.args)
   } else {
     
-    if (min(xat) < -180 | max(xat) > 180) {
-      warning("The x axis tick positions are not between -180 and 180, which creates problems when projecting. Attempting to automatically correct the issue. The user may need to specify xaxp, or for more control, the xat argument of the paxes.args list.")
+    if ((min(xat) < -180 | max(xat) > 180) & proj == "mercator") {
+      warning("The x axis tick positions are not between -180 and 180, which creates problems with the mercator projection. Attempting to automatically correct the issue. The user may need to specify xaxp, or for more control, the xat argument of the paxes.args list.")
       xat = seq(pmax(-180, min(xat), na.rm = TRUE),
                 pmin(180, max(xat), na.rm = TRUE),
                 length.out = 5)
     }
-    if (min(yat) < -90 | max(yat) > 90) {
-      warning("The y axis tick positions are not between -90 and 90, which creates problems when projecting. Attempting to automatically correct the issue. The user may need to specify yaxp, or for more control, the yat argument of the paxes.args list.")
+    if ((min(yat) < -90 | max(yat) > 90) & proj == "mercator") {
+      warning("The y axis tick positions are not between -90 and 90, which creates problems with the mercator projection. Attempting to automatically correct the issue. The user may need to specify yaxp, or for more control, the yat argument of the paxes.args list.")
       yat = seq(pmax(-90, min(yat), na.rm = TRUE),
                 pmin(90, max(yat), na.rm = TRUE),
                 length.out = 5)
