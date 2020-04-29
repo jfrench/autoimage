@@ -89,6 +89,32 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, axis.args,
     axis.args$at <- yat
     do.call(f, axis.args)
   } else {
+    
+    if (min(xat) < -180 | max(xat) > 180) {
+      warning("The x axis tick positions are not between -180 and 180, which creates problems when projecting. Attempting to automatically correct the issue. The user may need to specify xaxp, or for more control, the xat argument of the paxes.args list.")
+      xat = seq(pmax(-180, min(xat), na.rm = TRUE),
+                pmin(180, max(xat), na.rm = TRUE),
+                length.out = 5)
+    }
+    if (min(yat) < -90 | max(yat) > 90) {
+      warning("The y axis tick positions are not between -90 and 90, which creates problems when projecting. Attempting to automatically correct the issue. The user may need to specify yaxp, or for more control, the yat argument of the paxes.args list.")
+      yat = seq(pmax(-90, min(yat), na.rm = TRUE),
+                pmin(90, max(yat), na.rm = TRUE),
+                length.out = 5)
+    }
+    
+    # deal with mercator problem
+    adapt = FALSE # adapt labels
+    olab = NULL
+    wswitch = NULL
+    if (max(xat) > 179.35 & proj == "mercator") {
+      warning("There are issues with projecting x coordinates greater than 179.35 with the mercator projection. Attempting a solution.")
+      adapt = TRUE
+      wswitch = which(xat > 179.35)
+      olab = xat[wswitch]
+      xat[wswitch] = 179.35
+    }
+      
     # convert axis coordinates add grid lines, if desired
     xe <- numeric(length(xat))
     for (i in seq_along(xat)) {
@@ -124,6 +150,10 @@ paxes <- function(proj, xlim, ylim, xaxp, yaxp, grid = TRUE, axis.args,
       }
     }
     
+    if (adapt) {
+      xat[wswitch] = olab
+    } 
+
     axis.args$side = 1
     axis.args$at <- xe
     axis.args$labels <- xat

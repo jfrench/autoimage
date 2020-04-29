@@ -234,8 +234,10 @@ pimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters,
   arglist <- list(...)
   
   # setup x, y, z for plotting
-  xyz <- pimage.xyz.setup(x = x, y = y, z = z, tx = deparse(substitute(x)), 
-    ty = deparse(substitute(y)), arglist)
+  xyz <- pimage.xyz.setup(x = x, y = y, z = z,
+                          tx = deparse(substitute(x)),
+                          ty = deparse(substitute(y)),
+                          arglist = arglist)
   
   # check/setup arguments for pimage
   object <- pimage.setup(xyz, legend, proj, parameters,
@@ -405,7 +407,15 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
 }
 
 
-# setup x, y, and z for pimage function
+#' setup x, y, and z for pimage function
+#'
+#' @param x vector or matrix of x coordinates
+#' @param y vector or matrix of y coordinates
+#' @param z vector or matrix of z values
+#' @param tx text associated with x
+#' @param ty text associated with y
+#' @param arglist argument list
+#' @noRd
 pimage.xyz.setup <- function(x, y, z, tx, ty, arglist) {
   # sort out x, y, z, labels, etc.  This is a revision of the beginning
   # of graphics::image

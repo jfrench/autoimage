@@ -134,6 +134,9 @@ lines_args_setup = function(arglist, proj) {
   if (!is.null(arglist_lines)) {
     arglist_lines$x[arglist_lines$x < arglist$xlim[1]] <- NA
     arglist_lines$x[arglist_lines$x > arglist$xlim[2]] <- NA
+    if (proj == "mercator" & arglist$xlim[2] > 179.35) {
+      arglist_lines$x[arglist_lines$x > 179.35] <- NA
+    }
     arglist_lines$y[arglist_lines$y < arglist$ylim[1]] <- NA
     arglist_lines$y[arglist_lines$y > arglist$ylim[2]] <- NA
   }
