@@ -387,7 +387,7 @@ pimage.setup <- function(xyz, legend = "none", proj = "none", parameters = NULL,
     plotf <- graphics::image
   
   # clear unnecessary additional arguments
-  arglist <- arglist_clean(arglist, image = FALSE)
+  arglist <- arglist_clean(arglist, image = TRUE)
   
   arglist$x <- x
   arglist$y <- y

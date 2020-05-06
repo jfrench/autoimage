@@ -398,8 +398,8 @@ pimage_col_arglist_setup <- function(arglist) {
 legend_scale_args_setup <- function(arglist) {
   legend.scale.args <- list()
   legend.scale.args$zlim <- arglist$zlim
-  legend.scale.args$breaks <- arglist$breaks
   legend.scale.args$col <- arglist$col
+  legend.scale.args$breaks <- arglist$breaks
   legend.scale.args$axis.args <- arglist$legend.axis.args
   return(legend.scale.args)
 }

@@ -139,7 +139,7 @@ pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40)
 
 ## ---- fig.height = 4, fig.width = 5-------------------------------------------
 pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
-       axis.args = list(yat = seq(0, 70, by = 10), 
+       axis.args = list(yat = seq(-10, 70, by = 10), 
                         xat = seq(-220, 20, by = 20),
                         col.axis = "darkgrey", cex.axis = 0.9),
        paxes.args = list(col = "grey", lty = 2),
