@@ -64,11 +64,26 @@ if (test) {
     lratio = 0.3)
   
   reset.par()
-  data(worldMapEnv, package = "maps")
-  worldpoly <- maps::map("world", plot = FALSE)
-  autoimage(lon, lat, tasmax, outer.title = "custom axis color spacing", 
-    col = fields::tim.colors(64), axis.args = list(col.axis = "orange", 
-      xat = c(-160, -80, -40)), legend = "v", lratio = 0.3)
+  ctasmax = tasmax[,,1] - mean(tasmax[,,1])
+  zmin = min(ctasmax, na.rm = TRUE)
+  zmax = max(ctasmax, na.rm = TRUE)
+
+  nHalf = 10
+  Thresh = 0
+  
+  rc1 = colorRampPalette(colors = c("red", "white"), space="Lab")(nHalf)    
+  rc2 = colorRampPalette(colors = c("white", "blue"), space="Lab")(nHalf)
+  rampcols = c(rc1, rc2)
+  rampcols[c(nHalf, nHalf+1)] = rgb(t(col2rgb("white")), maxColorValue=256)
+  rampcols <- rev(rampcols)
+  
+  rb1 = seq(zmin, Thresh, length.out=nHalf+1)
+  rb2 = seq(Thresh, zmax, length.out=nHalf+1)[-1]
+  rampbreaks = c(rb1, rb2)
+  
+  autoimage(lon, lat, ctasmax, col = rampcols,
+            main = c("blue/white/red colors, white at zero"))
   reset.par()
+
   dev.off()
 }
