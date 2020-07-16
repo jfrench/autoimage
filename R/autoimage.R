@@ -185,13 +185,10 @@ autoimage <- function(x, y, z, legend = "horizontal", proj = "none", parameters,
     parameters <- NULL
   if (missing(orientation)) 
     orientation <- NULL
-  # deparse label names tx <- ifelse(is.null(x), "",
-  # deparse(substitute(x))) ty <- ifelse(is.null(y), "",
-  # deparse(substitute(y)))
-  
+
   verbose <- FALSE  # some debugging stuff
   # setup x, y, z information
-  xyz.list <- autoimage.xyz.setup(x, y, z, deparse(substitute(x)), deparse(substitute(x)), 
+  xyz.list <- autoimage.xyz.setup(x, y, z, deparse(substitute(x)), deparse(substitute(y)), 
     arglist, verbose, common.legend, legend)
   ng <- length(xyz.list)  # number of grids
   # additional argument checking
