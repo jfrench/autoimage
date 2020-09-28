@@ -18,8 +18,8 @@ data(inarccap)
 }
 \description{
 These data are the \code{narccap} data interpolated onto a regular 
-140\eqn{\times}115 grid using the \code{\link[akima]{interp}} function.
+140\eqn{\times}115 grid using the \code{akima::interp} function.
 }
 \seealso{
-\code{\link[autoimage]{narccap}}, \code{\link[akima]{interp}}
+\code{\link[autoimage]{narccap}}, \code{akima::interp}
 }
