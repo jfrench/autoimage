@@ -11,7 +11,7 @@ pimage(co$longitude, co$latitude, co$Al,
        xlab = "lon", ylab = "lat")
 
 ## ---- fig.height = 5, fig.width = 4-------------------------------------------
-pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6))
+pimage(lon, lat, tasmax[,,1], col = colorspace::sequential_hcl(n = 6, palette = "Plasma"))
 
 ## ---- fig.height=4, fig.width=5-----------------------------------------------
 pimage(x = lon, y = lat, z = tasmax[,,1], legend = "vertical")
@@ -147,7 +147,8 @@ pimage(lon, lat, tasmax[,,1], proj = "bonne", parameters = 40,
        lratio = 0.3)
 
 ## ---- fig.height = 5, fig.width = 4-------------------------------------------
-pimage(lon, lat, tasmax[,,1], col = viridisLite::magma(6), 
+pimage(lon, lat, tasmax[,,1],
+       col = colorspace::sequential_hcl(6, palette = "Plasma"), 
        breaks = c(0, 275, 285, 295, 305, 315, 325),
        legend.axis.args = list(col.axis = "blue", las = 2, cex.axis = 0.75))
 

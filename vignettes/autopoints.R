@@ -47,7 +47,7 @@ autopoints(co$longitude, co$latitude, co$Al,
 ## ---- fig.height=4, fig.width=6-----------------------------------------------
 autopoints(co$longitude, co$latitude, co$Al, legend = "v",
            xlab = "lon", ylab = "lat",
-           col = viridisLite::magma(4),
+           col = colorspace::sequential_hcl(n = 4, palette = "Plasma"),
            breaks = c(0, 1, 2, 3, 8))
 
 ## ---- fig.height=4, fig.width=7-----------------------------------------------
