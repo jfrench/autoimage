@@ -255,14 +255,14 @@ heat_ppoints_setup <- function(xyz, legend = "none",
   }
   
   # set zlim and breaks for plotting
-  zlim_breaks = zlim_breaks_setup(arglist$zlim,
+  zlim_breaks <- zlim_breaks_setup(arglist$zlim,
                                   arglist$breaks, n,
                                   range(z, na.rm = TRUE),
                                   arglist$col)
-  arglist$zlim = zlim_breaks$zlim
-  arglist$breaks = zlim_breaks$breaks
+  arglist$zlim <- zlim_breaks$zlim
+  arglist$breaks <- zlim_breaks$breaks
   if (is.null(arglist$col)) {
-    arglist$col = viridisLite::viridis(length(arglist$breaks) - 1)
+    arglist$col <- colorspace::sequential_hcl(n = length(arglist$breaks) - 1, palette = "Viridis")
   }  
 
   legend.scale.args <- list()

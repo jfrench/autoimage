@@ -21,7 +21,7 @@ if (test) {
     lwd = 2), outer.title = "with world white lines, v leg, big blue title", 
     mtext.args = list(col = "blue", cex = 2), legend = "v")
   
-  # plot irregularly-spaced responsed as images with separate legends and
+  # plot irregularly-spaced responses as images with separate legends and
   # county borders.  Add observed data locations with custom point
   # options
   reset.par()

@@ -51,7 +51,7 @@ autoimage(x = lon, y = lat, z = tasmax, main = dates)
 To produce a similar plot using the **ggplot2** package, we must convert the 
 data to a data frame, create a ``ggplot`` object, add the tile geometry,
 and facet by day.  However, **ggplot2** currently requires the 
-data are on a regular grid, which are data not.  If we attempt
+data are on a regular grid, which our data are not.  If we attempt
 to create a heat map for a small subset of the original data using 
 ``ggplot2``, we obtain the following result.  Because the original 
 data are on an irregular grid, ``ggplot2`` cannot (currently) render a 
@@ -81,27 +81,28 @@ df <- data.frame(lon = igrid[,1], lat = igrid[,2],
                  day = rep(dates, each = 16100)) 
 ```
 
-We are now able to create a sequence of heat maps using
-the **ggplot2** package.
+We are now able to create a sequence of heat maps using the **ggplot2** package. We will save the plotting structure as `gg_heatmaps` for future use.
 
 ```{r, fig.height=3, fig.width=5}
-ggplot(df, aes(x = lon, y = lat, fill = tasmax)) + geom_tile() + 
-  facet_wrap(~ day) 
+gg_heatmaps <- ggplot() +
+  geom_tile(aes(x = lon, y = lat, fill = tasmax), data = df) +
+  facet_wrap(~ day)
+print(gg_heatmaps)
 ```
 
-To create a more user-friendly color palette, we use the `scale_fill_viridis`
-function in the **viridis** package.  The grey shading 
-(associated with `NA` values) can be removed by specifying
-`na.value = "transparent"` in `scale_fill_viridis`.  We remove
-the solid grey grid background by using the `theme_bw` function.
-Lastly, we change the orientation and location of the color scale
-by setting the `legend.position` argument of `theme`.
+To create a more user-friendly color palette, 
+we use the `scale_colour_continuous_sequential`
+function in the **colorspace** package and set `palette = "Viridis"`.  The grey shading  (associated with `NA` values) can be removed by specifying
+`na.value = "transparent"`.  We can remove the solid grey grid background by using the `theme_bw` function. Lastly, we change the orientation and location of the color scale by setting the `legend.position` argument of `theme`.
+We update `gg_heatmaps` with these new default color settings, background,
+and legend location.
 
 ```{r, fig.height=4, fig.width=4}
-library(viridis)
-ggplot(df, aes(x = lon, y = lat, fill = tasmax)) + 
-  geom_tile() + facet_wrap(~ day) + scale_fill_viridis(na.value = "transparent") + 
-  theme_bw() + theme(legend.position = "bottom")
+library(colorspace)
+gg_heatmaps <- gg_heatmaps +
+  scale_fill_continuous_sequential("Viridis", na.value = "transparent") + 
+  theme_bw() + theme(legend.position = "bottom") 
+print(gg_heatmaps)
 ```
 
 ### Coordinate Projection
@@ -131,10 +132,8 @@ reasons, we do not execute the command below, though doing so
 would produce a heat map with projected coordinates using **ggplot2**.
 
 ```{r}
-# ggplot(df, aes(x = lon, y = lat, fill = tasmax)) + geom_tile() + 
-#   facet_wrap(~ day) + scale_fill_viridis() + theme_bw() + 
-#   coord_map(projection = "bonne", parameters = 45) + 
-#   theme(legend.position = "bottom")
+# gg_heatmaps +
+#   coord_map(projection = "bonne", parameters = 45)
 ```
 
 ## Adding features
@@ -159,11 +158,9 @@ autoimage(x = lon, y = lat, z = tasmax, main = dates, map = "world")
 
 ```{r, fig.height=4, fig.width=4}
 world_df <- map_data("world")
-ggplot() + geom_tile(aes(x = lon, y = lat, fill = tasmax), data = df) + 
-  facet_wrap(~ day) + scale_fill_viridis() + theme_bw() + 
+gg_heatmaps + 
   geom_path(aes(x = long, y = lat, group = group), data = world_df) +
-  xlim(c(-160, -34)) + ylim(c(20.5, 73.1)) + 
-  theme(legend.position = "bottom")
+  xlim(c(-160, -34)) + ylim(c(20.5, 73.1))
 ```
 
 Consider arbitrary maps available in a standard shapefile.
@@ -194,10 +191,8 @@ autoimage(x = lon, y = lat, z = tasmax, main = dates, lines = canada)
 ```
 
 ```{r, fig.height=4, fig.width=4}
-ggplot() + geom_tile(aes(x = lon, y = lat, fill = tasmax), data = df) + 
-  facet_wrap(~ day) + scale_fill_viridis() + 
-  geom_path(aes(x = long, y = lat, group = group), data = canada_df) + 
-  theme_bw() + theme(legend.position = "bottom")
+gg_heatmaps + 
+  geom_path(aes(x = long, y = lat, group = group), data = canada_df)
 ```
 
 Next, we consider adding points to existing heat maps.  We plot 
@@ -220,10 +215,8 @@ autoimage(x = lon, y = lat, z = tasmax, main = dates, text = cap_df)
 ```
 
 ```{r, fig.height=4, fig.width=4}
-ggplot() + geom_tile(aes(x = lon, y = lat, fill = tasmax), data = df) + 
-  facet_wrap(~ day) + scale_fill_viridis() + 
-  geom_text(aes(x = x, y = y, label = labels), data = cap_df) + 
-  theme_bw() + theme(legend.position = "bottom")
+gg_heatmaps + 
+  geom_text(aes(x = x, y = y, label = labels), data = cap_df)
 ```
 
 ## Individual heat maps

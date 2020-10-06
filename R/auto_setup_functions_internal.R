@@ -382,10 +382,10 @@ arg_check_breaks = function(arglist_breaks, nz) {
 #' @noRd
 pimage_col_arglist_setup <- function(arglist) {
   if (is.null(arglist$col) & is.null(arglist$breaks)) {
-    arglist$col <- viridisLite::viridis(64)
+    arglist$col <- colorspace::sequential_hcl(n = 64, palette = "Viridis")
   } else if (is.null(arglist$col) & !is.null(arglist$breaks)) {
     nb <- length(arglist$breaks)
-    arglist$col <- viridisLite::viridis(nb - 1)
+    arglist$col <- colorspace::sequential_hcl(n = nb - 1, palette = "Viridis")
   }
   return(arglist)
 }

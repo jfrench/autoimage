@@ -1,11 +1,11 @@
 Package: autoimage
 Type: Package
 Title: Multiple Heat Maps for Projected Coordinates
-Version: 2.1.12
-Date: 2020-07-17
+Version: 2.2
+Date: 2020-10-06
 Author: Joshua French
 Maintainer: Joshua French <joshua.french@ucdenver.edu>
-BugReports: https://github.com/jpfrench81/autoimage/issues
+BugReports: https://github.com/jfrench/autoimage/issues
 Description: Functions for displaying multiple images  or scatterplots with a color 
     scale, i.e., heat maps, possibly with projected coordinates.  The
     package relies on the base graphics system, so graphics are
@@ -13,15 +13,14 @@ Description: Functions for displaying multiple images  or scatterplots with a co
 Depends:
     R (>= 2.10)
 Imports:
+    colorspace,
     fields,
     mapproj,
-    viridisLite,
     ggplot2,
     maps,
     MBA
 Suggests:
     abind,
-    viridis,
     testthat,
     spatstat,
     gear,
