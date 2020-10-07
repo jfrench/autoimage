@@ -16,9 +16,9 @@
 #'   of longitude coordinates.} \item{lat}{A 140\eqn{\times}115 matrix
 #'   of latitude coordinates.} \item{tasmax}{A
 #'   140\eqn{\times}115\eqn{\times}5 array of tasmax values.} }
-#' @source The National Center for Atmospheric Research 
-#'   \url{https://www.narccap.ucar.edu/index.html}.  Data may be 
-#'   downloaded from \url{https://www.earthsystemgrid.org}.
+#' @source The National Center for Atmospheric Research (NCAR) through the 
+#'   North American Regional Climate Change Assessment Program (NARCCAP) 
+#'   <doi:10.5065/D6RN35ST>.
 #' @references Mearns, L.O., et al., 2007, updated 2012. The North
 #'   American Regional Climate Change Assessment Program dataset,
 #'   National Center for Atmospheric Research Earth System Grid data
