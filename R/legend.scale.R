@@ -25,7 +25,7 @@
 #'   internals of the \code{\link[fields]{image.plot}} function 
 #'   written by Doug Nychka and from the \code{image.scale} function 
 #'   written by Marc Taylor and discussed at 
-#'   \url{http://menugget.blogspot.com/2013/12/new-version-of-imagescale-function.html}.
+#'   \url{https://menugget.blogspot.com/2013/12/new-version-of-imagescale-function.html}.
 #'   
 #' @seealso \code{\link[graphics]{image}}, 
 #'   \code{\link[fields]{image.plot}}, \code{\link[graphics]{axis}}

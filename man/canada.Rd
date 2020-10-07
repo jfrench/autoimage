@@ -15,7 +15,7 @@ Contains:
 }
 \source{
 Shapefile made available by Statistics Canada.  
-\url{http://www.statcan.gc.ca/eng/start}.
+\url{https://www.statcan.gc.ca/eng/start}.
 }
 \usage{
 data(canada)

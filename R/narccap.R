@@ -17,7 +17,7 @@
 #'   of latitude coordinates.} \item{tasmax}{A
 #'   140\eqn{\times}115\eqn{\times}5 array of tasmax values.} }
 #' @source The National Center for Atmospheric Research 
-#'   \url{http://www.narccap.ucar.edu/index.html}.  Data may be 
+#'   \url{https://www.narccap.ucar.edu/index.html}.  Data may be 
 #'   downloaded at \url{https://www.earthsystemgrid.org/home.html}.
 #' @references Mearns, L.O., et al., 2007, updated 2012. The North
 #'   American Regional Climate Change Assessment Program dataset,
