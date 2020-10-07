@@ -16,7 +16,7 @@ Contains: \describe{ \item{lon}{A 140\eqn{\times}115 matrix
 \source{
 The National Center for Atmospheric Research 
   \url{https://www.narccap.ucar.edu/index.html}.  Data may be 
-  downloaded at \url{https://www.earthsystemgrid.org/home.html}.
+  downloaded from \url{https://www.earthsystemgrid.org}.
 }
 \usage{
 data(narccap)

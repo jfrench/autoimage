@@ -18,7 +18,7 @@
 #'   140\eqn{\times}115\eqn{\times}5 array of tasmax values.} }
 #' @source The National Center for Atmospheric Research 
 #'   \url{https://www.narccap.ucar.edu/index.html}.  Data may be 
-#'   downloaded at \url{https://www.earthsystemgrid.org/home.html}.
+#'   downloaded from \url{https://www.earthsystemgrid.org}.
 #' @references Mearns, L.O., et al., 2007, updated 2012. The North
 #'   American Regional Climate Change Assessment Program dataset,
 #'   National Center for Atmospheric Research Earth System Grid data
