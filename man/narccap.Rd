@@ -14,9 +14,9 @@ Contains: \describe{ \item{lon}{A 140\eqn{\times}115 matrix
   140\eqn{\times}115\eqn{\times}5 array of tasmax values.} }
 }
 \source{
-The National Center for Atmospheric Research 
-  \url{https://www.narccap.ucar.edu/index.html}.  Data may be 
-  downloaded from \url{https://www.earthsystemgrid.org}.
+The National Center for Atmospheric Research (NCAR) through the 
+  North American Regional Climate Change Assessment Program (NARCCAP) 
+  <doi:10.5065/D6RN35ST>.
 }
 \usage{
 data(narccap)
