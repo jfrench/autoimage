@@ -22,5 +22,5 @@
 #'  \item{names}{Region name for each polygon}
 #' }
 #' @source Shapefile made available by Statistics Canada.  
-#' \url{http://www.statcan.gc.ca/eng/start}.
+#' \url{https://www.statcan.gc.ca/eng/start}.
 NULL
