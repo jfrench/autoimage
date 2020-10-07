@@ -23,7 +23,7 @@
 #'   American Regional Climate Change Assessment Program dataset,
 #'   National Center for Atmospheric Research Earth System Grid data
 #'   portal, Boulder, CO. Data downloaded 2016-08-12.
-#'   \url{https://dx.doi.org/10.5065/D6RN35ST}.
+#'   <doi:10.5065/D6RN35ST>.
 #'   
 #'   Mearns, L. O., W. J. Gutowski, R. Jones, L.-Y. Leung, S.
 #'   McGinnis, A. M. B. Nunes, and Y. Qian: A regional climate change
