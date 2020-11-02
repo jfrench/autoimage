@@ -310,8 +310,20 @@ heat_ppoints_setup <- function(xyz, legend = "none",
                                      orientation = orientation)
     x <- projectxy$x
     y <- projectxy$y
-    arglist$xlim <- range(x[which.in], na.rm = TRUE)
-    arglist$ylim <- range(y[which.in], na.rm = TRUE)
+    
+    # project limits
+    sx = seq(arglist$xlim[1], arglist$xlim[2], len = 100)
+    sy = seq(arglist$ylim[1], arglist$ylim[2], len = 100)
+    # need to create grid of possibilities since grids are weird
+    sg = expand.grid(sx, sy)
+    # project grid
+    project_lim <- mapproj::mapproject(sg[,1], sg[,2],
+                                       projection = proj, 
+                                       parameters = parameters,
+                                       orientation = orientation)
+    # take limits
+    arglist$xlim <- range(project_lim$x, na.rm = TRUE)
+    arglist$ylim <- range(project_lim$y, na.rm = TRUE)
   }
   
   # store x and y for plotting
