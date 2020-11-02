@@ -458,7 +458,8 @@ pimage.xyz.setup <- function(x, y, z, tx, ty, arglist) {
     y <- x$y
     x <- x$x
   }
-  if (!is.matrix(z)) {
+  # if (!is.matrix(z) | !is.data.frame(z)) {
+  if (is.null(dim(z))) {
     if (is.null(x) | is.null(y)) {
       stop("x and y must be specified when z is not a matrix")
     }
@@ -466,6 +467,10 @@ pimage.xyz.setup <- function(x, y, z, tx, ty, arglist) {
       stop("x and y do not have the same length and/or dimensions")
     }
   } else {
+    if (length(dim(z)) != 2) {
+      stop("If z is a matrix-like object, (i.e., dim(z) != NULL), then it must be two-dimensional")
+    }
+    z <- as.matrix(z) # convert z to a matrix, just in case
     if (is.null(x)) 
       x <- seq.int(0, 1, length.out = nrow(z))
     if (is.null(y)) 
