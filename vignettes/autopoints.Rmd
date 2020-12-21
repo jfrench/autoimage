@@ -1,5 +1,5 @@
 ---
-title: "Heated scatterplots"
+title: "Scatterplot version of heat maps"
 author: "Joshua P. French"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

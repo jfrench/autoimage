@@ -1,5 +1,5 @@
 ---
-title: "Heat maps: **autoimage** and **ggplot2**"
+title: "Producing heat maps with **autoimage** and **ggplot2**"
 author: "Joshua P. French"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
