@@ -263,7 +263,12 @@ heat_ppoints_setup <- function(xyz, legend = "none",
   arglist$breaks <- zlim_breaks$breaks
   if (is.null(arglist$col)) {
     arglist$col <- colorspace::sequential_hcl(n = length(arglist$breaks) - 1, palette = "Viridis")
-  }  
+  }
+  
+  # if pch is between 19 and 25, we can color the middle and border separately
+  if (arglist$pch >= 19) {
+    arglist$bg = arglist$col
+  }
 
   legend.scale.args <- list()
   legend.scale.args$zlim <- arglist$zlim

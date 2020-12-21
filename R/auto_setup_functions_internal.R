@@ -260,6 +260,7 @@ arglist_clean = function(arglist, image = FALSE) {
   arglist$legend.mar <- NULL
   arglist$interp.args <- NULL
   arglist$legend.axis.args <- NULL
+  arglist$border_col <- NULL
   # remove zlim and breaks since not relevant for plot
   if (!image) {
     arglist$zlim <- NULL
