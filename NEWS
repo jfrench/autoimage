@@ -38,4 +38,5 @@
 # 2.2   Update package to use colorspace::sequential_hcl(palette = "viridis")
         instead of viridisLite::viridis() to increase color palettes available
         to user.
+# 2.2.2 heat_ppoints can have border around points when pch >= 19.
         
