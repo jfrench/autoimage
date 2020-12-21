@@ -32,10 +32,7 @@ ppoints <- function(x, y = NULL, type = "p", proj, ...) {
     object$x <- projxy$x
     object$y <- projxy$y
   }
-  # if pch is between 19 and 25, we can color the middle and border separately
-  if (arglist$pch >= 19 & !is.null(arglist$border_col)) {
-    arglist$col = arglist$border_col
-  }
+  
   f <- graphics::points
   do.call(f, object)
 }

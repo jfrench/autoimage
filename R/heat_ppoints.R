@@ -186,6 +186,14 @@ heat_ppoints <- function(x, y, z, legend = "horizontal",
     do.call(object$plotf, object$arglist)
   }
   
+  # if pch is between 19 and 25, we can color the middle and border separately
+  if (!is.null(arglist$pch) & !is.null(arglist$border_col)) {
+    if (arglist$pch >= 19) {
+      arglist$bg = arglist$col
+      arglist$col = arglist$border_col
+    }
+  }
+  
   # plot axes, lines, points if desired
   if (object$axes) {
     do.call("paxes", object$paxes.args)
@@ -265,11 +273,6 @@ heat_ppoints_setup <- function(xyz, legend = "none",
     arglist$col <- colorspace::sequential_hcl(n = length(arglist$breaks) - 1, palette = "Viridis")
   }
   
-  # if pch is between 19 and 25, we can color the middle and border separately
-  if (arglist$pch >= 19) {
-    arglist$bg = arglist$col
-  }
-
   legend.scale.args <- list()
   legend.scale.args$zlim <- arglist$zlim
   legend.scale.args$breaks <- arglist$breaks
@@ -280,6 +283,13 @@ heat_ppoints_setup <- function(xyz, legend = "none",
   # update color for points
   hpcol = as.character(cut(z, breaks = arglist$breaks, labels = arglist$col))
   arglist$col = hpcol
+  
+  if (!is.null(arglist$pch) & !is.null(arglist$border_col)) {
+    if (arglist$pch >= 19) {
+      arglist$bg = arglist$col
+      arglist$col = arglist$border_col
+    }
+  }
   
   legend.mar <- arglist$legend.mar
   # remove non-graphical argument from arglist
