@@ -39,4 +39,6 @@
         instead of viridisLite::viridis() to increase color palettes available
         to user.
 # 2.2.2 heat_ppoints can have border around points when pch >= 19.
+
+# 2.2.3 update package to use spatstat.geom instead of spatstat.
         

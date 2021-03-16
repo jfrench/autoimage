@@ -11,20 +11,24 @@ pivot <- rnorm(2)
 
 # create coords and ppp object
 coords <- matrix(rnorm(2 * n), nrow = n)
-win <- spatstat::owin(range(coords[, 1]), range(coords[, 2]))
-ppcoords <- spatstat::ppp(coords[, 1], coords[, 2], window = win)
 
-# rotation of theta1 around origin (0, 0)
-rcoords <- rotate(coords, theta1)
-# rotation of theta2 around random pivot point
-rcoords2 <- rotate(coords, theta2, pivot)
-
-# same rotations using spatstat package
-rppcoords <- spatstat::rotate(ppcoords, theta1)
-rppcoords2 <- spatstat::rotate(ppcoords, theta2, centre = pivot)
-
-# make sure these are equal
-test_that("autoimage::rotate matches spatstat::rotate", {
-  expect_true(all.equal(rcoords, cbind(rppcoords$x, rppcoords$y)))
-  expect_true(all.equal(rcoords2, cbind(rppcoords2$x, rppcoords2$y)))
-})
+# only test if spatstat.geom available
+if (require(spatstat.geom)) {
+  win <- spatstat.geom::owin(range(coords[, 1]), range(coords[, 2]))
+  ppcoords <- spatstat.geom::ppp(coords[, 1], coords[, 2], window = win)
+  
+  # rotation of theta1 around origin (0, 0)
+  rcoords <- rotate(coords, theta1)
+  # rotation of theta2 around random pivot point
+  rcoords2 <- rotate(coords, theta2, pivot)
+  
+  # same rotations using spatstat package
+  rppcoords <- spatstat.geom::rotate(ppcoords, theta1)
+  rppcoords2 <- spatstat.geom::rotate(ppcoords, theta2, centre = pivot)
+  
+  # make sure these are equal
+  test_that("autoimage::rotate matches spatstat::rotate", {
+    expect_true(all.equal(rcoords, cbind(rppcoords$x, rppcoords$y)))
+    expect_true(all.equal(rcoords2, cbind(rppcoords2$x, rppcoords2$y)))
+  })
+}

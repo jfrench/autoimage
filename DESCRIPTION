@@ -1,8 +1,8 @@
 Package: autoimage
 Type: Package
 Title: Multiple Heat Maps for Projected Coordinates
-Version: 2.2.2
-Date: 2020-12-21
+Version: 2.2.3
+Date: 2021-03-15
 Author: Joshua French
 Maintainer: Joshua French <joshua.french@ucdenver.edu>
 BugReports: https://github.com/jfrench/autoimage/issues
@@ -22,7 +22,7 @@ Imports:
 Suggests:
     abind,
     testthat,
-    spatstat,
+    spatstat.geom,
     gear,
     broom,
     gridExtra,
